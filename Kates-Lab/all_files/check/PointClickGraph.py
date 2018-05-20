@@ -1,3 +1,4 @@
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -32,7 +33,7 @@ class Point_Click_Graph():
                                       in the files to integers
         """
         # provided data
-        self.file_names = file_names
+        self.file_names     = file_names
         self.signal_indices = signal_indices
         self.point_indices  = point_indices
         self.convert = convert
@@ -41,9 +42,6 @@ class Point_Click_Graph():
         self.signal_headers, self.point_headers = self._get_headers()
         self.dict_data = self._store_file_data()
         
-        # useful synthesized data
-        
-
     def _get_headers(self):
         '''
         RETURNS: 2-[Lists] of [Strings]
@@ -85,9 +83,9 @@ class Point_Click_Graph():
             df_peak   = df_peak.dropna(axis=0) 
 
             # Convert Data to Floats
-            if convert is not None:
-                df_signal = df_signal.applymap(convert)
-                df_peak   = df_peak.applymap(convert)
+            if self.convert is not None:
+                df_signal = df_signal.applymap(self.convert)
+                df_peak   = df_peak.applymap(self.convert)
 
             # Store data in dictionary, with file key
             file_to_data[read_file] = (df_signal,df_peak)
@@ -106,13 +104,13 @@ class Point_Click_Graph():
         y = df_signal[self.signal_headers[1]]
 
         # Points To Plot
-        df_point = all_data[file_name][1]
+        df_point = self.dict_data[file_name][1]
         x_point  = df_point[self.point_headers[0]]
         y_point  = df_point[self.point_headers[1]]
 
         return x,y,x_point,y_point
 
-    def make_plots(self):
+    def make_plots(self, signal_kwargs={}, point_kwargs={}):
         '''
         DESCRIPTION:
             - Plots the data from all of the files one at a time.
@@ -135,28 +133,24 @@ class Point_Click_Graph():
 
             important_points[file_name] = []
  
+            #      --- Basic Plot Info ---
+            fig, ax = plt.subplots()                # Create Plot
+            plt.ion()                               # Interactive mode on
+    
             #      --- Get Signal and Peak Data ---
             x, y, x_points, y_points = self._get_plot_data(file_name)
   
 
-            #      --- Basic Plot Info ---
-            mpl.rcParams['figure.figsize'] = (11,7) # Set Default Plot Size
-            fig, ax = plt.subplots()                # Create Plot
-            plt.ion()                               # Interactive mode on
-
-            
             #      --- Make Plots --- 
             # Signal Plot
-            ax.plot(x, y, linewidth=1, linestyle="-",
-                     color="red", label="Magnitude vs. Frequency")
+            ax.plot(x, y, **signal_kwargs)
             
             # Point Plot
-            coll = ax.scatter(x_points, y_points, color=["blue"]*len(x_points),picker=5,label="Point Data")
+            coll = ax.scatter(x_points, y_points, color=["blue"]*len(x_points),
+                              picker=5,label="Point Data",**point_kwargs)
             
-            
-            #      --- Set Plot Parameters ---
             # Set Axes Info 
-            ax.set_xlim(0,1200000)
+            ax.set_xlim(0,np.max(x_points)+0.2*np.max(x_points))
             ax.set_ylim(0,np.max(y_points)+0.2*np.max(y_points))
             ax.set_xlabel("Frequency")
             ax.set_ylabel("Magnitude")
@@ -191,7 +185,7 @@ class Point_Click_Graph():
                     important_points[file_name].remove([x_val,y_val])
                     coll._facecolors[ind,:] = (0, 0, 1, 1)
                     coll._edgecolors[ind,:] = (0, 0, 1, 1)
-                    print("\t  Removed Point [ {:>3} ] at point: [ {:06.2f}, {:06.5f} ]".format(ind,x_val,y_val))
+                    print("\t  Removed Point [ {:>3} ] at: [ {:06.2f}, {:06.5f} ]".format(ind,x_val,y_val))
 
                 fig.canvas.draw()
 
