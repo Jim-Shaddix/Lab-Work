@@ -54,7 +54,7 @@ This is the file that is meant to be ran. This file uses the other two modules,
 to create a composite graph of all of the points that were clicked on.
 This file also accepts a directory argument. An example call to this module
 is shown below:
-* `python PeakClicker.py --data_dir All_files`
+* `python PeakClicker.py --data_dir All_Files`
 
 ### NOTE ###
 * This program should execute properly on unix based systems.
