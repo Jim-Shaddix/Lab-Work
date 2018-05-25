@@ -2,22 +2,22 @@
 ## Problem Statement: ##
 In this lab, we are trying to find all of the peaks, in some signal data.
 This problem is made more difficult by the fact that the data is very noisy.
-We want to find the peaks in the dataset, that are representitive of the 
-signal, but not that of the noise. 
+We want to find the peaks in the dataset, that are representitive of the
+signal, but not that of the noise.
 
 ## What I Was Given: ##
-* [.xlsx .csv] files: that contain all of the signal data, and some first 
-  guesses as to what the more significant peaks are. 
+* [.xlsx .csv] files: that contain all of the signal data, and some first
+  guesses as to what the more significant peaks are.
 
 ## Current Solution: ##
 * I have written some python code that will incrementally display the data
   contained in each file, in an interactive graph.
-    - The graphs have a built in click feature, that will allow you to click 
+    - The graphs have a built in click feature, that will allow you to click
       on all of the plotted peaks. When a peak is clicked on, this indicates
       to the program that this peak is coming from the signal data, and not
-      from the noise, and this point will be tracked by the program. 
+      from the noise, and this point will be tracked by the program.
       Points that are being tracked may also be clicked on again in order to
-      indicate to the program that a particular point should no longer be 
+      indicate to the program that a particular point should no longer be
       tracked.
     - This effectively delegates the labor of choosing the significant peaks
       to the user of the program.
@@ -30,12 +30,12 @@ to run my program.
 * `matplotlib`
 * `matplotlib`
 * `numpy`
-* `pandas` 
+* `pandas`
 
 ### FileData.py ###
 This file does most of the work in this program. This file contains the class
-`File_Data`. This class stores all of the data associated with the files 
-being analyzed. It does all of the parsing, and stores all of the relevant 
+`File_Data`. This class stores all of the data associated with the files
+being analyzed. It does all of the parsing, and stores all of the relevant
 information in instance variables.
 
 ### ClickPlot.py ###
@@ -46,7 +46,7 @@ two datasets:
 1. Signal_data: This data is plotted, but is not made to be clickable
 2. Point_data:  This data is plotted, and made to be clickable on the graph.
 
-When a point is clicked, its location is recorded, and returned by this 
+When a point is clicked, its location is recorded, and returned by this
 function.
 
 ### PeakClicker.py ###
@@ -63,6 +63,6 @@ is shown below:
     - `str_files  = subprocess.check_output(["ls "+directory+" | grep '\.csv$'"],shell=True).decode("utf-8")`
 
 ## Goals: ##
-* It would be better if I developed a program that could find the most 
+* It would be better if I developed a program that could find the most
   significant peaks on its own, however, since I was not given much information
   about the data I was looking at, this is a difficult task.

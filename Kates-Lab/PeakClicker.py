@@ -1,12 +1,12 @@
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import numpy as np 
-import pandas as pd 
+import numpy as np
+import pandas as pd
 from argparse import ArgumentParser
 
 # my modules
-from FileData import File_Data 
-from ClickPlot import click_plot 
+from FileData import File_Data
+from ClickPlot import click_plot
 
 def convert(val):
     '''
@@ -16,32 +16,32 @@ def convert(val):
         - this function will be called on every data point in the data
           that is being analyzed by File_Data
     '''
-    
+
     # conversion dictionary
     conversions = {
                     'n':10**-9,
                     'u':10**-6,
                     'm':10**-3,
-                    'k':10**3,  
+                    'k':10**3,
                     'M':10**6
                   }
-    
+
     # get the last character in a value
     str_val   = str(val)
     last_char = str_val[-1]
-    
+
     # convert last char it is in dictionary if it is in conversion list
     if last_char in conversions:
         val = float(str_val[:-1])*conversions[last_char]
-    
+
     # implictely convert to float
-    else:     
+    else:
         try:
             val = float(val)
         except:
             print("Failed to Implicitely Convert to Float: ",val)
             return None
-    
+
     return val
 
 def important_peak_plot(freq,temp):
@@ -55,7 +55,7 @@ def important_peak_plot(freq,temp):
     fig = plt.figure()
 
     # plot info
-    plt.plot(temp,freq,"o", 
+    plt.plot(temp,freq,"o",
              markeredgewidth=2,markeredgecolor='b',
              markerfacecolor='None',
              label="Frequency vs Temperature"
@@ -70,7 +70,7 @@ def important_peak_plot(freq,temp):
     plt.show()
 
 def main():
-        
+
     # Get Arguments
     parser = ArgumentParser()
     parser.add_argument(
@@ -88,22 +88,22 @@ def main():
     data_files = File_Data.get_files(directory)
 
     # Set Default Plot Size
-    mpl.rcParams['figure.figsize'] = (11,7) 
+    mpl.rcParams['figure.figsize'] = (11,7)
 
 
     #      --- Store The File Data and Plot ---
 
     # signal key-word-arguments for the plot
-    signal_kwargs = { 
-                    "linewidth":1, 
+    signal_kwargs = {
+                    "linewidth":1,
                     "linestyle":"-",
                     "color":"green",
                     "label":"Magnitude vs. Frequency"
                     }
-    
+
     # data, associated with the important peaks
     frequencies  = []
-    temperatures = [] 
+    temperatures = []
 
     # store file data, and important peak information
     for file_name in data_files:
@@ -115,15 +115,15 @@ def main():
         print("\nFile: ",fd.file_name)
 
         # set plot parameters
-        fig, ax = plt.subplots()                
+        fig, ax = plt.subplots()
         ax.set_xlabel("Frequency")
         ax.set_ylabel("Voltage Magnitude")
         ax.set_title(fd.file_name)
         ax.set_xlim(0,np.max(fd.x_signal)+0.2*np.max(fd.x_signal))
         ax.set_ylim(0,np.max(fd.y_signal)+0.2*np.max(fd.y_signal))
-        
+
         # Make Interactive Plot
-        # And Store The Significant Peaks 
+        # And Store The Significant Peaks
         fd.click_store_sig_peaks(fig,ax,signal_kwargs)
 
         for peak in fd.sig_peaks:
@@ -134,4 +134,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
