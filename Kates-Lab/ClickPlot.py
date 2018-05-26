@@ -37,7 +37,7 @@ def click_plot(fig, ax, x_signal, y_signal, x_points, y_points, signal_kwargs={}
         # Where The Event Occurred
         x_val, y_val = x_points[ind], y_points[ind]
 
-        if [x_val,y_val] not in important_points
+        if [x_val,y_val] not in important_points:
 
             # Record Point
             # color is speciified by: RGBA tuple

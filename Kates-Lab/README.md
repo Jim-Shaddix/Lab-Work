@@ -54,7 +54,32 @@ This is the file that is meant to be ran. This file uses the other two modules,
 to create a composite graph of all of the points that were clicked on.
 This file also accepts a directory argument. An example call to this module
 is shown below:
+
 * `python PeakClicker.py --data_dir All_Files`
+
+After running the program, you will see a plot that should look something like 
+the following.
+
+![alt text](images/notClicked.png "plot to click on")
+
+The blue points represent peaks that are not currently being tracked.
+You can than press on one of the blue peaks, and they will turn red.
+The red points represent peaks that are currently being tracked.
+
+![alt text](images/clicked.png "plot that has been clicked on")
+
+In order to move on to the next graph, simply close the current one.
+
+After all of the important peaks have been picked, a composite plot of all of
+the peaks will display.
+
+![alt text](images/composite.png "composite peak plot")
+
+you can than zoom in on the
+points of interest, in order to get a graph that looks like the following.
+
+![alt text](images/compositeZoom.png "zoomed in composite peak plot")
+
 
 ### NOTE ###
 * This program should execute properly on unix based systems.
@@ -66,3 +91,4 @@ is shown below:
 * It would be better if I developed a program that could find the most
   significant peaks on its own, however, since I was not given much information
   about the data I was looking at, this is a difficult task.
+
