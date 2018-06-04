@@ -1,5 +1,3 @@
-
-
 ## New Prompt: ##
 1. Extract peaks
 2. And fit a complex function to the in phase and out of phase response
