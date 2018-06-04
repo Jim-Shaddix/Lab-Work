@@ -1,4 +1,11 @@
 
+
+## New Prompt: ##
+1. Extract peaks
+2. And fit a complex function to the in phase and out of phase response
+   The idea is to be able to plot central peak frequency (or peak
+   width) vs temperature.
+
 ## Problem Statement: ##
 In this lab, we are trying to find all of the peaks, in some signal data.
 This problem is made more difficult by the fact that the data is very noisy.
@@ -57,7 +64,7 @@ is shown below:
 
 * `python PeakClicker.py --data_dir All_Files`
 
-After running the program, you will see a plot that should look something like 
+After running the program, you will see a plot that should look something like
 the following.
 
 ![alt text](images/notClicked.png "plot to click on")
@@ -91,4 +98,3 @@ points of interest, in order to get a graph that looks like the following.
 * It would be better if I developed a program that could find the most
   significant peaks on its own, however, since I was not given much information
   about the data I was looking at, this is a difficult task.
-

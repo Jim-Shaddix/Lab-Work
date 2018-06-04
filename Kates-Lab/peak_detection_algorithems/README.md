@@ -12,5 +12,16 @@
 - python methods
     - https://github.com/MonsieurV/py-findpeaks
 
+# Peak Fitting #
+- in Python with plotly
+    - https://plot.ly/python/peak-fitting/
+- lorentzia / gaussian curve fitting in python
+https://lmfit.github.io/lmfit-py/model.html
+
+
+# Word Press #
+Plotly Plugin
+- https://wordpress.org/plugins/wp-plotly/
+- https://help.plot.ly/embed-graphs-in-websites/
 
 

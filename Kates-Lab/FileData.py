@@ -147,4 +147,3 @@ class File_Data(object):
         self.y_peak  = df_peak[self.peak_headers[1]]
 
         return
-
