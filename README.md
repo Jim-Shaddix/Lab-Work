@@ -1,4 +1,4 @@
 # rus-probe
-* Authors: 
+* Authors:
   1. James Shaddix
   2. Andrew Sexton
