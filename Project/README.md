@@ -30,9 +30,6 @@ signal, but not that of the noise.
 ## Python Files ##
 
 ### Imports ###
-
-                ***
-
 The following libraries must be installed in your python enviroment in order
 to run my program.
 * `matplotlib`
