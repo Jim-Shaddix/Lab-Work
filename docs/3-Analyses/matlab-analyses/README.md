@@ -1,34 +1,33 @@
 
 # Provided Scripts #
-RUSload.m
+* RUSload.m
     - load tdms files from a directory
-ManualPeakCheck.m
+* ManualPeakCheck.m
     - (After loading data) plot two tallest peaks?
-PlotRUS.m
+* PlotRUS.m
     - (After loading data) not sure
-RUSpeakExtract.m
+* RUSpeakExtract.m
     - (After loading data) not sure
-plot_frequency_vs_temp.m
+* plot_frequency_vs_temp.m
 
 ## Not Sure I need ##
- MvsTba916.bmp
- 960kHz_vz_T.bmp
- BaIrO3_360kHz_Peak_Temp_vs_Freq.bmp
- BaIrO3_RUS_FreqStack.fig
- PlotRUSCSV.m
- RUSCSVload.m
- RUSdata.mat
- USdataCSV.mat
- importRUScsv.m
-
+* MvsTba916.bmp
+* 960kHz_vz_T.bmp
+* BaIrO3_360kHz_Peak_Temp_vs_Freq.bmp
+* BaIrO3_RUS_FreqStack.fig
+* PlotRUSCSV.m
+* RUSCSVload.m
+* RUSdata.mat
+* USdataCSV.mat
+* importRUScsv.m
 
 # Parameters Used by Lab Actor: Line Detector #
 * Initial Fit Guess:
-    - Peak Finder 
+    - _Peak Finder_
     - Last Fit: use
 * Fit Window
     - Ex: each peak fit is 10kh
-    - _1khz_
+    - _1kHz_
 * Relative thresold
     - percent of the max peak whose height has been specified??
     - _0.2_
@@ -40,13 +39,14 @@ plot_frequency_vs_temp.m
     - _lowpass_
     - Denoise
     - Smooth
-
+* Smooth Window:
+    - _1kHz_
 * Background removal
-- high pass
-- dtrend
-- none
-    
-
+    - _high pass_
+    - dtrend
+    - none
+* Bgd window:
+    - _50kHz_
 
 
 
