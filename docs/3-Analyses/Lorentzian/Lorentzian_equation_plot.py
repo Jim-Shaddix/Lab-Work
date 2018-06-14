@@ -8,18 +8,31 @@ plt.subplots_adjust(left=0.2, bottom=0.4)
 """ Set initial values and frequency range """
 f = np.arange(700, 2000, 1)
 theta = 0
-a0 = 10
-f0 = 700
+a0 = 90
+f0 = 1200
 gamma = 10
 
 """ Lorentzian equation from Labactor """
 lorentzian_complex = (a0 * np.exp(1j * theta)) / (f - f0 + (1j * gamma))
 
 """ Plots the real and imaginary parts and legend"""
-l, = plt.plot(f, lorentzian_complex.imag, lw=2, color='red', label='Complex part')
+l, = plt.plot(f, lorentzian_complex.imag, lw=2, color='red', label='Imaginary part')
 m, = plt.plot(f, lorentzian_complex.real, lw=2, color='blue', label='Real part')
 # plt.autoscale(enable=True)
 ax.legend()
+
+""" Set Title, And Axes"""
+#title = "Lorentzian:\n z(f) = "+r"$\frac{Ae^{i\theta}}{f-f_{0}+i\gamma} = $"
+#title += '\n'
+##title += r" = $\frac{A}{(f-f_{0})^{2}+\gamma^{2}} [(f-f_{0})cos(\theta)+ i(f-f_{0})]$"
+#title += r"$\frac{A}{(f-f_{0})^{2}+\gamma^{2}} [((f-f_{0})\cos(\theta)+$"
+#title += r"$\gamma\sin(\theta)) + i((f-f_{0})\sin(\theta)-\gamma\cos(\theta))]$"
+#ax.set_title(title)
+lim = 11
+ax.set_ylim(-1*lim,lim)
+ax.set_xlim(700,np.max(f))
+ax.set_xlabel("Frequency (kHz)")
+ax.set_ylabel("Voltage (V)")
 
 """ Defines coordinates and colors for the sliders """
 axcolor = 'lightgoldenrodyellow'
@@ -47,9 +60,9 @@ def update(val):
     l.set_ydata(lorentzian_complex.imag)
     m.set_ydata(lorentzian_complex.real)
     """ Autoscales axis """
-    ax.relim()
-    ax.autoscale_view()
-    fig.canvas.draw_idle()
+    #ax.relim()
+    #ax.autoscale_view()
+    #fig.canvas.draw_idle()
 sf0.on_changed(update)
 sa0.on_changed(update)
 stheta.on_changed(update)
