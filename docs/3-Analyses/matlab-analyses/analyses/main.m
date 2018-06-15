@@ -20,23 +20,13 @@ clear path_to_tdms_files
 tdms_data = set_peaks(tdms_data);
 MakePlots(tdms_data)
 
-%% Trial Plots
-td = tdms_data(1);
-
-%hold on
-%plot(td.frequency, td.signal_x)
-%plot(td.frequency, td.signal_y)
-plot(td.frequency, td.my_quad, '-')
-
-%legend("x","y","quad")
-
-
                 %% Fit Function
 disp('done')
 
                 %% Functions
                 
-% sets the peaks to be plotted
+% sets the peaks to be plotted: using peakfind
+% - this function currently picks to many peaks
 function data = set_peaks(tdms_data)
     for i = 1:length(tdms_data)
         [tdms_data(i).xpeak,tdms_data(i).xpeak_freq] = ...

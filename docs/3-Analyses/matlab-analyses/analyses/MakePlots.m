@@ -17,23 +17,24 @@ function MakePlots(tdms_data)
         td = tdms_data(i);
         
         hold on
-        plot(td.frequency, td.signal_x)
-        plot(td.frequency, td.signal_y)
-        %plot(td.frequency, td.my_quad)
+        plot(td.frequency, td.signal_x,'r-')
+        plot(td.frequency, td.signal_y,'b-')
         
-        % Calculated Peaks
-        %plot(td.xpeak_freq, td.xpeak,'b*')
-        %plot(td.ypeak_freq, td.ypeak,'r*')
+        % Calculated Peaks:
+        %plot(td.xpeak_freq, td.xpeak,'r*')
+        %plot(td.ypeak_freq, td.ypeak,'b*')
         
-        % Given Peaks
-        %disp(td.given_peaks.index)
-        plot(td.given_peaks.Frequencies, ...
-             td.signal_x(td.given_peaks.index), ...
-             'g*')
-               
+        % Given Peaks:
+        % - currently tracks the x-data
+        %for j = 1:length(td.given_peaks)
+        %plot(td.given_peaks(j).Frequencies, ...
+        %     td.signal_x(td.given_peaks(j).index), ...
+        %     'g*')
+        %end
+        
         hold off
 
-        title(['Subplot: ',int2str(i)])   
+        title(['Subplot: ',int2str(i)])
     end
     
 end
