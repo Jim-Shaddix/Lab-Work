@@ -47,10 +47,10 @@ end
 MakePlots(tdms_data,true,["raw","raw_fit","raw_given_peaks"])
 
 %% Plot Quadature Data
-MakePlots(tdms_data(1:5),false,["quad","quad_given_peaks"])
+%MakePlots(tdms_data([1:5,20]),false,["quad","quad_given_peaks"])
 
 
-                %% Functions
+%% Functions
 
 % sets the peaks to be plotted: using peakfind
 % - this function currently picks to many peaks
