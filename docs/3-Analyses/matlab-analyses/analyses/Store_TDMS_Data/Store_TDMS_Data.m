@@ -11,7 +11,6 @@ function tdms_data = Store_TDMS_Data(path_to_tdms_files)
 % Read in tdms File Data:
 % NOTE: (1 file) -> (takes 0.25s)
 tdms_data = RUSload(path_to_tdms_files);
-clear path_to_tdms_files
 
                 %% Synthesize More Information
 % In this section I store synthesized information in the tdms_data struct
