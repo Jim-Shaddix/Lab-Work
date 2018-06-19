@@ -1,4 +1,8 @@
-function [fit_x, fit_real, fit_imag] = lorentz_fit(all_x_cor, all_real_cor, all_imag_cor, peak_x_cor, peak_width)
+function [xEst, fit_x, fit_real, fit_imag] = lorentz_fit(all_x_cor, all_real_cor, all_imag_cor, peak_x_cor, peak_width)
+% This function fits a complex lorentzian function to all of the peaks 
+% in a given datase, and returns arrays of the fit parameters found, and
+% coordinates associated with the applied fit function.
+%
 % PARAMETERS:
 %   1. all_x_cor: The x coordinates describing the range of values that 
 %                 are considered for analyses
@@ -17,27 +21,25 @@ function [fit_x, fit_real, fit_imag] = lorentz_fit(all_x_cor, all_real_cor, all_
 %                 took place for each peak
 %   3. fit_imag: [Cell-Array] The x-values, associated with the fit that
 %                took place for each peak
-%
-% DESCRIPTION:
-%   This function fits a complex lorentzian function to all of the peaks 
-%   in a given dataset.
 
 % coordinates to be returned
-fit_x    = {};
-fit_real = {};
-fit_imag = {};
+fit_x    = cell(length(peak_x_cor));
+fit_real = cell(length(peak_x_cor));
+fit_imag = cell(length(peak_x_cor));
+Est      = cell(length(peak_x_cor));
 
 % function handle for: [complex lorentzian]
+% x = [A, theta, gamma, f_0, offset]
 lorentz_fnc = @(x, x_cor) x(1) .* exp(1i .* x(2)) ./ ...
-                            (x_cor(1,:) - x(4) + 1i .* x(3));
+                            (x_cor(1,:) - x(4) + 1i .* x(3) + x(5));
                       
 % optional parameters for fit
 options = optimoptions(@lsqcurvefit,     ...
                         'Display','off', ...
                         'TolX', 1e-10,   ...
                         'TolFun', 1e-10, ...
-                        'MaxFunctionEvaluations', 100000, ...
-                        'MaxIterations', 100000);
+                        'MaxFunctionEvaluations', 1000000, ...
+                        'MaxIterations', 1000000);
 
 % perform fit on each peak
 for i = 1:length(peak_x_cor)
@@ -53,8 +55,8 @@ for i = 1:length(peak_x_cor)
     y_imag = all_imag_cor(indices);
     
     % Fit Paramater Guesses:
-    %   [A, theta, gamma, f_0]
-    x = [max([y_real,y_imag]), 0,     10,    (mmin+mmax)/2];
+    %   [A, theta, gamma, f_0, offset]
+    x = [max([y_real,y_imag]), 0,     10,    (mmin+mmax)/2, 0];
     
     % Perform Fit:
     %   xEst:     fit parameters (Array of Floats) 
@@ -71,9 +73,10 @@ for i = 1:length(peak_x_cor)
     fit_curve = lorentz_fnc(xEst,x_cor);
     
     % assighn variables to be returned
-    fit_x       = [fit_x,    x_cor];
-    fit_real    = [fit_real, real(fit_curve)];
-    fit_imag    = [fit_imag, imag(fit_curve)];
+    Est{i}      = xEst;
+    fit_x{i}    = x_cor;
+    fit_real{i} = real(fit_curve);
+    fit_imag{i} = imag(fit_curve);
 
 end
 
