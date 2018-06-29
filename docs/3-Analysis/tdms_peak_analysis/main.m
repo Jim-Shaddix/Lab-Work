@@ -48,8 +48,8 @@ end
 tdms_data = Set_Raw_Peaks(tdms_data);
 
 % Plot Raw Data
-%MakePlots(tdms_data,true,["raw","raw_fit"])
-MakePlots(tdms_data(22),false,["raw","raw_fit"])
+MakePlots(tdms_data,true,["raw","raw_fit"])
+%MakePlots(tdms_data(23),false,["raw","raw_fit"])
 
 % Plot Set Peaks
 %MakePlots(tdms_data(1),true,["raw","raw_set_peaks"])

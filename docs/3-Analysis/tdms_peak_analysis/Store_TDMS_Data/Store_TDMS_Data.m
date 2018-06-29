@@ -1,4 +1,3 @@
-
 function tdms_data = Store_TDMS_Data(path_to_tdms_files)
 % This function:
 % 1.) Reads in data From tdms files
