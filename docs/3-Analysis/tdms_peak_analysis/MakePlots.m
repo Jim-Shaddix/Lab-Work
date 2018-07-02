@@ -9,8 +9,8 @@ function MakePlots(tdms_data, subplots, plot_params)
 % 2. plot_params = [String Array]
 %       - each string specified in this array is used as a flag, that
 %         determines what data will be plotted
-%         Options: [raw, raw_fit, raw_given_peaks, raw_set_peaks,
-%                   quad, quad_given_peaks]
+%         Options: [raw, raw_fit, raw_mag_given_peaks, raw_set_peaks,
+%                   quad, quad_mag_given_peaks]
     
     if nargin < 2
         subplots = true;
@@ -38,11 +38,12 @@ function MakePlots(tdms_data, subplots, plot_params)
         % create subplots, if flag is set
         if subplots == true
             scrollsubplot(rows,cols,i);
-
         else
             fig = figure;
             fig.Units = 'centimeters';
             fig.Position(3:4) = [45  30];
+            xlabel('Frequency (hz)')
+            ylabel('Voltage (V)')
         end
         
         td = tdms_data(i);
@@ -50,14 +51,14 @@ function MakePlots(tdms_data, subplots, plot_params)
 
         % Raw Fit
         if ismember('raw_fit',plot_params) == 1
-            for j = 1:length(td.given_peaks)
+            for j = 1:length(td.mag_given_peaks)
                 % real data
-                plot(td.given_peaks(j).fit.frequencies,  ...
-                     td.given_peaks(j).fit.signal_x,     ...
+                plot(td.mag_given_peaks(j).fit.frequencies,  ...
+                     td.mag_given_peaks(j).fit.signal_x,     ...
                      'y', 'LineWidth',4)
                 % imag data
-                plot(td.given_peaks(j).fit.frequencies,  ...
-                     td.given_peaks(j).fit.signal_y,     ...
+                plot(td.mag_given_peaks(j).fit.frequencies,  ...
+                     td.mag_given_peaks(j).fit.signal_y,     ...
                      'c', 'LineWidth',4)                 
             end
         end
@@ -70,8 +71,8 @@ function MakePlots(tdms_data, subplots, plot_params)
         
         % Raw Set Peaks:
         if ismember('raw_set_peaks',plot_params) == 1
-            for j = 1:length(td.set_peaks)
-                sp = td.set_peaks(j);
+            for j = 1:length(td.raw_set_peaks)
+                sp = td.raw_set_peaks(j);
                 %disp(sp.x_frequencies)
                 plot(sp.x_frequencies, sp.x_signal,'r*')
                 plot(sp.y_frequencies, sp.y_signal,'b*')
@@ -81,35 +82,35 @@ function MakePlots(tdms_data, subplots, plot_params)
         
         % Raw Given Peaks:
         if ismember('raw_given_peaks',plot_params) == 1
-            for j = 1:length(td.given_peaks)
+            for j = 1:length(td.mag_given_peaks)
                 % real data
-                plot(td.given_peaks(j).Frequencies,        ...
-                     td.signal_x(td.given_peaks(j).index), ...
+                plot(td.mag_given_peaks(j).Frequencies,        ...
+                     td.signal_x(td.mag_given_peaks(j).index), ...
                      'r*')
                 % imag data
-                plot(td.given_peaks(j).Frequencies,        ...
-                     td.signal_y(td.given_peaks(j).index), ...
+                plot(td.mag_given_peaks(j).Frequencies,        ...
+                     td.signal_y(td.mag_given_peaks(j).index), ...
                      'b*')
             end
         end
 
         % Quad Signal
-        if ismember('quad',plot_params) == 1
+        if ismember('mag',plot_params) == 1
             plot(td.frequency, td.magnitude,'g')
         end
         
         % Quad Given Peaks:
-        if ismember('quad_given_peaks',plot_params) == 1
-            for j = 1:length(td.given_peaks)
+        if ismember('mag_given_peaks',plot_params) == 1
+            for j = 1:length(td.mag_given_peaks)
                 % real data
-                plot(td.given_peaks(j).Frequencies,        ...
-                     td.magnitude(td.given_peaks(j).index), ...
+                plot(td.mag_given_peaks(j).Frequencies,        ...
+                     td.magnitude(td.mag_given_peaks(j).index), ...
                      'g*')
             end
         end
          
         % Quad Calculated Peaks:
-%         if ismember('quad_set_peaks',plot_params) == 1
+%         if ismember('mag_set_peaks',plot_params) == 1
 %             
 %             % real data
 %             plot(td.xpeak_freq, td.xpeak, 'r*')

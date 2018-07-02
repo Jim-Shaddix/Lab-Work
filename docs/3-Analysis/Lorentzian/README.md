@@ -1,5 +1,4 @@
 
-
 # Lorenztian #
 This directory contains notes about lorentzian functions.
 

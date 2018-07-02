@@ -11,7 +11,7 @@ addpath(genpath('Set_Peaks'));       % for setting peak values
 path_to_tdms_files = ['~/Documents/Pro/Git/Repos/Lab-Work/docs/'...
                       '2-Files_To_Analyze/31 May 18 TaV2/']; 
 
-% width of data to perform peak fit on                
+% width of data to perform peak fit on               
 peak_width = 0.01*10^6; 
 
 %% Read In Data
@@ -27,35 +27,45 @@ for i = 1:length(tdms_data)
     l = tdms_data(i);
     [Est, fit_x, fit_real, fit_imag] = lorentz_fit(l.frequency, ...
                                               l.signal_x, l.signal_y, ...
-                                              [l.given_peaks.Frequencies], ...
+                                              [l.mag_given_peaks.Frequencies], ...
                                               peak_width);  
 
-   % store resulting fit coordinates associated with each peak                                       
-   for j = 1:length(l.given_peaks)               
-       tdms_data(i).given_peaks(j).fit.frequencies = cell2mat(fit_x(j));
-       tdms_data(i).given_peaks(j).fit.signal_x    = cell2mat(fit_real(j));
-       tdms_data(i).given_peaks(j).fit.signal_y    = cell2mat(fit_imag(j));
+   % store features associated with each fit                                       
+   for j = 1:length(l.mag_given_peaks)  
        
-       % x = [A, theta, gamma, f_0, offset]
-       %tdms_data(i).given_peaks(j).fit.A = Est(j);
+       % store fit coordinates
+       tdms_data(i).mag_given_peaks(j).fit.frequencies = cell2mat(fit_x(j));
+       tdms_data(i).mag_given_peaks(j).fit.signal_x    = cell2mat(fit_real(j));
+       tdms_data(i).mag_given_peaks(j).fit.signal_y    = cell2mat(fit_imag(j));
+       
+       % store fit parameters
+       % [A, theta, gamma, f_0, offset]
+       lorentz_param = cell2mat(Est(j));
+       tdms_data(i).mag_given_peaks(j).fit.A      = lorentz_param(1);
+       tdms_data(i).mag_given_peaks(j).fit.theta  = lorentz_param(2);
+       tdms_data(i).mag_given_peaks(j).fit.gamma  = lorentz_param(3);
+       tdms_data(i).mag_given_peaks(j).fit.f_0    = lorentz_param(4);
+       tdms_data(i).mag_given_peaks(j).fit.offset = lorentz_param(5);
+
    end
    
 end
 
-%% Plot 
-
 % sets peaks picked from raw data
-tdms_data = Set_Raw_Peaks(tdms_data);
+tdms_data = Raw_Set_Peaks(tdms_data);
+disp("Finished Performing Fit")
+
+%% Plot
 
 % Plot Raw Data
-MakePlots(tdms_data,true,["raw","raw_fit"])
-%MakePlots(tdms_data(23),false,["raw","raw_fit"])
+%MakePlots(tdms_data,true,["raw","raw_fit","raw_given_peaks"])
+MakePlots(tdms_data(1),false,["raw","raw_fit","mag"])
 
 % Plot Set Peaks
 %MakePlots(tdms_data(1),true,["raw","raw_set_peaks"])
 
 % Plot Quadature Data
-% MakePlots(tdms_data([1:5,20]),false,["quad","quad_given_peaks"])
+%MakePlots(tdms_data([1:5,20]),true,["mag","mag_given_peaks"])
 
 %% Clean Up Variables
-clear path_to_tdms_files i j l fit_x fit_real fit_imag;
+clear path_to_tdms_files i j l fit_x fit_real fit_imag Est lorentz_param;

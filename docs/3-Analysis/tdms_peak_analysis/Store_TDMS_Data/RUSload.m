@@ -61,7 +61,7 @@ for i=1:length(tdms_file_names)
     k = 1;
     for j = 1:length(fields)
         if contains(fields{j}, 'Peak')
-            tdms_data(i).given_peaks(k).Frequencies = peak_struct.(fields{j}).data;
+            tdms_data(i).mag_given_peaks(k).Frequencies = peak_struct.(fields{j}).data;
             k = k+1;
         end
     end
@@ -70,7 +70,7 @@ for i=1:length(tdms_file_names)
     k = 1;
     for j = 1:length(fields)
         if contains(fields{j}, 'F')
-            tdms_data(i).given_peaks(k).F = peak_struct.(fields{j}).data;
+            tdms_data(i).mag_given_peaks(k).F = peak_struct.(fields{j}).data;
             k = k+1;
         end
     end
@@ -79,7 +79,7 @@ for i=1:length(tdms_file_names)
     k = 1;
     for j = 1:length(fields)
         if contains(fields{j}, 'Width')
-            tdms_data(i).given_peaks(k).Width = peak_struct.(fields{j}).data;
+            tdms_data(i).mag_given_peaks(k).Width = peak_struct.(fields{j}).data;
             k = k+1;
         end
     end
@@ -88,7 +88,7 @@ for i=1:length(tdms_file_names)
     k = 1;
     for j = 1:length(fields)
         if contains(fields{j}, 'Amplitude')
-            tdms_data(i).given_peaks(k).Amplitude = peak_struct.(fields{j}).data;
+            tdms_data(i).mag_given_peaks(k).Amplitude = peak_struct.(fields{j}).data;
             k = k+1;
         end
     end
@@ -97,7 +97,7 @@ for i=1:length(tdms_file_names)
     k = 1;
     for j = 1:length(fields)
         if contains(fields{j}, 'Phase')
-            tdms_data(i).given_peaks(k).Phase = peak_struct.(fields{j}).data;
+            tdms_data(i).mag_given_peaks(k).Phase = peak_struct.(fields{j}).data;
             k = k+1;
         end
     end
@@ -106,7 +106,7 @@ for i=1:length(tdms_file_names)
     k = 1;
     for j = 1:length(fields)
         if contains(fields{j}, 'Xbg')
-            tdms_data(i).given_peaks(k).Xbg = peak_struct.(fields{j}).data;
+            tdms_data(i).mag_given_peaks(k).Xbg = peak_struct.(fields{j}).data;
             k = k+1;
         end
     end
@@ -115,7 +115,7 @@ for i=1:length(tdms_file_names)
     k = 1;
     for j = 1:length(fields)
         if contains(fields{j}, 'Ybg')
-            tdms_data(i).given_peaks(k).Ybg = peak_struct.(fields{j}).data;
+            tdms_data(i).mag_given_peaks(k).Ybg = peak_struct.(fields{j}).data;
             k = k+1;
         end
     end
@@ -134,25 +134,25 @@ for i=1:length(tdms_file_names)
 %                 
 %                 switch k 
 %                     case 1
-%                         tdms_data(i).given_peaks(m(k)).frequencies = ...
+%                         tdms_data(i).mag_given_peaks(m(k)).frequencies = ...
 %                             peak_struct.(fields{j}).data;
 %                     case 2
-%                         tdms_data(i).given_peaks(m(k)).F = ...
+%                         tdms_data(i).mag_given_peaks(m(k)).F = ...
 %                             peak_struct.(fields{j}).data;
 %                     case 3
-%                         tdms_data(i).given_peaks(m(k)).Width = ...
+%                         tdms_data(i).mag_given_peaks(m(k)).Width = ...
 %                             peak_struct.(fields{j}).data;
 %                     case 4
-%                         tdms_data(i).given_peaks(m(k)).Amplitude = ...
+%                         tdms_data(i).mag_given_peaks(m(k)).Amplitude = ...
 %                             peak_struct.(fields{j}).data;
 %                     case 5
-%                         tdms_data(i).given_peaks(m(k)).Phase = ...
+%                         tdms_data(i).mag_given_peaks(m(k)).Phase = ...
 %                             peak_struct.(fields{j}).data;
 %                     case 6
-%                         tdms_data(i).given_peaks(m(k)).Xbg = ...
+%                         tdms_data(i).mag_given_peaks(m(k)).Xbg = ...
 %                             peak_struct.(fields{j}).data; 
 %                     case 7
-%                         tdms_data(i).given_peaks(m(k)).Ybg = ...
+%                         tdms_data(i).mag_given_peaks(m(k)).Ybg = ...
 %                             peak_struct.(fields{j}).data;   
 %                 end
 %             end

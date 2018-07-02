@@ -1,7 +1,7 @@
 
 
 # Analysis: #
-The files in this directory are used to develop peak analyses algorithems.
+The files in this directory are used to develop peak analysis algorithems.
 
 ## Directories ##
 
@@ -15,19 +15,3 @@ The files in this directory are used to develop peak analyses algorithems.
                       whether or not they should be considered as significant 
                       peaks. All of the significant peak are than displayed
                       on singal comprehensive plot.
-## Things To Work On: ##
-1. Merge changes from Andrews branch.
-    - **NOTE:** I can't remember why if Andrew is able to run my current
-            branch properly or not.
-2. (**Needed**) Fix the plotting script, so that it plot the peaks that we 
-   pick out. 
-3. (**Needed**) Rewrite the fitting script, so that I have a file that just 
-   has a single  function, for performing the fits. 
-4. Find a way to make better fits of the peaks.
-    1. I can try and recreate Andrew's script, and than make plots overit,
-        this way I can better see where the program is failing.
-    2. I can isolate particular regions, and try different methods for 
-       approximating their values. (**I need to do this eventually**)
-5. (**Needed**) Develop a method for finding peaks.
-
-6. Make Subplots: [Clickable](https://www.mathworks.com/matlabcentral/answers/319493-how-to-click-the-subplots) 

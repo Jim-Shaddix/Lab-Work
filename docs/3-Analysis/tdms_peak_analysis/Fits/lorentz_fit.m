@@ -1,6 +1,6 @@
-function [xEst, fit_x, fit_real, fit_imag] = lorentz_fit(all_x_cor, all_real_cor, all_imag_cor, peak_x_cor, peak_width)
+function [Est, fit_x, fit_real, fit_imag] = lorentz_fit(all_x_cor, all_real_cor, all_imag_cor, peak_x_cor, peak_width)
 % This function fits a complex lorentzian function to all of the peaks 
-% in a given datase, and returns arrays of the fit parameters found, and
+% in a given dataset, and returns arrays of the fit parameters found, and
 % coordinates associated with the applied fit function.
 %
 % PARAMETERS:
@@ -23,10 +23,10 @@ function [xEst, fit_x, fit_real, fit_imag] = lorentz_fit(all_x_cor, all_real_cor
 %                took place for each peak
 
 % coordinates to be returned
-fit_x    = cell(length(peak_x_cor));
-fit_real = cell(length(peak_x_cor));
-fit_imag = cell(length(peak_x_cor));
-Est      = cell(length(peak_x_cor));
+fit_x    = cell(1, length(peak_x_cor));
+fit_real = cell(1, length(peak_x_cor));
+fit_imag = cell(1, length(peak_x_cor));
+Est      = cell(1, length(peak_x_cor));
 
 % function handle for: [complex lorentzian]
 % x = [A, theta, gamma, f_0, offset]
@@ -54,7 +54,7 @@ for i = 1:length(peak_x_cor)
     y_real = all_real_cor(indices);
     y_imag = all_imag_cor(indices);
     
-    % Fit Paramater Guesses:
+    % Fit Parameter Guesses:
     %   [A, theta, gamma, f_0, offset]
     x = [max([y_real,y_imag]), 0,     10,    (mmin+mmax)/2, 0];
     
@@ -81,6 +81,4 @@ for i = 1:length(peak_x_cor)
 end
 
 
-
 end
-                    
