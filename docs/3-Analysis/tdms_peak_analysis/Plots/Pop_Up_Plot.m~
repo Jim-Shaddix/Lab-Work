@@ -1,5 +1,0 @@
-function [outputArg1,outputArg2] = Pop_Up_Plot(varargin)
-      figure("Figure Title");
-      plot(varargin{3}, varargin{4})
-end
-
