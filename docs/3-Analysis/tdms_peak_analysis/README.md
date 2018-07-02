@@ -1,8 +1,6 @@
 # Files #
 1. `main.m`: This is the main project file. This file calls all of the 
            functions I have developed, in order to visualize and track peaks.
-2. `Make_Plots.m`: This file contains a function, that takes in a number of 
-                 different arguments, in order to plot the data
 
 # Directories #
 1. **Fits**: Scripts for fitting all of the peaks in a dataset with a complex 
@@ -11,12 +9,6 @@
 3. **Set_Peaks**: Scripts for finding peaks in a dataset.
 4. **Store_TDMS_Data**: Scripts for storing information from tdms files, in
                       a modified format.
-5. **scrollsubplot**: Third party code that I downloaded from [here](asdf).
-This code is used to create large subplots. It generates subplots on a 
-scrollable figure. (This is used instead of the `subplots` function, because
-the subplots function will automitcally fit all the graphs created onto a 
-single window, and the graphs come out very small if you end up generating alot of
-them.) 
 6. **figures**: Contains some interesting graphs that we generated.
 
 ## Things To Work On: ##
@@ -33,6 +25,7 @@ them.)
     3. it may also be useful to make peaks clickable. That way they can
        display their information, as well as the fitting information associated
        with them. (This may give me some indication as to what is going wrong.)
+    4. I can come up stronger initial guesses, by making a bunch of initial 
+       guesses and than, and than seeing which one of the initial guesses, 
+       minimizes the mean squared error.
 4. (**Needed**) Develop a method for finding peaks.
-
-5. Make Subplots: [Clickable](https://www.mathworks.com/matlabcentral/answers/319493-how-to-click-the-subplots) 
