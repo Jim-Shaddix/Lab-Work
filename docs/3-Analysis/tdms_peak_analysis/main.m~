@@ -27,8 +27,6 @@ disp('Finished Reading Data')
 
 % perform fit on each peak, in each file.
 for i = 1:length(tdms_data)
-    
-    % perform fit
     l = tdms_data(i);
     [Est, fit_x, fit_real, fit_imag] = lorentz_fit(l.frequency, ...
                                               l.signal_x, l.signal_y, ...
@@ -51,7 +49,6 @@ for i = 1:length(tdms_data)
        tdms_data(i).mag_given_peaks(j).fit.gamma  = lorentz_param(3);
        tdms_data(i).mag_given_peaks(j).fit.f_0    = lorentz_param(4);
        tdms_data(i).mag_given_peaks(j).fit.offset = lorentz_param(5);
-       
    end
 end
 

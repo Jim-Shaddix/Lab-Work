@@ -23,11 +23,9 @@ them.)
 1. Merge changes from Andrews branch.
     - **NOTE:** I can't remember why if Andrew is able to run my current
             branch properly or not.
-2. (**Needed**) Fix the plotting script, so that it plot the peaks that we 
-   pick out. 
-3. (**Needed**) Rewrite the fitting script, so that I have a file that just 
+2. (**Needed**) Rewrite the fitting script, so that I have a file that just 
    has a single  function, for performing the fits. 
-4. Find a way to make better fits of the peaks.
+3. Find a way to make better fits of the peaks.
     1. I can try and recreate Andrew's script, and than make plots overit,
         this way I can better see where the program is failing.
     2. I can isolate particular regions, and try different methods for 
@@ -35,6 +33,6 @@ them.)
     3. it may also be useful to make peaks clickable. That way they can
        display their information, as well as the fitting information associated
        with them. (This may give me some indication as to what is going wrong.)
-5. (**Needed**) Develop a method for finding peaks.
+4. (**Needed**) Develop a method for finding peaks.
 
-6. Make Subplots: [Clickable](https://www.mathworks.com/matlabcentral/answers/319493-how-to-click-the-subplots) 
+5. Make Subplots: [Clickable](https://www.mathworks.com/matlabcentral/answers/319493-how-to-click-the-subplots) 

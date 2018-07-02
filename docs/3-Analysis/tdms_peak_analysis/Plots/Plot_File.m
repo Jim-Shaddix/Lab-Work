@@ -1,54 +1,15 @@
-function MakePlots(tdms_data, subplots, plot_params)
-% This function plots data from the tdms files, based on flags that 
-% are passed in.
+function Plot_File(td, plot_params)
+% This function plots the data from a single tdms file, and uses
+% plot_params to determine what information to plot.
 %
 % PARAMETERS:
-% 1. subplots = [boolean]
-%       - True: plots from tdms_data are made in a subplot
-%       - False: all the plots are made one at a time
-% 2. plot_params = [String Array]
+% 1. plot_params = [String Array]
 %       - each string specified in this array is used as a flag, that
 %         determines what data will be plotted
 %         Options: [raw, raw_fit, raw_mag_given_peaks, raw_set_peaks,
 %                   quad, quad_mag_given_peaks]
-    
-    if nargin < 2
-        subplots = true;
-    end
 
-    % Make sure "plot_params" is initialized
-    if nargin < 3
-        plot_params = 'raw';
-    end
-
-    % Initializing the Canvas
-    if subplots == true
-        fig = figure;
-        fig.Units = 'centimeters';
-        fig.Position(3:4) = [45  30];
-    end
-    
-    % The scroll sub-plot works by creating a page of figures
-    % based on the number of columns and rows.
-    rows = 4;
-    cols = 4;
-
-    for i = 1:length(tdms_data)
-        
-        % create subplots, if flag is set
-        if subplots == true
-            scrollsubplot(rows,cols,i);
-        else
-            fig = figure;
-            fig.Units = 'centimeters';
-            fig.Position(3:4) = [45  30];
-            xlabel('Frequency (hz)')
-            ylabel('Voltage (V)')
-        end
-        
-        td = tdms_data(i);
         hold on
-
         % Raw Fit
         if ismember('raw_fit',plot_params) == 1
             for j = 1:length(td.mag_given_peaks)
@@ -118,15 +79,5 @@ function MakePlots(tdms_data, subplots, plot_params)
 %             % imag data
 %             plot(td.ypeak_freq, td.ypeak, 'b*')
 %         end
-        
-        
-        title(['Subplot: ',int2str(i)])
-        hold off
-        
-        if subplots == false
-            uiwait(fig);
-        end
-        
-    end
-    
+
 end
