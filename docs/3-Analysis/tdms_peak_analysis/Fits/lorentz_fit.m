@@ -1,4 +1,4 @@
-function [Est, fit_x, fit_real, fit_imag] = lorentz_fit(all_x_cor, all_real_cor, all_imag_cor, peak_x_cor, peak_width)
+function [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit(all_x_cor, all_real_cor, all_imag_cor, peak_x_cor, peak_width)
 % This function fits a complex lorentzian function to all of the peaks 
 % in a given dataset, and returns arrays of the fit parameters found, and
 % coordinates associated with the applied fit function.
