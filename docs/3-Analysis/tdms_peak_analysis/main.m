@@ -19,7 +19,7 @@ f3 = ['~/Documents/Pro/Git/Repos/Lab-Work/docs/2-Files_To_Analyze/' ...
 f4 = ['~/Documents/Pro/Git/Repos/Lab-Work/docs/2-Files_To_Analyze/' ... 
        'More CoNb206/'];
 
-path_to_tdms_files = f2;
+path_to_tdms_files = f3;
 
 % width of data to perform peak fit on               
 peak_width = 0.01*10^6;
@@ -76,14 +76,14 @@ disp("Finished Performing Fit")
 %% Plot
 
 % PLOT: Raw Data
-MakePlots(tdms_data,true,["raw","raw_fit","raw_given_peaks"])
+%MakePlots(tdms_data,true,["raw","raw_fit","raw_given_peaks"])
 %MakePlots(tdms_data(1),false,["raw","raw_fit","mag"])
 
 % PLOT: Set Peaks
 %MakePlots(tdms_data(1),true,["raw","raw_set_peaks"])
 
 % PLOT: Quadature Data
-%MakePlots(tdms_data([1:5,20]),true,["mag","mag_given_peaks"])
+%MakePlots(tdms_data(1:5),true,["mag","mag_given_peaks"])
 
 %% Clean Up Variables
 clear path_to_tdms_files i j l fit_x fit_real fit_imag Est lorentz_param;

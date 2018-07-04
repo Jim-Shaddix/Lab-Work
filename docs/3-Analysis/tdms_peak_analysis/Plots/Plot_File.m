@@ -10,6 +10,7 @@ function Plot_File(td, plot_params)
 %                   quad, quad_mag_given_peaks]
 
         hold on
+        
         % Raw Fit
         if ismember('raw_fit',plot_params) == 1
             for j = 1:length(td.mag_given_peaks)
@@ -46,11 +47,11 @@ function Plot_File(td, plot_params)
             for j = 1:length(td.mag_given_peaks)
                 % real data
                 plot(td.mag_given_peaks(j).Frequencies,        ...
-                     td.signal_x(td.mag_given_peaks(j).index), ...
+                     td.mag_given_peaks(j).signal_x,           ...
                      'r*')
                 % imag data
                 plot(td.mag_given_peaks(j).Frequencies,        ...
-                     td.signal_y(td.mag_given_peaks(j).index), ...
+                     td.mag_given_peaks(j).signal_y,           ...
                      'b*')
             end
         end
@@ -65,7 +66,7 @@ function Plot_File(td, plot_params)
             for j = 1:length(td.mag_given_peaks)
                 % real data
                 plot(td.mag_given_peaks(j).Frequencies,        ...
-                     td.magnitude(td.mag_given_peaks(j).index), ...
+                     td.mag_given_peaks(j).mag,                ...
                      'g*')
             end
         end

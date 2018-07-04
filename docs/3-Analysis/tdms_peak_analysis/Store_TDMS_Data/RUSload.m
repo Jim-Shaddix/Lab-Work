@@ -15,7 +15,7 @@ file_names = {dir_data.name};
 tdms_file_names = {};
 j=1;
 for i=1:length(file_names)
-    [filepath,name,ext] = fileparts(file_names{i});
+    [~,~,ext] = fileparts(file_names{i});
     if contains(ext,'.tdms')
         tdms_file_names{j}=file_names{i};
         j=j+1;
