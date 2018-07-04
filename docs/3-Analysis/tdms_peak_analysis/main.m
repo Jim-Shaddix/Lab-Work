@@ -76,7 +76,7 @@ disp("Finished Performing Fit")
 %% Plot
 
 % PLOT: Raw Data
-%MakePlots(tdms_data,true,["raw","raw_fit","raw_given_peaks"])
+MakePlots(tdms_data,true,["raw","raw_fit","raw_given_peaks"])
 %MakePlots(tdms_data(1),false,["raw","raw_fit","mag"])
 
 % PLOT: Set Peaks
