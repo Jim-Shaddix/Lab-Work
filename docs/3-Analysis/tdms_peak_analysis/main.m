@@ -9,22 +9,22 @@ addpath(genpath('Fits'));            % for fitting Lorentzian to data
 addpath(genpath('Plots'));           % for plotting data
 addpath(genpath('Set_Peaks'));       % for setting peak values
 
-% SET: variables
-f1 = ['~/Documents/Pro/Git/Repos/Lab-Work/docs/2-Files_To_Analyze/' ... 
+% SET: file paths
+fp1 = ['~/Documents/Pro/Git/Repos/Lab-Work/docs/2-Files_To_Analyze/' ... 
        '31 May 18 TaV2/'];
-f2 = ['~/Documents/Pro/Git/Repos/Lab-Work/docs/2-Files_To_Analyze/' ... 
+fp2 = ['~/Documents/Pro/Git/Repos/Lab-Work/docs/2-Files_To_Analyze/' ... 
        '15 May 18 BalrO3/'];
-f3 = ['~/Documents/Pro/Git/Repos/Lab-Work/docs/2-Files_To_Analyze/' ... 
+fp3 = ['~/Documents/Pro/Git/Repos/Lab-Work/docs/2-Files_To_Analyze/' ... 
        'CoNb2O6 061218/'];
-f4 = ['~/Documents/Pro/Git/Repos/Lab-Work/docs/2-Files_To_Analyze/' ... 
+fp4 = ['~/Documents/Pro/Git/Repos/Lab-Work/docs/2-Files_To_Analyze/' ... 
        'More CoNb206/'];
 
-path_to_tdms_files = f3;
+path_to_tdms_files = fp1;
 
 % width of data to perform peak fit on               
 peak_width = 0.01*10^6;
 
-clear f1 f2 f3 f4
+clear fp1 fp2 fp3 fp4
 %% Read In Data
 
 % STORE: data from tdms files
@@ -33,24 +33,22 @@ disp('Finished Reading Data')
 
 %% Perform Fit
 
+%[A,theta,gamma,f_0 ,offset] = Lorentz_Fit_Guess(fit_data);
+
 % PERFORM: fit on each peak, in each file.
 for i = 1:length(tdms_data)
     
-    l = tdms_data(i);
-    
     % CHECK: if any peaks were found
-    if isempty(l.mag_given_peaks)
+    if isempty(tdms_data(i).mag_given_peaks)
         continue
     end
     
     % PERFORM: fit
-    [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit(l.frequency, ...
-                                              l.signal_x, l.signal_y, ...
-                                              [l.mag_given_peaks.Frequencies], ...
-                                              peak_width);  
+    [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit_File(tdms_data(i), ...
+                                    tdms_data(i).mag_given_peaks, peak_width);  
 
    % STORE: features associated with each fit
-   for j = 1:length(l.mag_given_peaks)  
+   for j = 1:length(tdms_data(i).mag_given_peaks)  
        
        % STORE: fit coordinates
        tdms_data(i).mag_given_peaks(j).fit.frequencies = cell2mat(fit_x(j));
@@ -67,6 +65,7 @@ for i = 1:length(tdms_data)
        tdms_data(i).mag_given_peaks(j).fit.offset = lorentz_param(5);
        
    end
+   
 end
 
 % SET: peaks picked from raw data
@@ -76,7 +75,8 @@ disp("Finished Performing Fit")
 %% Plot
 
 % PLOT: Raw Data
-MakePlots(tdms_data,true,["raw","raw_fit","raw_given_peaks"])
+MakePlots(tdms_data,true,["raw","raw_fit",])
+%MakePlots(tdms_data,true,["raw","raw_fit","raw_given_peaks"])
 %MakePlots(tdms_data(1),false,["raw","raw_fit","mag"])
 
 % PLOT: Set Peaks
