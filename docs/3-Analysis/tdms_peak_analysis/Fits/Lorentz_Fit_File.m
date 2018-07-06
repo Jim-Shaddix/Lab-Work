@@ -1,21 +1,13 @@
 function [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit_File(tdms_data, peak_data, peak_width)
-%tdms_data.frequency, tdms_data.signal_x, tdms_data.signal_y, peak_data.Frequencies, peak_width)
-
-% This function fits a complex lorentzian function to all of the peaks 
+% Lorentz_ Fit_File.m Fits a complex lorentzian function to all of the peaks 
 % in a given dataset, returns the arrays of the fit parameters found, and
 % coordinates associated with the applied fit function.
 %
 % PARAMETERS:
-%   1. tdms_data.frequency: The x coordinates describing the range of values that 
-%                 are considered for analyses
-%   2. tdms_data.signal_x: The real coordinates from the data that are associated
-%                    with the x coordinates
-%   3. tdms_data.signal_y: The imag coordinates from the data that are associated
-%                    with the x coordinates
-%   4. peak_data.Frequencies: The x-values associated with all of the peaks that are
-%                  being considered
-%   5. peak_width: The width of each peak that will be used to fit the
-%                  complex lorentzian function
+%   1. tdms_data:
+%   2. peak_data:
+%   3. peak_width:
+%
 % RETURN:
 %   1. Est: [Cell-Array] Each cell contains the 5 calculated fit parameters
 %   2. fit_x: [Cell-Array] The x-values, associated with the fit that took

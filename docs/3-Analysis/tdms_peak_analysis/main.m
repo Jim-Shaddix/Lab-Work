@@ -45,7 +45,7 @@ for i = 1:length(tdms_data)
     
     % PERFORM: fit
     [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit_File(tdms_data(i), ...
-                                    tdms_data(i).mag_given_peaks, peak_width);  
+                                 tdms_data(i).mag_given_peaks, peak_width);  
 
    % STORE: features associated with each fit
    for j = 1:length(tdms_data(i).mag_given_peaks)  
@@ -75,7 +75,7 @@ disp("Finished Performing Fit")
 %% Plot
 
 % PLOT: Raw Data
-MakePlots(tdms_data,true,["raw","raw_fit",])
+MakePlots(tdms_data,true,["raw","raw_fit","raw_given_peaks"])
 %MakePlots(tdms_data,true,["raw","raw_fit","raw_given_peaks"])
 %MakePlots(tdms_data(1),false,["raw","raw_fit","mag"])
 

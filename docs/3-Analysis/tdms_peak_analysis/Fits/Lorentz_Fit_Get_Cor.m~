@@ -3,8 +3,8 @@ function [fit_x_cor, fit_y_cor] = Lorentz_Fit_Get_Cor(peak_x_cor, peak_width, al
 % used to perform the lorentizian fit.
 %
 % RETURNS:
-% * fit_x_cor: The x-coordinates that will be used for the fit
-% * fit_y_cor: The complex y-coordinates that will be used for the fit
+% * x_cor: The x-coordinates that will be used for the fit
+% * y_cor: The complex y-coordinates that will be used for the fit
 %
 % PARAMETERS:
 % * peak_x_cor: the x coordinate associated with where a peak occured.
@@ -26,8 +26,8 @@ function [fit_x_cor, fit_y_cor] = Lorentz_Fit_Get_Cor(peak_x_cor, peak_width, al
     y_real = all_real_cor(indices);
     y_imag = all_imag_cor(indices);
     
-    fit_y_cor = y_real + 1i.*y_imag;
-    fit_x_cor  = all_x_cor(indices);
+    y_cor = y_real + 1i.*y_imag;
+    x_cor  = all_x_cor(indices);
     
 end
 

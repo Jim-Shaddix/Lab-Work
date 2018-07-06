@@ -22,12 +22,12 @@ m, = plt.plot(f, lorentzian_complex.real, lw=2, color='blue', label='Real part')
 ax.legend()
 
 """ Set Title, And Axes"""
-#title = "Lorentzian:\n z(f) = "+r"$\frac{Ae^{i\theta}}{f-f_{0}+i\gamma} = $"
-#title += '\n'
-##title += r" = $\frac{A}{(f-f_{0})^{2}+\gamma^{2}} [(f-f_{0})cos(\theta)+ i(f-f_{0})]$"
-#title += r"$\frac{A}{(f-f_{0})^{2}+\gamma^{2}} [((f-f_{0})\cos(\theta)+$"
-#title += r"$\gamma\sin(\theta)) + i((f-f_{0})\sin(\theta)-\gamma\cos(\theta))]$"
-#ax.set_title(title)
+title = "Lorentzian:\n z(f) = "+r"$\frac{Ae^{i\theta}}{f-f_{0}+i\gamma} = $"
+title += '\n'
+#title += r" = $\frac{A}{(f-f_{0})^{2}+\gamma^{2}} [(f-f_{0})cos(\theta)+ i(f-f_{0})]$"
+title += r"$\frac{A}{(f-f_{0})^{2}+\gamma^{2}} [((f-f_{0})\cos(\theta)+$"
+title += r"$\gamma\sin(\theta)) + i((f-f_{0})\sin(\theta)-\gamma\cos(\theta))]$"
+ax.set_title(title)
 lim = 11
 ax.set_ylim(-1*lim,lim)
 ax.set_xlim(700,np.max(f))
