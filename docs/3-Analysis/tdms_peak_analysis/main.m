@@ -43,6 +43,11 @@ for i = 1:length(tdms_data)
         continue
     end
     
+    % convolution and detrend
+    tdms_data(i).signal_x = Dataplay(tdms_data(i).signal_x);
+    tdms_data(i).signal_y = Dataplay(tdms_data(i).signal_y);
+    tdms_data(i).magnitude = sqrt(((tdms_data(i).signal_x).^2)+((tdms_data(i).signal_y).^2));
+    
     % PERFORM: fit
     [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit_File(tdms_data(i), ...
                                  tdms_data(i).mag_given_peaks, peak_width);  
