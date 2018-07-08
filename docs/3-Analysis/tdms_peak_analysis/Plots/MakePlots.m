@@ -24,8 +24,6 @@ function MakePlots(tdms_data, subplots, plot_params)
     % Initializing the Canvas
     if subplots == true
         fig = figure;
-        fig.Units = 'centimeters';
-        fig.Position(3:4) = [25  20];
     end
     
     % The scroll sub-plot works by creating a page of figures
@@ -40,8 +38,6 @@ function MakePlots(tdms_data, subplots, plot_params)
             axes = scrollsubplot(rows,cols,i);
         else
             fig = figure;
-            fig.Units = 'centimeters';
-            fig.Position(3:4) = [45  30];
             xlabel('Frequency (hz)')
             ylabel('Voltage (V)')
         end
