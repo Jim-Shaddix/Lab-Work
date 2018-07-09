@@ -31,14 +31,17 @@ function Plot_File(td, plot_params)
             plot(td.frequency, td.signal_y,'b-')
         end
         
+        % Quad Signal
+        if ismember('mag',plot_params) == 1
+            plot(td.frequency, Magnitude(td.signal_x, td.signal_y),'g')
+        end
+        
         % Raw Set Peaks:
         if ismember('raw_set_peaks',plot_params) == 1
             for j = 1:length(td.raw_set_peaks)
                 sp = td.raw_set_peaks(j);
-                %disp(sp.x_frequencies)
                 plot(sp.x_frequencies, sp.x_signal,'r*')
                 plot(sp.y_frequencies, sp.y_signal,'b*')
-                %plot(td.ypeak_freq, td.ypeak,'b*')
             end
         end
         
@@ -55,30 +58,23 @@ function Plot_File(td, plot_params)
                      'b*')
             end
         end
-
-        % Quad Signal
-        if ismember('mag',plot_params) == 1
-            plot(td.frequency, Magnitude(td.signal_x, td.signal_y),'g')
-        end
         
-        % Quad Given Peaks:
+        % Magnitude Given Peaks:
         if ismember('mag_given_peaks',plot_params) == 1
             for j = 1:length(td.mag_given_peaks)
-                % real data
                 plot(td.mag_given_peaks(j).Frequencies,        ...
                      td.mag_given_peaks(j).mag,                ...
                      'g*')
             end
         end
          
-        % Quad Calculated Peaks:
-%         if ismember('mag_set_peaks',plot_params) == 1
-%             
-%             % real data
-%             plot(td.xpeak_freq, td.xpeak, 'r*')
-%             
-%             % imag data
-%             plot(td.ypeak_freq, td.ypeak, 'b*')
-%         end
+        % Magnitude Calculated Peaks:
+        if ismember('mag_set_peaks',plot_params) == 1  
+            for j = 1:length(td.mag_set_peaks)
+                plot(td.mag_set_peaks(j).frequencies,        ...
+                     td.mag_set_peaks(j).signal,                ...
+                     'g*')
+            end
+        end
 
 end

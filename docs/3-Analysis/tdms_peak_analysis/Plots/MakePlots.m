@@ -44,7 +44,7 @@ function MakePlots(tdms_data, subplots, plot_params)
         
         % Plot a single file
         td = tdms_data(i);
-        Plot_File(td,plot_params)        
+        Plot_File(td,plot_params)
         
         title(['Subplot: ',int2str(i)])
         hold off

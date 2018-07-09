@@ -22,7 +22,7 @@ fp4 = ['~/Documents/Pro/Git/Repos/Lab-Work/docs/2-Files_To_Analyze/' ...
 
 path_to_tdms_files = fp1;
 
-% width of data to perform peak fit on               
+% width of data to perform peak fit on
 peak_width = 0.01*10^6;
 
 clear fp1 fp2 fp3 fp4
@@ -43,12 +43,12 @@ for i = 1:length(tdms_data)
     if isempty(tdms_data(i).mag_given_peaks)
         continue
     end
-    
-    % convolution and detrend
-    %tdms_data(i).signal_x = Process_Plot_Data(tdms_data(i).signal_x);
-    %tdms_data(i).signal_y = Process_Plot_Data(tdms_data(i).signal_y);
-    %tdms_data(i).magnitude = Magnitude(tdms_data(i).signal_x,tdms_data(i).signal_y);
-    
+   
+    % Process The Data:
+    % * convolution and detrend
+    tdms_data(i).signal_x = Process_Plot_Data(tdms_data(i).signal_x);
+    tdms_data(i).signal_y = Process_Plot_Data(tdms_data(i).signal_y);
+
     % PERFORM: fit
     [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit_File(tdms_data(i), ...
                                  tdms_data(i).mag_given_peaks, peak_width);  
@@ -79,19 +79,21 @@ disp("Finished Performing Fit")
 %% Set Peaks
 % SET: peaks picked from raw data
 tdms_data = Raw_Set_Peaks(tdms_data);
+tdms_data = Mag_Set_Peaks(tdms_data);
+
 disp("Finished Setting Peaks")
 
 %% Plot
 
 % PLOT: Raw Data
-MakePlots(tdms_data,true,["raw","raw_fit","raw_given_peaks"])
+%MakePlots(tdms_data,true,["raw","raw_fit","raw_given_peaks"])
 %MakePlots(tdms_data(1),false,["raw","raw_fit","mag"])
 
 % PLOT: Set Peaks
-%MakePlots(tdms_data(1),true,["raw","raw_set_peaks"])
+%MakePlots(tdms_data(1:5),true,["raw","raw_set_peaks"])
 
 % PLOT: Quadature Data
-%MakePlots(tdms_data,true,["mag","mag_given_peaks"])
+MakePlots(tdms_data,true,["mag","mag_set_peaks"])
 
 %% Clean Up Variables
 clear path_to_tdms_files i j l fit_x fit_real fit_imag Est lorentz_param;
