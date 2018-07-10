@@ -27,6 +27,11 @@
             - I will need to change my functions, so that they can be applied
               to the magnitude data, or the raw data, or make sure that this
               is being handled when I pass in data into these functions.
+    - Replicate Andrew's python script for interactive lorentzian plotting, and
+      overlay plots, that way I can look for trends in where my fit is performing
+      poorly. I can than record all of the actual fit values, and compare them
+      to my fits, and see where things are most off. I would likely need some
+      goodness of fit metric in order for this to work effectively.
 
 ## Things to Try: ##
 We need to figure what the best way is to fit the data.

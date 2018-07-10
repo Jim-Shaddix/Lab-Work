@@ -1,4 +1,4 @@
-function [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit(x_fit_cor, y_fit_cor, guess)
+function [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit(x_cor_fit, y_cor_fit, guess)
 % This function fits a complex lorentzian function to all of the peaks 
 % in a given dataset, returns the arrays of the fit parameters found, and
 % coordinates associated with the applied fit function.
@@ -25,8 +25,8 @@ function [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit(x_fit_cor, y_fit_cor, gu
 
     % function handle for: [complex lorentzian]
     % x = [A, theta, gamma, f_0, offset]
-    lorentz_fnc = @(x, x_fit_cor) x(1) .* exp(1i .* x(2)) ./ ...
-                               (x_fit_cor(1,:) - x(4) + 1i .* x(3) + x(5));
+    lorentz_fnc = @(x, x_cor_fit) x(1) .* exp(1i .* x(2)) ./ ...
+                               (x_cor_fit(1,:) - x(4) + 1i .* x(3) + x(5));
 
     % optional parameters for fit function
     options = optimoptions(@lsqcurvefit,     ...
@@ -45,13 +45,13 @@ function [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit(x_fit_cor, y_fit_cor, gu
     %             [3] -> change residual < tolerance
     [Est, resnorm, residual, exitFlag] = lsqcurvefit(                  ... 
                                                 lorentz_fnc, guess,    ...
-                                                x_fit_cor, y_fit_cor,  ... 
+                                                x_cor_fit, y_cor_fit,  ... 
                                                 [],[],options);
     % Y-coordinates from fit
-    fit_curve = lorentz_fnc(Est,x_fit_cor);
+    fit_curve = lorentz_fnc(Est,x_cor_fit);
 
     % assighn variables to be returned
-    fit_x    = x_fit_cor;
+    fit_x    = x_cor_fit;
     fit_real = real(fit_curve);
     fit_imag = imag(fit_curve);
 

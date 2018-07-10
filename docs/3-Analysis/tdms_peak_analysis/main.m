@@ -32,10 +32,15 @@ clear fp1 fp2 fp3 fp4
 tdms_data = Store_TDMS_Data(path_to_tdms_files);
 disp('Finished Reading Data')
 
+%% Set Peaks
+% SET: peaks picked from raw data
+tdms_data = Raw_Set_Peaks(tdms_data);
+tdms_data = Mag_Set_Peaks(tdms_data);
+
+disp("Finished Setting Peaks")
+
 %% Perform Fit
-
-%[A,theta,gamma,f_0 ,offset] = Lorentz_Fit_Guess(fit_data);
-
+peaks = "mag_given_peaks";
 % PERFORM: fit on each peak, in each file.
 for i = 1:length(tdms_data)
     
@@ -44,14 +49,15 @@ for i = 1:length(tdms_data)
         continue
     end
    
-    % Process The Data:
-    % * convolution and detrend
+    % PROCCESS: signal:
     tdms_data(i).signal_x = Process_Plot_Data(tdms_data(i).signal_x);
     tdms_data(i).signal_y = Process_Plot_Data(tdms_data(i).signal_y);
 
     % PERFORM: fit
-    [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit_File(tdms_data(i), ...
-                                 tdms_data(i).mag_given_peaks, peak_width);  
+    [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit_File(                ...
+                     tdms_data(i).frequency,                            ...
+                     tdms_data(i).signal_x + 1i.*tdms_data(i).signal_y, ...
+                     tdms_data(i).mag_given_peaks, peak_width);
 
    % STORE: features associated with each fit
    for j = 1:length(tdms_data(i).mag_given_peaks)
@@ -76,24 +82,17 @@ end
 
 disp("Finished Performing Fit")
 
-%% Set Peaks
-% SET: peaks picked from raw data
-tdms_data = Raw_Set_Peaks(tdms_data);
-tdms_data = Mag_Set_Peaks(tdms_data);
-
-disp("Finished Setting Peaks")
-
 %% Plot
 
 % PLOT: Raw Data
-%MakePlots(tdms_data,true,["raw","raw_fit","raw_given_peaks"])
+MakePlots(tdms_data,true,["raw","raw_fit","raw_given_peaks"])
 %MakePlots(tdms_data(1),false,["raw","raw_fit","mag"])
 
 % PLOT: Set Peaks
 %MakePlots(tdms_data(1:5),true,["raw","raw_set_peaks"])
 
 % PLOT: Quadature Data
-MakePlots(tdms_data,true,["mag","mag_set_peaks"])
+%MakePlots(tdms_data,true,["mag","mag_set_peaks"])
 
 %% Clean Up Variables
 clear path_to_tdms_files i j l fit_x fit_real fit_imag Est lorentz_param;

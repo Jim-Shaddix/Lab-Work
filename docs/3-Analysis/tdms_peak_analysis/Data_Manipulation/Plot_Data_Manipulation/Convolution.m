@@ -18,18 +18,7 @@ function processed_data = Convolution(data)
         w = conv(w,norm);
         w = w(21:len);
     end
-%     w = conv(w,norm);
-%     w = w(21:len);
-%     w = conv(w,norm);
-%     w = w(21:len);
-%     w = conv(w,norm);
-%     w = w(21:len);
-%     w = conv(w,norm);
-%     w = w(21:len);
-%     w = conv(w,norm);
-%     w = w(21:len);
-%     w = conv(w,norm);
-%     w = w(21:len);
+
     w = 1.4.*w;
     processed_data = w;
 end

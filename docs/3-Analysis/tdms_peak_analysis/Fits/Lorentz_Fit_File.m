@@ -1,4 +1,4 @@
-function [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit_File(tdms_data, peak_data, peak_width)
+function [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit_File(x_cor_all, y_cor_all, peak_data, peak_width)
 % Lorentz_ Fit_File.m Fits a complex lorentzian function to all of the peaks 
 % in a given dataset, returns the arrays of the fit parameters found, and
 % coordinates associated with the applied fit function.
@@ -27,19 +27,19 @@ function [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit_File(tdms_data, peak_dat
     for i = 1:length(peak_data)
 
         % GET: coordinates to be fit
-        [x_cor, y_cor] = Lorentz_Fit_Get_Cor(peak_data(i).Frequencies, peak_width, ...
-                                     tdms_data.frequency, tdms_data.signal_x,tdms_data.signal_y);
+        [x_cor_fit, y_cor_fit] = Lorentz_Fit_Get_Cor(peak_data(i).Frequencies, peak_width, ...
+                                     x_cor_all, y_cor_all);
 
         % Fit Parameters Guess:
         % [A, theta, gamma, f_0, offset]
         [a,b,c,d,e] = Lorentz_Fit_Get_Guess(peak_data(i).Frequencies, ...
-                                      peak_data(i).signal_x,   ...
+                                      peak_data(i).signal_x,          ...
                                       peak_data(i).signal_y);
         guess = [a,b,c,d,e];
         
         % Perform Fit & assighn variables to be returned
         [Est{i},fit_x{i},fit_real{i},fit_imag{i}] =  ...
-            Lorentz_Fit(x_cor, y_cor, guess);
+            Lorentz_Fit(x_cor_fit, y_cor_fit, guess);
 
     end
 
