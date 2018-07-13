@@ -11,8 +11,8 @@ function Plot_File(td, plot_params)
 
         hold on
         
-        % Raw Fit
-        if ismember('raw_fit',plot_params) == 1
+        % Raw Fit Given
+        if ismember('raw_given_fit',plot_params) == 1
             for j = 1:length(td.mag_given_peaks)
                 % real data
                 plot(td.mag_given_peaks(j).fit.frequencies,  ...
@@ -21,6 +21,20 @@ function Plot_File(td, plot_params)
                 % imag data
                 plot(td.mag_given_peaks(j).fit.frequencies,  ...
                      td.mag_given_peaks(j).fit.signal_y,     ...
+                     'c', 'LineWidth',4)                 
+            end
+        end
+        
+        % Raw Fit Set
+        if ismember('raw_set_fit',plot_params) == 1
+            for j = 1:length(td.mag_given_peaks)
+                % real data
+                plot(td.mag_set_peaks(j).fit.frequencies,  ...
+                     td.mag_set_peaks(j).fit.signal_x,     ...
+                     'y', 'LineWidth',4)
+                % imag data
+                plot(td.mag_set_peaks(j).fit.frequencies,  ...
+                     td.mag_set_peaks(j).fit.signal_y,     ...
                      'c', 'LineWidth',4)                 
             end
         end
@@ -71,7 +85,7 @@ function Plot_File(td, plot_params)
         % Magnitude Calculated Peaks:
         if ismember('mag_set_peaks',plot_params) == 1  
             for j = 1:length(td.mag_set_peaks)
-                plot(td.mag_set_peaks(j).frequencies,        ...
+                plot(td.mag_set_peaks(j).Frequencies,        ...
                      td.mag_set_peaks(j).signal,                ...
                      'g*')
             end

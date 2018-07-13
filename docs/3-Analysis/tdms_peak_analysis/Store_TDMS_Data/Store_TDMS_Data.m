@@ -10,7 +10,7 @@ tdms_data = RUSload(path_to_tdms_files);
 
 % SET: plot points where the peak occured
 for i = 1:length(tdms_data)  
-    for j = 1:length(tdms_data(i).mag_given_peaks)  
+    for j = 1:length(tdms_data(i).mag_given_peaks)
         
         td = tdms_data(i); % for convienience
         mag = Magnitude(td.signal_x,td.signal_y);
