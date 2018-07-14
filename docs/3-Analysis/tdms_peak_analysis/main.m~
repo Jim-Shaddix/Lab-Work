@@ -52,7 +52,7 @@ param = { true,                  ...
 
 % mag_set_peaks
 peak_data = Get_Peaks(param{:});
-[tdms_data.mag_set_peaks] = peak_data(:).set_peaks;
+[tdms_data.mag_set_peaks] = peak_data{:};
 
 % raw_set_peaks
 param{1} = false;
@@ -81,18 +81,17 @@ for i = 1:length(tdms_data)
     end
 
     % PERFORM: fit
-    fit = Lorentz_Fit_File(                                            ...
-                    tdms_data(i).frequency,                            ...
-                    tdms_data(i).signal_x + 1i.*tdms_data(i).signal_y, ...
-                    tdms_data(i).(peaks), peak_width);
+    fit = Lorentz_Fit_File(                ...
+                     tdms_data(i).frequency,                            ...
+                     tdms_data(i).signal_x + 1i.*tdms_data(i).signal_y, ...
+                     tdms_data(i).(peaks), peak_width);
    
    [tdms_data(i).(peaks).fit] = fit{:};
-
    
 end
 
 disp("Finished: Performing Fit")
-clear peaks perform_fit fit
+clear peaks perform_fit
 end
 %% Plot
 

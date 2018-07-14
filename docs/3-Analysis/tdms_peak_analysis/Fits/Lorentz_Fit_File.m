@@ -1,4 +1,4 @@
-function [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit_File(x_cor_all, y_cor_all, peak_data, peak_width)
+function fit = Lorentz_Fit_File(x_cor_all, y_cor_all, peak_data, peak_width)
 % Lorentz_ Fit_File.m Fits a complex lorentzian function to all of the peaks 
 % in a given dataset, returns the arrays of the fit parameters found, and
 % coordinates associated with the applied fit function.
@@ -17,12 +17,8 @@ function [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit_File(x_cor_all, y_cor_al
 %   4. fit_imag: [Cell-Array] The x-values, associated with the fit that
 %                took place for each peak
 
-    % fit coordinates/parameters to be returned
-    fit_x    = cell(1, length(peak_data));
-    fit_real = cell(1, length(peak_data));
-    fit_imag = cell(1, length(peak_data));
-    Est      = cell(1, length(peak_data));
-
+    %fit(length(peak_data)) = struct();
+    
     % perform fit on each peak in file
     for i = 1:length(peak_data)
 
@@ -38,9 +34,10 @@ function [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit_File(x_cor_all, y_cor_al
         guess = [a,b,c,d,e];
         
         % Perform Fit & assighn variables to be returned
-        [Est{i},fit_x{i},fit_real{i},fit_imag{i}] =  ...
-            Lorentz_Fit(x_cor_fit, y_cor_fit, guess);
-
+        %[Est{i},fit_x{i},fit_real{i},fit_imag{i}] =  ...
+        %    Lorentz_Fit(x_cor_fit, y_cor_fit, guess);
+        
+        fit(i) =  Lorentz_Fit({x_cor_fit}, {y_cor_fit}, {guess});
     end
 
 end

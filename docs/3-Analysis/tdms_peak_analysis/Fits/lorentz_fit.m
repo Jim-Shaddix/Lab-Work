@@ -1,27 +1,17 @@
-function [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit(x_cor_fit, y_cor_fit, guess)
+function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess)
 % This function fits a complex lorentzian function to all of the peaks 
 % in a given dataset, returns the arrays of the fit parameters found, and
 % coordinates associated with the applied fit function.
 %
 % PARAMETERS:
-%   1. all_x_cor: The x coordinates describing the range of values that 
-%                 are considered for analyses
-%   2. all_real_cor: The real coordinates from the data that are associated
-%                    with the x coordinates
-%   3. all_imag_cor: The imag coordinates from the data that are associated
-%                    with the x coordinates
-%   4. peak_x_cor: The x-values associated with all of the peaks that are
-%                  being considered
-%   5. peak_width: The width of each peak that will be used to fit the
-%                  complex lorentzian function
-% RETURN:
-%   1. Est: [Cell-Array] Each cell contains the 5 calculated fit parameters
-%   2. fit_x: [Cell-Array] The x-values, associated with the fit that took
-%                          place for each peak
-%   3. fit_real: [Cell-Array] The real-values, associated with the fit that
-%                took place for each peak
-%   4. fit_imag: [Cell-Array] The x-values, associated with the fit that
-%                took place for each peak
+% cell_x_cor_fit: [Cell Array] each cell contains:
+%                 The x-coodrinates to perform the fit on.
+%
+% cell_y_cor_fit: [Cell Array] each cell contains:
+%                 The y-coodrinates to perform the fit on.
+%
+% cell_guess:     [Cell Array] each cell contains:
+%                 An ititial guess for fit perameters
 
     % function handle for: [complex lorentzian]
     % x = [A, theta, gamma, f_0, offset]
@@ -35,24 +25,43 @@ function [Est, fit_x, fit_real, fit_imag] = Lorentz_Fit(x_cor_fit, y_cor_fit, gu
                             'TolFun', 1e-10, ...
                             'MaxFunctionEvaluations', 1000000, ...
                             'MaxIterations', 1000000);
-            
-    % Perform Fit:
-    %   xEst:     fit parameters (Array of Floats) 
-    %   resnorm:  sum of the squared residuals (Float) 
-    %   residual: (Array of Floats)
-    %   exitFlag: [1] -> function converged 
-    %             [2] -> change x < tolerance 
-    %             [3] -> change residual < tolerance
-    [Est, resnorm, residual, exitFlag] = lsqcurvefit(                  ... 
-                                                lorentz_fnc, guess,    ...
-                                                x_cor_fit, y_cor_fit,  ... 
-                                                [],[],options);
-    % Y-coordinates from fit
-    fit_curve = lorentz_fnc(Est,x_cor_fit);
+    
+    % instantiate struct to return                    
+    fit = cell(1,length(cell_x_cor_fit));
+                        
+    for i = 1:length(cell_x_cor_fit)
+        
+        % easier access to data
+         x_cor_fit = cell_x_cor_fit{i};
+         y_cor_fit = cell_y_cor_fit{i};
+         guess     = cell_guess{i};
+        
+        % Perform Fit:
+        %   xEst:     fit parameters (Array of Floats) 
+        %   resnorm:  sum of the squared residuals (Float) 
+        %   residual: (Array of Floats)
+        %   exitFlag: [1] -> function converged 
+        %             [2] -> change x < tolerance 
+        %             [3] -> change residual < tolerance
+        [Est, resnorm, residual, exitFlag] = lsqcurvefit(               ... 
+                                                  lorentz_fnc, guess,   ...
+                                                  x_cor_fit, y_cor_fit, ... 
+                                                  [],[],options);
+        % GET: Y-coordinates from fit
+        fit_curve = lorentz_fnc(Est,x_cor_fit);
 
-    % assighn variables to be returned
-    fit_x    = x_cor_fit;
-    fit_real = real(fit_curve);
-    fit_imag = imag(fit_curve);
+        % SET: fit signal
+        fit{i}.frequencies = x_cor_fit;
+        fit{i}.signal_x    = real(fit_curve);
+        fit{i}.signal_y    = imag(fit_curve);
+
+        % SET: fit parameters
+        fit{i}.A      = Est(1);
+        fit{i}.theta  = Est(2);
+        fit{i}.gamma  = Est(3);
+        fit{i}.f_0    = Est(4);
+        fit{i}.offset = Est(5);
+
+    end
 
 end
