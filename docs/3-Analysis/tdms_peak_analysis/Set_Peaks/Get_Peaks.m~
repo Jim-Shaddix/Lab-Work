@@ -11,7 +11,8 @@ function all_peak_info = Get_Peaks(mag_boolean, cell_frequency, cell_signal_x, c
 % 4. peak_opts: [struct] containing the options used for performing the fit
 %
 % RETURNS:
-% 1. [cells of structs] -> each struct describing the peak found
+% 
+%
 
     % SET: optional parameters for fit function
     if nargin < 5

@@ -52,12 +52,12 @@ param = { true,                  ...
 
 % mag_set_peaks
 peak_data = Get_Peaks(param{:});
-[tdms_data.mag_set_peaks] = peak_data(:).set_peaks;
+[tdms_data.mag_set_peaks] = peak_data{:};
 
 % raw_set_peaks
 param{1} = false;
 peak_data = Get_Peaks(param{:});
-[tdms_data.raw_set_peaks] = peak_data(:).set_peaks;
+[tdms_data.raw_set_peaks] = peak_data{:};
 
 clear cell_frequency cell_signal_x cell_signal_y
 disp("Finished: Setting Peaks")
@@ -97,14 +97,14 @@ end
 %% Plot
 
 % PLOT: Raw Data
-MakePlots(tdms_data,true,["raw","raw_given_fit","raw_given_peaks"])
+%MakePlots(tdms_data,true,["raw","raw_given_fit","raw_given_peaks"])
 %MakePlots(tdms_data(1),false,["raw","raw_fit","mag"])
 
 % PLOT: Set Peaks
 %MakePlots(tdms_data(1:5),true,["raw","raw_set_peaks"])
 
 % PLOT: Quadature Data
-%MakePlots(tdms_data,true,["mag","mag_set_peaks"])
+MakePlots(tdms_data,true,["mag","mag_set_peaks"])
 
 disp("Finished: Plotting")
 
