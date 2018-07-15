@@ -1,5 +1,5 @@
 function all_peak_info = Get_Peaks(mag_boolean, cell_frequency, cell_signal_x, cell_signal_y, peak_opts)
-% sets the peaks to be plotted: using [peakfind]
+% sets the peaks to be plotted: using [peakfind] for both
 %
 % PARAMETERS:
 % 1. mag_boolean: [boolean] if true,  fit is performed on the magnitude data

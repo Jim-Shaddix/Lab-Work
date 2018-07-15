@@ -57,7 +57,7 @@ peak_data = Get_Peaks(param{:});
 % raw_set_peaks
 param{1} = false;
 peak_data = Get_Peaks(param{:});
-[tdms_data.raw_set_peaks] = peak_data(:).set_peaks;
+[tdms_data.raw_set_peaks] = peak_data{:};
 
 clear cell_frequency cell_signal_x cell_signal_y
 disp("Finished: Setting Peaks")
@@ -71,27 +71,28 @@ peaks = "mag_given_peaks";
 %peaks = "mag_set_peaks";
 %peaks = "mag_given_peaks";
 
-
-% PERFORM: fit on each peak, in each file.
-for i = 1:length(tdms_data)
-    
-    % CHECK: if any peaks were found
-    if isempty(tdms_data(i).(peaks))
-        continue
-    end
-
-    % PERFORM: fit
-    fit = Lorentz_Fit_File(                ...
-                     tdms_data(i).frequency,                            ...
-                     tdms_data(i).signal_x + 1i.*tdms_data(i).signal_y, ...
-                     tdms_data(i).(peaks), peak_width);
-   
-   [tdms_data(i).(peaks).fit] = fit{:};
-   
-end
+% PERFORM: fit
+fit = Lorentz_Fit_File(                                            ...
+                {tdms_data.frequency},                            ...
+                {tdms_data.x_signal}, ...
+                {tdms_data.(peaks)}, peak_width);
+% % PERFORM: fit on each peak, in each file.
+% for i = 1:length(tdms_data)
+%     
+% 
+%     % PERFORM: fit
+%     fit = Lorentz_Fit_File(                                            ...
+%                     tdms_data(i).frequency,                            ...
+%                     tdms_data(i).signal_x + 1i.*tdms_data(i).signal_y, ...
+%                     tdms_data(i).(peaks), peak_width);
+%    
+%    [tdms_data(i).(peaks).fit] = fit{:};
+% 
+%    
+% end
 
 disp("Finished: Performing Fit")
-clear peaks perform_fit
+clear peaks perform_fit fit
 end
 %% Plot
 

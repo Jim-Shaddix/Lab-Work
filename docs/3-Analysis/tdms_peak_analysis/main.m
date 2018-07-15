@@ -71,40 +71,35 @@ peaks = "mag_given_peaks";
 %peaks = "mag_set_peaks";
 %peaks = "mag_given_peaks";
 
+% PERFORM: fit
+fit_data = Lorentz_Fit_File(                                     ...
+                {tdms_data.frequency},                      ...
+                {tdms_data.signal_x},                       ...
+                {tdms_data.signal_y},                       ...
+                {tdms_data.(peaks)},                        ...
+                peak_width);
 
-% PERFORM: fit on each peak, in each file.
-for i = 1:length(tdms_data)
-    
-    % CHECK: if any peaks were found
-    if isempty(tdms_data(i).(peaks))
-        continue
+% SET: fit_data
+for i = 1:length(fit_data)
+    for j = 1:length(tdms_data(i).(peaks))
+        [tdms_data(i).(peaks)(j).fit] = fit_data{i}(j);
     end
-
-    % PERFORM: fit
-    fit = Lorentz_Fit_File(                                            ...
-                    tdms_data(i).frequency,                            ...
-                    tdms_data(i).signal_x + 1i.*tdms_data(i).signal_y, ...
-                    tdms_data(i).(peaks), peak_width);
-   
-   [tdms_data(i).(peaks).fit] = fit{:};
-
-   
 end
 
 disp("Finished: Performing Fit")
-clear peaks perform_fit fit
+clear peaks perform_fit 
 end
 %% Plot
 
 % PLOT: Raw Data
-%MakePlots(tdms_data,true,["raw","raw_given_fit","raw_given_peaks"])
+MakePlots(tdms_data,true,["raw","raw_given_fit","raw_given_peaks"])
 %MakePlots(tdms_data(1),false,["raw","raw_fit","mag"])
 
 % PLOT: Set Peaks
 %MakePlots(tdms_data(1:5),true,["raw","raw_set_peaks"])
 
 % PLOT: Quadature Data
-MakePlots(tdms_data,true,["mag","mag_set_peaks"])
+%MakePlots(tdms_data,true,["mag","mag_set_peaks"])
 
 disp("Finished: Plotting")
 
