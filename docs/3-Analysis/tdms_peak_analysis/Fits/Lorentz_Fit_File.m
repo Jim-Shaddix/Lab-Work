@@ -44,6 +44,8 @@ function fit = Lorentz_Fit_File(cell_x_cor_all, cell_real_cor_all, cell_imag_cor
         % Perform Fit & assighn variables to be returned
         a = Lorentz_Fit(x_cor_fit, y_cor_fit, guesses);
         fit{i} =  a;
+        disp("FIT File:")
+        disp(i)
     end
 
 end

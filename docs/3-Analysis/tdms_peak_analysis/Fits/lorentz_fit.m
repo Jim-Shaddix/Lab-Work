@@ -18,8 +18,17 @@ function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess)
 
     % function handle for: [complex lorentzian]
     % x = [A, theta, gamma, f_0, offset]
-    lorentz_fnc = @(x, x_cor_fit) x(1) .* exp(1i .* x(2)) ./ ...
-                               (x_cor_fit(1,:) - x(4) + 1i .* x(3) + x(5));
+    %lorentz_fnc = @(x, x_cor_fit) x(1) .* exp(1i .* x(2)) ./ ...
+    %                           (x_cor_fit(1,:) - x(4) + 1i .* x(3)) + x(5);
+    
+    model = @(x, x_cor_fit) ... 
+    x(1) ./ ((x_cor_fit(1,:) - x(4)).^2+x(3).^2) .* ...
+    ((x_cor_fit(1,:) - x(4)).*cos(x(2)) + x(3).*sin(x(2))) + x(5) + ...
+    1i * (x(1) ./ ((x_cor_fit(1,:) - x(4)).^2+x(3).^2) .* ...
+        ((x_cor_fit(1,:) - x(4)).*sin(x(2)) + x(3).*cos(x(2))) + x(5));
+    
+    lorentz_fnc=@(x, x_cor_fit) [real(model(x, x_cor_fit)); imag(model(x, x_cor_fit))]; 
+    
 
     % optional parameters for fit function
     options = optimoptions(@lsqcurvefit,     ...
@@ -48,15 +57,15 @@ function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess)
         %             [3] -> change residual < tolerance
         [Est, resnorm, residual, exitFlag] = lsqcurvefit(               ... 
                                                   lorentz_fnc, guess,   ...
-                                                  x_cor_fit, y_cor_fit, ... 
+                                                  x_cor_fit, [real(y_cor_fit);imag(y_cor_fit)], ... 
                                                   [],[],options);
         % GET: Y-coordinates from fit
         fit_curve = lorentz_fnc(Est,x_cor_fit);
 
         % SET: fit signal
         fit(i).frequencies = x_cor_fit;
-        fit(i).signal_x    = real(fit_curve);
-        fit(i).signal_y    = imag(fit_curve);
+        fit(i).signal_x    = fit_curve(1,:);
+        fit(i).signal_y    = fit_curve(2,:);
 
         % SET: fit parameters
         fit(i).A      = Est(1);

@@ -37,12 +37,16 @@ disp('Finished: Reading Data')
 
 %% Process Signal
 for i = 1:length(tdms_data)
-    tdms_data(i).signal_x = Process_Plot_Data(tdms_data(i).signal_x);
-    tdms_data(i).signal_y = Process_Plot_Data(tdms_data(i).signal_y);
+   tdms_data(i).signal_x = Process_Plot_Data(tdms_data(i).signal_x);
+   tdms_data(i).signal_y = Process_Plot_Data(tdms_data(i).signal_y);
 end
 disp('Finished: Proccessing The Signal')
 
 %% Set Peaks
+
+% mag_given_peaks
+a = Get_Given_Peaks({tdms_data.frequency},{tdms_data.signal_x},{tdms_data.signal_y},{tdms_data.mag_given_peaks});
+[tdms_data.mag_given_peaks] =  a{:};
 
 param = { true,                  ... 
           {tdms_data.frequency}, ...
@@ -67,28 +71,30 @@ clear param find_peak_opts peak_data
 perform_fit = true;
 if perform_fit == true
     
-peaks = "mag_given_peaks";
-%peaks = "mag_set_peaks";
-%peaks = "mag_given_peaks";
+    peaks = "mag_given_peaks";
+    %peaks = "mag_set_peaks";
+    %peaks = "mag_given_peaks";
 
-% PERFORM: fit
-fit_data = Lorentz_Fit_File(                                     ...
-                {tdms_data.frequency},                      ...
-                {tdms_data.signal_x},                       ...
-                {tdms_data.signal_y},                       ...
-                {tdms_data.(peaks)},                        ...
-                peak_width);
+    % PERFORM: fit
+    fit_data = Lorentz_Fit_File(           ...
+                    {tdms_data.frequency}, ...
+                    {tdms_data.signal_x},  ...
+                    {tdms_data.signal_y},  ...
+                    {tdms_data.(peaks)},   ...
+                    peak_width);
 
-% SET: fit_data
-for i = 1:length(fit_data)
-    for j = 1:length(tdms_data(i).(peaks))
-        [tdms_data(i).(peaks)(j).fit] = fit_data{i}(j);
+    % SET: fit_data
+    for i = 1:length(fit_data)
+        for j = 1:length(tdms_data(i).(peaks))
+            [tdms_data(i).(peaks)(j).fit] = fit_data{i}(j);
+        end
     end
+
+    disp("Finished: Performing Fit")
+    clear peaks perform_fit 
+    
 end
 
-disp("Finished: Performing Fit")
-clear peaks perform_fit 
-end
 %% Plot
 
 % PLOT: Raw Data
@@ -102,6 +108,9 @@ MakePlots(tdms_data,true,["raw","raw_given_fit","raw_given_peaks"])
 %MakePlots(tdms_data,true,["mag","mag_set_peaks"])
 
 disp("Finished: Plotting")
+%% more stuff
+%Plot_Width(tdms_data)
+
 
 %% Clean Up Variables
 clear path_to_tdms_files i j l fit_x fit_real fit_imag Est lorentz_param;
