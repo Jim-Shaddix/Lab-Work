@@ -9,6 +9,6 @@ function processed_data = Process_Plot_Data(data)
     processed_data = detrend(data);
 
     %trying a convolution with a gaussian distribution
-    processed_data = Convolution(processed_data);
+    %processed_data = Convolution(processed_data);
     
 end
