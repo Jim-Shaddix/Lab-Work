@@ -32,6 +32,8 @@
       poorly. I can than record all of the actual fit values, and compare them
       to my fits, and see where things are most off. I would likely need some
       goodness of fit metric in order for this to work effectively.
+3. See if I can graph the widths being returned, in order to see what they 
+   look like.
 
 ## Things to Try: ##
 We need to figure what the best way is to fit the data.
@@ -39,3 +41,8 @@ We need to figure what the best way is to fit the data.
    quadature data.
 
 ## Questions ##
+
+
+## NOTEs ##
+* [memory] (https://undocumentedmatlab.com/blog/internal-matlab-memory-optimizations)
+

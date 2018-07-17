@@ -72,22 +72,27 @@ peaks = "mag_given_peaks";
 %peaks = "mag_given_peaks";
 
 % PERFORM: fit
-fit_data = Lorentz_Fit_File(                                     ...
-                {tdms_data.frequency},                      ...
-                {tdms_data.signal_x},                       ...
-                {tdms_data.signal_y},                       ...
-                {tdms_data.(peaks)},                        ...
-                peak_width);
-
-% SET: fit_data
-for i = 1:length(fit_data)
-    for j = 1:length(tdms_data(i).(peaks))
-        [tdms_data(i).(peaks)(j).fit] = fit_data{i}(j);
-    end
-end
+fit = Lorentz_Fit_File(                                            ...
+                {tdms_data.frequency},                            ...
+                {tdms_data.x_signal}, ...
+                {tdms_data.(peaks)}, peak_width);
+% % PERFORM: fit on each peak, in each file.
+% for i = 1:length(tdms_data)
+%     
+% 
+%     % PERFORM: fit
+%     fit = Lorentz_Fit_File(                                            ...
+%                     tdms_data(i).frequency,                            ...
+%                     tdms_data(i).signal_x + 1i.*tdms_data(i).signal_y, ...
+%                     tdms_data(i).(peaks), peak_width);
+%    
+%    [tdms_data(i).(peaks).fit] = fit{:};
+% 
+%    
+% end
 
 disp("Finished: Performing Fit")
-clear peaks perform_fit 
+clear peaks perform_fit fit
 end
 %% Plot
 

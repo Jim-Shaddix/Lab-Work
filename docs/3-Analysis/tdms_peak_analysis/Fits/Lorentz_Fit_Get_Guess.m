@@ -1,4 +1,4 @@
-function [A, theta, gamma, f_0, offset] = Lorentz_Fit_Get_Guess(x_peak,y_peak_real,y_peak_imag)
+function guesses = Lorentz_Fit_Get_Guess(cell_x_peak,cell_y_peak_real,cell_y_peak_imag)
 % LORENTZ_FIT_GUESS: returns the fit parameter guesses for a Lorentzian 
 % function: [A, theta, gamma, f_0, offset]
 %
@@ -9,14 +9,29 @@ function [A, theta, gamma, f_0, offset] = Lorentz_Fit_Get_Guess(x_peak,y_peak_re
 
 % EXAMPLE CALL:
 % * Lorentz_Fit_Guess(tdms_data.mag_given_peaks(1))
+        
+    len = length(cell_x_peak);
 
-    % SET: parameters
-    %A = fit_data;
-    %x = [max([y_peak_real,y_peak_imag]), 0,     10,    (mmin+mmax)/2, 0];
-    A      = max(y_peak_real,y_peak_imag);
-    theta  = 0;
-    gamma  = 10;
-    f_0    = x_peak;
-    offset = 0;
+    guesses  = cell(len);
+
+    for i = 1:len
+        
+        x_peak      = cell_x_peak{i};
+        y_peak_real = cell_y_peak_real{i};
+        y_peak_imag = cell_y_peak_imag{i};
+        
+        % SET: parameters
+        %A = fit_data;
+        %x = [max([y_peak_real,y_peak_imag]), 0,     10,    (mmin+mmax)/2, 0];
+        A      = max(y_peak_real,y_peak_imag);
+        theta  = 0;
+        gamma  = 10;
+        f_0    = x_peak;
+        offset = 0;
+        
+        guesses{i} = [A,theta,gamma,f_0,offset];
+        
+    end
+
 
 end

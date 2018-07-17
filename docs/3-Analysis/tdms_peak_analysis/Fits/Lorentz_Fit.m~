@@ -54,16 +54,16 @@ function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess)
         fit_curve = lorentz_fnc(Est,x_cor_fit);
 
         % SET: fit signal
-        fit(i).frequencies = x_cor_fit;
-        fit(i).signal_x    = real(fit_curve);
-        fit(i).signal_y    = imag(fit_curve);
+        fit(i}.frequencies = x_cor_fit;
+        fit{i}.signal_x    = real(fit_curve);
+        fit{i}.signal_y    = imag(fit_curve);
 
         % SET: fit parameters
-        fit(i).A      = Est(1);
-        fit(i).theta  = Est(2);
-        fit(i).gamma  = Est(3);
-        fit(i).f_0    = Est(4);
-        fit(i).offset = Est(5);
+        fit{i}.A      = Est(1);
+        fit{i}.theta  = Est(2);
+        fit{i}.gamma  = Est(3);
+        fit{i}.f_0    = Est(4);
+        fit{i}.offset = Est(5);
 
     end
 
