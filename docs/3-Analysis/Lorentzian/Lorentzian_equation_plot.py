@@ -45,7 +45,7 @@ axgamma = plt.axes([0.2, 0.28, 0.7, 0.03], facecolor=axcolor)
 sf0 = Slider(axf0, 'f0', 0, 2000.0, valinit=f0)
 sa0 = Slider(axa0, 'A', 0, 100, valinit=a0)
 stheta = Slider(axtheta, 'Theta', 0, 2*np.pi, valinit=theta)
-sgamma = Slider(axgamma, 'Gamma', 0, 300, valinit=gamma)
+sgamma = Slider(axgamma, 'Gamma', -300, 300, valinit=gamma)
 
 """ Updates the plot when the slider values are changed """
 def update(val):

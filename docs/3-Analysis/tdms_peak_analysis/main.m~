@@ -36,11 +36,11 @@ tdms_data = Store_TDMS_Data(path_to_tdms_files);
 disp('Finished: Reading Data')
 
 %% Process Signal
-%for i = 1:length(tdms_data)
-%   tdms_data(i).signal_x = Process_Plot_Data(tdms_data(i).signal_x);
-%   tdms_data(i).signal_y = Process_Plot_Data(tdms_data(i).signal_y);
-%end
-%disp('Finished: Proccessing The Signal')
+for i = 1:length(tdms_data)
+   tdms_data(i).signal_x = Process_Plot_Data(tdms_data(i).signal_x);
+   tdms_data(i).signal_y = Process_Plot_Data(tdms_data(i).signal_y);
+end
+disp('Finished: Proccessing The Signal')
 
 %% Set Peaks
 
@@ -76,6 +76,7 @@ if perform_fit == true
     %peaks = "mag_given_peaks";
 
     % PERFORM: fit
+    a = tdms_data(1:5)
     fit_data = Lorentz_Fit_File(           ...
                     {tdms_data.frequency}, ...
                     {tdms_data.signal_x},  ...
@@ -110,7 +111,7 @@ MakePlots(tdms_data,true,["raw","raw_given_fit","raw_given_peaks"])
 disp("Finished: Plotting")
 %% more stuff
 %Plot_Width(tdms_data)
-Plot_Single_Width(tdms_data)
+
 
 %% Clean Up Variables
 clear path_to_tdms_files i j l fit_x fit_real fit_imag Est lorentz_param;
