@@ -32,7 +32,7 @@ clear fp1 fp2 fp3 fp4
 %% Read In Data
 
 % STORE: data from tdms files
-tdms_data = Store_TDMS_Data(path_to_tdms_files);
+tdms_data = TDMS_Load(path_to_tdms_files);
 disp('Finished: Reading Data')
 
 %% Process Signal
@@ -45,22 +45,24 @@ disp('Finished: Reading Data')
 %% Set Peaks
 
 % mag_given_peaks
-a = Get_Given_Peaks({tdms_data.frequency},{tdms_data.signal_x},{tdms_data.signal_y},{tdms_data.mag_given_peaks});
+a = Get_Given_Peaks({tdms_data.frequency}, ...
+                    {tdms_data.signal_x}, ...
+                    {tdms_data.signal_y}, ...
+                    {tdms_data.mag_given_peaks});
 [tdms_data.mag_given_peaks] =  a{:};
 
-param = { true,                  ... 
+param = { ... 
           {tdms_data.frequency}, ...
           {tdms_data.signal_x},  ...
           {tdms_data.signal_y},  ...
           find_peak_opts };
 
 % mag_set_peaks
-peak_data = Get_Peaks(param{:});
+peak_data = Get_Mag_Peaks(param{:});
 [tdms_data.mag_set_peaks] = peak_data{:};
 
 % raw_set_peaks
-param{1} = false;
-peak_data = Get_Peaks(param{:});
+peak_data = Get_Raw_Peaks(param{:});
 [tdms_data.raw_set_peaks] = peak_data{:};
 
 clear cell_frequency cell_signal_x cell_signal_y
@@ -68,7 +70,7 @@ disp("Finished: Setting Peaks")
 clear param find_peak_opts peak_data
 
 %% Perform Fit
-perform_fit = true;
+perform_fit = false;
 if perform_fit == true
     
     peaks = "mag_given_peaks";
@@ -98,8 +100,8 @@ end
 %% Plot
 
 % PLOT: Raw Data
-MakePlots(tdms_data,true,["raw","raw_given_fit","raw_given_peaks"])
-%MakePlots(tdms_data(1),false,["raw","raw_fit","mag"])
+%MakePlots(tdms_data,true,["raw","raw_given_fit","raw_given_peaks"])
+MakePlots(tdms_data,true,["raw","raw_given_peaks"])
 
 % PLOT: Set Peaks
 %MakePlots(tdms_data(1:5),true,["raw","raw_set_peaks"])
@@ -110,7 +112,7 @@ MakePlots(tdms_data,true,["raw","raw_given_fit","raw_given_peaks"])
 disp("Finished: Plotting")
 %% more stuff
 %Plot_Width(tdms_data)
-Plot_Single_Width(tdms_data)
+%Plot_Single_Width(tdms_data)
 
 %% Clean Up Variables
 clear path_to_tdms_files i j l fit_x fit_real fit_imag Est lorentz_param;

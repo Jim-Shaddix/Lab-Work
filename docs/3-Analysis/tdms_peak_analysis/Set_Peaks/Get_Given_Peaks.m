@@ -1,6 +1,6 @@
 function all_peak_info = Get_Given_Peaks(cell_frequency, cell_signal_x, cell_signal_y, cell_mag_given_peaks)
 
-    % INITIALIZE: return value
+    % ALLOCATE: return value
     all_peak_info = cell(1,length(cell_frequency));
 
     % SET: return struct fields
