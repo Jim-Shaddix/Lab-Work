@@ -50,9 +50,15 @@ for i=1:length(tdms_file_names)
     tdms_data(i).temperature     = str2double(temperature_str);
     
     % STORE: Plot Data
-    tdms_data(i).frequency       = RUSdata.p.Frequency.data;
-    tdms_data(i).signal_x        = RUSdata.p.Signal_X.data;
-    tdms_data(i).signal_y        = RUSdata.p.Signal_Y.data;
+    % Eliminates leading 0 in data set if needed
+    if RUSdata.p.Signal_X.data(1) == 0 || RUSdata.p.Signal_Y.data(1) == 0
+        tdms_data(i).signal_x        = RUSdata.p.Signal_X.data(5:length(RUSdata.p.Signal_X.data));
+        tdms_data(i).signal_y        = RUSdata.p.Signal_Y.data(5:length(RUSdata.p.Signal_Y.data));
+        tdms_data(i).frequency       = RUSdata.p.Frequency.data(5:length(RUSdata.p.Frequency.data));
+    else
+        tdms_data(i).signal_x        = RUSdata.p.Signal_X.data;
+        tdms_data(i).signal_y        = RUSdata.p.Signal_Y.data;
+        tdms_data(i).frequency       = RUSdata.p.Frequency.data;
     
     % CHECK: if peaks were found in the tdms file
     if ~isfield(RUSdata,'fit')
