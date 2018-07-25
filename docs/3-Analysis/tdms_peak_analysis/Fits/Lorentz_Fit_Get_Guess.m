@@ -20,12 +20,13 @@ function guesses = Lorentz_Fit_Get_Guess(cell_x_peak,cell_y_peak_real,cell_y_pea
         % SET: parameters
         A      = max(y_peak_real,y_peak_imag);
         theta  = 0;
-        gamma  = 10;
+        gamma  = 100;
         f_0    = x_peak;
-        offset = 0;
+        x_offset = 0;
+        y_offset = 0;
         
         % SET: return value
-        guesses{i} = [A,theta,gamma,f_0,offset];
+        guesses{i} = [A,theta,gamma,f_0,x_offset,y_offset];
         
     end
 

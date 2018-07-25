@@ -1,4 +1,4 @@
-function fit = Lorentz_Fit_File(cell_x_cor_all, cell_real_cor_all, cell_imag_cor_all, cell_peak_data, peak_width)
+function cell_peak_data = Lorentz_Fit_File(cell_x_cor_all, cell_real_cor_all, cell_imag_cor_all, cell_peak_data, cell_fit_options, given_bool)
 % Lorentz_ Fit_File.m Fits a complex lorentzian function to all of the peaks 
 % in a given dataset, returns the arrays of the fit parameters found, and
 % coordinates associated with the applied fit function.
@@ -25,6 +25,7 @@ function fit = Lorentz_Fit_File(cell_x_cor_all, cell_real_cor_all, cell_imag_cor
         x_cor_all  = cell_x_cor_all{i};
         y_cor_all  = cell_real_cor_all{i} + cell_imag_cor_all{i}.*1i;
         peak_data  = cell_peak_data{i};
+        fit_options = cell_fit_options{i};
         
         % CHECK: if any peaks were found
         if isempty(peak_data)
@@ -32,20 +33,23 @@ function fit = Lorentz_Fit_File(cell_x_cor_all, cell_real_cor_all, cell_imag_cor
         end
         
         % GET: coordinates to be fit
-        [x_cor_fit, y_cor_fit] = Lorentz_Fit_Get_Cor([peak_data.Frequencies], peak_width, ...
-                                     x_cor_all, y_cor_all);
+        [x_cor_fit, y_cor_fit] = Lorentz_Fit_Get_Window( ...
+                                x_cor_all, y_cor_all,    ...
+                                [peak_data.Frequencies], ...
+                                [peak_data.Width],       ...
+                                given_bool);
 
         % Fit Parameters Guess:
         % [A, theta, gamma, f_0, offset]
         guesses = Lorentz_Fit_Get_Guess({peak_data.Frequencies}, ...
-                                        {peak_data.signal_x},          ...
+                                        {peak_data.signal_x},    ...
                                         {peak_data.signal_y});
         
         % Perform Fit & assighn variables to be returned
-        a = Lorentz_Fit(x_cor_fit, y_cor_fit, guesses);
-        fit{i} =  a;
-        disp("FIT File:")
-        disp(i)
+        a = Lorentz_Fit(x_cor_fit, y_cor_fit, guesses, fit_options);
+        b = num2cell(a);
+        [cell_peak_data{i}.fit] = b{:};
+        
     end
 
 end

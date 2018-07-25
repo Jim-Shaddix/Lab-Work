@@ -1,4 +1,4 @@
-function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess)
+function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess, fit_options)
 % This function fits a complex lorentzian function to all of the peaks 
 % in a given dataset, returns the arrays of the fit parameters found, and
 % coordinates associated with the applied fit function.
@@ -25,19 +25,10 @@ function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess)
     x(1) ./ ((x_cor_fit(1,:) - x(4)).^2+x(3).^2) .* ...
     ((x_cor_fit(1,:) - x(4)).*cos(x(2)) + x(3).*sin(x(2))) + x(5) + ...
     1i * (x(1) ./ ((x_cor_fit(1,:) - x(4)).^2+x(3).^2) .* ...
-        ((x_cor_fit(1,:) - x(4)).*sin(x(2)) + x(3).*cos(x(2))) + x(5));
+        ((x_cor_fit(1,:) - x(4)).*sin(x(2)) + x(3).*cos(x(2))) + x(6));
     
     lorentz_fnc=@(x, x_cor_fit) [real(model(x, x_cor_fit)); imag(model(x, x_cor_fit))]; 
-    
-
-    % optional parameters for fit function
-    options = optimoptions(@lsqcurvefit,     ...
-                            'Display','off', ...
-                            'TolX', 1e-10,   ...
-                            'TolFun', 1e-10, ...
-                            'MaxFunctionEvaluations', 1000000, ...
-                            'MaxIterations', 1000000);
-    
+        
     % instantiate struct to return                    
     %fit = cell(1,length(cell_x_cor_fit));
                         
@@ -55,10 +46,18 @@ function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess)
         %   exitFlag: [1] -> function converged 
         %             [2] -> change x < tolerance 
         %             [3] -> change residual < tolerance
-        [Est, resnorm, residual, exitFlag] = lsqcurvefit(               ... 
-                                                  lorentz_fnc, guess,   ...
-                                                  x_cor_fit, [real(y_cor_fit);imag(y_cor_fit)], ... 
-                                                  [],[],options);
+        
+        % x = [A, theta, gamma, f_0, offset]
+        [Est, resnorm, residual, exitFlag, ouput, lambda, jacobian] = ...
+                        lsqcurvefit( ... 
+                                     lorentz_fnc, guess,   ...
+                                     x_cor_fit,            ...
+                                     [real(y_cor_fit);imag(y_cor_fit)], ... 
+                                     [-inf,-inf,0,-inf,-inf,-inf], ...
+                                     [],fit_options);  
+        % Error Values                         
+        ci = nlparci(Est,residual,'jacobian',jacobian);
+        
         % GET: Y-coordinates from fit
         fit_curve = lorentz_fnc(Est,x_cor_fit);
 
@@ -68,11 +67,20 @@ function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess)
         fit(i).signal_y    = fit_curve(2,:);
 
         % SET: fit parameters
-        fit(i).A      = Est(1);
-        fit(i).theta  = Est(2);
-        fit(i).gamma  = Est(3);
-        fit(i).f_0    = Est(4);
-        fit(i).offset = Est(5);
+        fit(i).A        = Est(1);
+        fit(i).theta    = Est(2);
+        fit(i).gamma    = Est(3);
+        fit(i).f_0      = Est(4);
+        fit(i).x_offset = Est(5);
+        fit(i).x_offset = Est(6);
+        
+        % SET: fit parameter errors (95% confidence)
+        fit(i).A_err        = (ci(1,2) - ci(1,1))/2;
+        fit(i).theta_err    = (ci(2,2) - ci(2,1))/2;
+        fit(i).gamma_err    = (ci(3,2) - ci(3,1))/2;
+        fit(i).f_0_err      = (ci(4,2) - ci(4,1))/2;
+        fit(i).x_offset_err = (ci(5,2) - ci(5,1))/2;
+        fit(i).x_offset_err = (ci(6,2) - ci(6,1))/2;
 
     end
 

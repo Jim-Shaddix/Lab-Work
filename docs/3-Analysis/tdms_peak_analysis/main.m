@@ -1,7 +1,8 @@
-%% Initialization
-% These settings initialize the program, and our subject to change.
 clear
 clc
+
+%% Initialization
+% These settings initialize the program, and our subject to change.
 
 % SET: paths
 addpath(genpath('Store_TDMS_Data')); % for reading tdms files
@@ -20,100 +21,48 @@ fp3 = ['~/Documents/Pro/Git/Repos/Lab-Work/docs/2-Files_To_Analyze/' ...
 fp4 = ['~/Documents/Pro/Git/Repos/Lab-Work/docs/2-Files_To_Analyze/' ... 
        'More CoNb206/'];
 path_to_tdms_files = fp1;
-
-% findpeak options
-find_peak_opts.MinPeakDistance   = 100;
-find_peak_opts.MinPeakProminence = 0.0001;
-
-% width of data to perform peak fit on
-peak_width = 0.01*10^6;
-
 clear fp1 fp2 fp3 fp4
+
 %% Read In Data
 
 % STORE: data from tdms files
 tdms_data = TDMS_Load(path_to_tdms_files);
-disp('Finished: Reading Data')
+fprintf(' --- Finished: Reading Data ---\n\n')
 
-%% Process Signal
-%for i = 1:length(tdms_data)
-%   tdms_data(i).signal_x = Process_Plot_Data(tdms_data(i).signal_x);
-%   tdms_data(i).signal_y = Process_Plot_Data(tdms_data(i).signal_y);
-%end
-%disp('Finished: Proccessing The Signal')
+%% Set Struct
+%tdms_data = tdms_data([14,25]);
 
-%% Set Peaks
+% GET: plot info
+plot_info = Get_Plot_Struct();
 
-% mag_given_peaks
-a = Get_Given_Peaks({tdms_data.frequency}, ...
-                    {tdms_data.signal_x}, ...
-                    {tdms_data.signal_y}, ...
-                    {tdms_data.mag_given_peaks});
-[tdms_data.mag_given_peaks] =  a{:};
+% MODIFY: plot info
+plot_info.preprocess = {@Process_Plot_Data};
+plot_info.raw  = 1;
+%plot_info.mag  = 1;
+%plot_info.plot_width = 1;
+plot_info.peaks_raw_given = [1,1];
+%plot_info.peaks_mag_given = [1,1];
+%plot_info.peaks_raw_set   = [1,1];
+%plot_info.peaks_mag_set   = [1,1];
 
-param = { ... 
-          {tdms_data.frequency}, ...
-          {tdms_data.signal_x},  ...
-          {tdms_data.signal_y},  ...
-          find_peak_opts };
+% SET: plot info
+[tdms_data.plot_info] = deal(plot_info);
 
-% mag_set_peaks
-peak_data = Get_Mag_Peaks(param{:});
-[tdms_data.mag_set_peaks] = peak_data{:};
-
-% raw_set_peaks
-peak_data = Get_Raw_Peaks(param{:});
-[tdms_data.raw_set_peaks] = peak_data{:};
-
-clear cell_frequency cell_signal_x cell_signal_y
-disp("Finished: Setting Peaks")
-clear param find_peak_opts peak_data
-
-%% Perform Fit
-perform_fit = false;
-if perform_fit == true
-    
-    peaks = "mag_given_peaks";
-    %peaks = "mag_set_peaks";
-    %peaks = "mag_given_peaks";
-
-    % PERFORM: fit
-    fit_data = Lorentz_Fit_File(           ...
-                    {tdms_data.frequency}, ...
-                    {tdms_data.signal_x},  ...
-                    {tdms_data.signal_y},  ...
-                    {tdms_data.(peaks)},   ...
-                    peak_width);
-
-    % SET: fit_data
-    for i = 1:length(fit_data)
-        for j = 1:length(tdms_data(i).(peaks))
-            [tdms_data(i).(peaks)(j).fit] = fit_data{i}(j);
-        end
-    end
-
-    disp("Finished: Performing Fit")
-    clear peaks perform_fit 
-    
-end
+%% Process The Data
+tdms_data = Process_Data(tdms_data);
+fprintf(" --- Finished processing data --- \n\n")
 
 %% Plot
 
-% PLOT: Raw Data
-%MakePlots(tdms_data,true,["raw","raw_given_fit","raw_given_peaks"])
-MakePlots(tdms_data,true,["raw","raw_given_peaks"])
+%tdms_data(1) = Plot_Stuff(tdms_data(1),true);
+tdms_data = Sub_Plots(tdms_data);
 
-% PLOT: Set Peaks
-%MakePlots(tdms_data(1:5),true,["raw","raw_set_peaks"])
+disp(" --- Finished: Plotting ---")
 
-% PLOT: Quadature Data
-%MakePlots(tdms_data,true,["mag","mag_set_peaks"])
-
-disp("Finished: Plotting")
 %% more stuff
 %Plot_Width(tdms_data)
-%Plot_Single_Width(tdms_data)
+Plot_Single_Width(tdms_data)
 
 %% Clean Up Variables
 clear path_to_tdms_files i j l fit_x fit_real fit_imag Est lorentz_param;
-disp(" --- Finished ---")
+disp("[Finished Script]")

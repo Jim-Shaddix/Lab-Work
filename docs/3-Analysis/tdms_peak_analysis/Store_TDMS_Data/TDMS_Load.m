@@ -1,4 +1,4 @@
-function tdms_data=RUSload(path_to_files)
+function tdms_data=TDMS_Load(path_to_files)
 % 1. Reads directory (path_to_files) for filenames and 
 %    loads all TDMS files into Cell Array. 
 % 2. Extracts Temperature from filename string by finding character 'K'. 
@@ -59,6 +59,7 @@ for i=1:length(tdms_file_names)
         tdms_data(i).signal_x        = RUSdata.p.Signal_X.data;
         tdms_data(i).signal_y        = RUSdata.p.Signal_Y.data;
         tdms_data(i).frequency       = RUSdata.p.Frequency.data;
+    end
     
     % CHECK: if peaks were found in the tdms file
     if ~isfield(RUSdata,'fit')
@@ -76,7 +77,7 @@ for i=1:length(tdms_file_names)
     k = 1;
     for j = 1:length(fields)
         if contains(fields{j}, 'Peak')
-            tdms_data(i).mag_given_peaks(k).Frequencies = peak_struct.(fields{j}).data;
+            tdms_data(i).peaks_mag_given(k).Frequencies = peak_struct.(fields{j}).data;
             k = k+1;
         end
     end
@@ -85,7 +86,7 @@ for i=1:length(tdms_file_names)
     k = 1;
     for j = 1:length(fields)
         if contains(fields{j}, 'F')
-            tdms_data(i).mag_given_peaks(k).F = peak_struct.(fields{j}).data;
+            tdms_data(i).peaks_mag_given(k).F = peak_struct.(fields{j}).data;
             k = k+1;
         end
     end
@@ -94,7 +95,7 @@ for i=1:length(tdms_file_names)
     k = 1;
     for j = 1:length(fields)
         if contains(fields{j}, 'Width')
-            tdms_data(i).mag_given_peaks(k).Width = peak_struct.(fields{j}).data;
+            tdms_data(i).peaks_mag_given(k).Width = peak_struct.(fields{j}).data;
             k = k+1;
         end
     end
@@ -103,7 +104,7 @@ for i=1:length(tdms_file_names)
     k = 1;
     for j = 1:length(fields)
         if contains(fields{j}, 'Amplitude')
-            tdms_data(i).mag_given_peaks(k).Amplitude = peak_struct.(fields{j}).data;
+            tdms_data(i).peaks_mag_given(k).Amplitude = peak_struct.(fields{j}).data;
             k = k+1;
         end
     end
@@ -112,7 +113,7 @@ for i=1:length(tdms_file_names)
     k = 1;
     for j = 1:length(fields)
         if contains(fields{j}, 'Phase')
-            tdms_data(i).mag_given_peaks(k).Phase = peak_struct.(fields{j}).data;
+            tdms_data(i).peaks_mag_given(k).Phase = peak_struct.(fields{j}).data;
             k = k+1;
         end
     end
@@ -121,7 +122,7 @@ for i=1:length(tdms_file_names)
     k = 1;
     for j = 1:length(fields)
         if contains(fields{j}, 'Xbg')
-            tdms_data(i).mag_given_peaks(k).Xbg = peak_struct.(fields{j}).data;
+            tdms_data(i).peaks_mag_given(k).Xbg = peak_struct.(fields{j}).data;
             k = k+1;
         end
     end
@@ -130,7 +131,7 @@ for i=1:length(tdms_file_names)
     k = 1;
     for j = 1:length(fields)
         if contains(fields{j}, 'Ybg')
-            tdms_data(i).mag_given_peaks(k).Ybg = peak_struct.(fields{j}).data;
+            tdms_data(i).peaks_mag_given(k).Ybg = peak_struct.(fields{j}).data;
             k = k+1;
         end
     end

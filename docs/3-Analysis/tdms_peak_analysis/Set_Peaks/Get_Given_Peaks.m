@@ -1,4 +1,4 @@
-function all_peak_info = Get_Given_Peaks(cell_frequency, cell_signal_x, cell_signal_y, cell_mag_given_peaks)
+function all_peak_info = Get_Given_Peaks(cell_frequency, cell_signal_x, cell_signal_y, cell_peaks_mag_given)
 
     % ALLOCATE: return value
     all_peak_info = cell(1,length(cell_frequency));
@@ -10,7 +10,7 @@ function all_peak_info = Get_Given_Peaks(cell_frequency, cell_signal_x, cell_sig
         freq            = cell_frequency{i};
         signal_x        = cell_signal_x{i};
         signal_y        = cell_signal_y{i};
-        mag_given_peaks = cell_mag_given_peaks{i};
+        mag_given_peaks = cell_peaks_mag_given{i};
         
         mag = Magnitude(signal_x, signal_y);
             

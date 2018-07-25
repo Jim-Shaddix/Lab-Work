@@ -1,0 +1,71 @@
+function tdms_data = Process_Data(tdms_data)
+% this function sets all of the fields specified by plot_info
+
+    %peak_width = 0.01*10^6;
+
+    % SET: fit_data in peaks & return peaks
+    function peaks = Set_Fits(peaks, fit_options, given_bool) 
+        peaks = Lorentz_Fit_File(       ...
+                        {frequency},    ...
+                        {signal_x},     ...
+                        {signal_y},     ...
+                        peaks,          ...
+                        fit_options,    ...
+                        given_bool); 
+    end
+
+    for i = 1:length(tdms_data)
+        %% Shortcts / Preprocess Data
+        
+        % easier access to data
+        td        = tdms_data(i);
+        info      = td.plot_info;
+        frequency = td.frequency;
+        signal_x  = td.signal_x;
+        signal_y  = td.signal_y;
+
+        % preprocess the data
+        for j = 1:length(info.preprocess)
+            func = info.preprocess{j};
+            signal_x = func(signal_x);
+            signal_y = func(signal_y);
+        end
+        
+        %% Get Peaks
+        param = {{frequency}, ...
+                 {signal_x},  ...
+                 {signal_y}};
+
+        % mag_given_peaks
+        if sum(info.peaks_raw_given) >= 1 || sum(info.peaks_mag_given) >= 1
+            given_peaks = Get_Given_Peaks(param{:}, {td.peaks_mag_given});
+        end
+
+        % mag_set_peaks
+        if sum(info.peaks_raw_set) >= 1 || sum(info.peaks_mag_set) >= 1
+            set_peaks = Get_Set_Peaks(param{:}, {info.peak_options});
+        end
+
+        %% Get FIT DATA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        % mag_given_peaks
+        if info.peaks_raw_given(2) || info.peaks_mag_given(2)
+            given_peaks = Set_Fits(given_peaks, {td.plot_info.fit_options}, 1); 
+        end
+        
+        % mag_set_peaks
+        if info.peaks_raw_set(2) || info.peaks_mag_set(2)
+            set_peaks = Set_Fits(set_peaks, {td.plot_info.fit_options}, 0);
+        end
+        
+        %% SET DATA
+        if sum(info.peaks_raw_given) >= 1 || sum(info.peaks_mag_given) >= 1
+            [tdms_data(i).peaks_mag_given] = given_peaks{:};
+        end
+        if sum(info.peaks_raw_set) >= 1 || sum(info.peaks_mag_set) >= 1
+            [tdms_data(i).peaks_mag_set]   = set_peaks{:};
+        end
+
+        disp(['Finished Processing File ',num2str(i),' of ',num2str(length(tdms_data))])
+    end % loop over tdms_data
+end

@@ -1,4 +1,4 @@
-function processed_data = Process_Plot_Data(data)
+function data = Process_Plot_Data(data)
 % Process_Plot_Data: returns the processed data to that can be used for:
 % finding peaks, and making plots.
 %
@@ -6,8 +6,9 @@ function processed_data = Process_Plot_Data(data)
 % RETURNS:    processed_data:
 
     % removes the linear trend in the data
-    processed_data = detrend(data);
-
+    data = detrend(data);
+    data = Smooth(data);
+    
     %trying a convolution with a gaussian distribution
     %processed_data = Convolution(processed_data);
     
