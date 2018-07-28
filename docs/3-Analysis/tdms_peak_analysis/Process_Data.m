@@ -1,7 +1,14 @@
-function tdms_data = Process_Data(tdms_data)
+function tdms_data = Process_Data(tdms_data, plot_info_struct)
 % this function sets all of the fields specified by plot_info
-
-    %peak_width = 0.01*10^6;
+% 
+% PARAMETERS
+% * tdms_data: [struct array] all of the data that will be proccessed
+% * plot_info_struct: [struct array] allows you to pass in a sepperate plot info struct, if you don't want
+%                     to use the one stored in tdms_data.
+    
+    if nargin < 2
+        plot_info_struct = [tdms_data.plot_info];
+    end
 
     % SET: fit_data in peaks & return peaks
     function peaks = Set_Fits(peaks, fit_options, given_bool) 
@@ -19,7 +26,7 @@ function tdms_data = Process_Data(tdms_data)
         
         % easier access to data
         td        = tdms_data(i);
-        info      = td.plot_info;
+        info      = plot_info_struct(i);
         frequency = td.frequency;
         signal_x  = td.signal_x;
         signal_y  = td.signal_y;

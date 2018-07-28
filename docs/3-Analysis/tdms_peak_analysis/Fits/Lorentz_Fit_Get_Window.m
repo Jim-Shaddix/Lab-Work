@@ -26,11 +26,12 @@ function [fit_x_cor, fit_y_cor] = Lorentz_Fit_Get_Window(x_cor_all, y_cor_all, x
         peak_width = peak_widths(i);
         
         if given_bool == 1
-            %peak_width = 0.01*10^6;
-            interval_size = peak_width*4;
+            interval_size = peak_width*8;
         else
             interval_size = peak_width;
         end
+        % hard coded interval
+        interval_size = 0.01*10^6;
         
         % GET: indices of data to be fitted
         mmin = x_cor_peak - interval_size/2; % minimum x-coordinate

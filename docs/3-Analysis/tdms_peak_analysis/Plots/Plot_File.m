@@ -1,4 +1,4 @@
-function tdms_data = Plot_File(tdms_data)
+function tdms_data = Plot_File(tdms_data, plot_info)
 % This function plots the data from a single tdms file, and uses
 % plot_struct to determine what information to plot.
 % - I should note that the order in which the plots are made is important
@@ -7,7 +7,11 @@ function tdms_data = Plot_File(tdms_data)
     hold on
     
     % easier access to data
-    info      = tdms_data.plot_info;
+    if nargin < 2
+        info = tdms_data.plot_info;
+    end
+    
+    info = plot_info;
     frequency = tdms_data.frequency;
     signal_x  = tdms_data.signal_x;
     signal_y  = tdms_data.signal_y;

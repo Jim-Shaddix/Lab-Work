@@ -72,7 +72,7 @@ function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess, fit_optio
         fit(i).gamma    = Est(3);
         fit(i).f_0      = Est(4);
         fit(i).x_offset = Est(5);
-        fit(i).x_offset = Est(6);
+        fit(i).y_offset = Est(6);
         
         % SET: fit parameter errors (95% confidence)
         fit(i).A_err        = (ci(1,2) - ci(1,1))/2;
@@ -80,7 +80,7 @@ function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess, fit_optio
         fit(i).gamma_err    = (ci(3,2) - ci(3,1))/2;
         fit(i).f_0_err      = (ci(4,2) - ci(4,1))/2;
         fit(i).x_offset_err = (ci(5,2) - ci(5,1))/2;
-        fit(i).x_offset_err = (ci(6,2) - ci(6,1))/2;
+        fit(i).y_offset_err = (ci(6,2) - ci(6,1))/2;
 
     end
 
