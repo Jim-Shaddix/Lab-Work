@@ -9,9 +9,10 @@ function tdms_data = Plot_File(tdms_data, plot_info)
     % easier access to data
     if nargin < 2
         info = tdms_data.plot_info;
+    else
+        info = plot_info;
     end
     
-    info = plot_info;
     frequency = tdms_data.frequency;
     signal_x  = tdms_data.signal_x;
     signal_y  = tdms_data.signal_y;

@@ -1,0 +1,7 @@
+makefigs(5)
+
+
+disp("Finished!")
+
+
+function make_stuff(n)

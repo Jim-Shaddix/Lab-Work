@@ -10,7 +10,8 @@ addpath(genpath('Fits'));            % for fitting Lorentzian to data
 addpath(genpath('Plots'));           % for plotting data
 addpath(genpath('Set_Peaks'));       % for setting peak values
 addpath(genpath('Data_Manipulation')); % for reading tdms files
-addpath(genpath('Peak_Analysis')); % for reading tdms files
+addpath(genpath('Peak_Analysis'));
+addpath(genpath('Find_Peaks_Near_Freq')); 
 
 % SET: file paths
 dir = '../../2-Files_To_Analyze/';
@@ -60,7 +61,18 @@ fprintf(" --- Finished processing data --- \n\n")
 tdms_data = Sub_Plots(tdms_data);
 
 disp(" --- Finished: Plotting ---")
-
+%% Find Peaks
+peak_str       = 'peaks_mag_given';
+peak_ref       = 8.812*10^5;
+interval_size  = 1.5*10^4;
+discrim_method = 'height';
+indices = Pick_Peak_Interval(tdms_data,     ...
+                             peak_str,      ...
+                             peak_ref,      ...
+                             interval_size, ...
+                             discrim_method, ...
+                             true);
+disp(indices)
 %% Peak Analysis
 % get peaks/temp near refference frequency
 freq_ref = 8.5 *10^5;
