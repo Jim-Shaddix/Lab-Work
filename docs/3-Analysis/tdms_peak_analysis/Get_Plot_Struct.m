@@ -62,7 +62,7 @@ function plot_struct = Get_Plot_Struct()
     % keyword arguements used for plotting the raw and magnitude data
     plot_struct.x_param   = {'r-','DisplayName','siganl-x'};
     plot_struct.y_param   = {'b-','DisplayName','signal-y'};
-    plot_struct.mag_param = {'g-','DisplayName','siganl-magnitude'};
+    plot_struct.mag_param = {'g-','DisplayName','signal-magnitude'};
     
     plot_struct.fit_x_param    = {'y', 'LineWidth',4,'HandleVisibility','off'};
     plot_struct.fit_y_param    = {'c', 'LineWidth',4,'HandleVisibility','off'};
