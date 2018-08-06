@@ -15,7 +15,7 @@ function plot_struct = Get_Plot_Struct()
     plot_struct.raw = 0;
     plot_struct.mag = 0;
 
-    %% Peaks & Fits %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %% PLOTTING & CALCULATING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Three word parameters:
     % 1. peaks
@@ -27,14 +27,21 @@ function plot_struct = Get_Plot_Struct()
     plot_struct.peaks_raw_set   = [0,0];
     plot_struct.peaks_mag_given = [0,0];
     plot_struct.peaks_mag_set   = [0,0];
+    plot_struct.peaks_tracked   = 0;
     
-    % Parameters: findpeaks
+    %% PEAKS
+    % Parameters: for Track_Peaks_Interval
+    plot_struct.track_interval = 15000;
+    plot_struct.track_freq = 881200;
+    
+    % Parameters: for findpeaks
     find_peak_opts.MinPeakDistance   = 20000;
     find_peak_opts.MinPeakProminence = 0.0001;
     find_peak_opts.WidthReference    = 'halfprom';
     plot_struct.peak_options        = find_peak_opts;
     
-    % Optimization Parameters: lsqcurvefit
+    %% FITTING
+    % Optimization Parameters: for lsqcurvefit
     options = optimoptions(@lsqcurvefit,     ...
                             'Display','off', ...
                             'TolX', 1e-10,   ...
@@ -53,9 +60,9 @@ function plot_struct = Get_Plot_Struct()
     plot_struct.plot_width = 0;
     
     % keyword arguements used for plotting the raw and magnitude data
-    plot_struct.x_param = {'r-','DisplayName','siganl_x'};
-    plot_struct.y_param = {'b-','DisplayName','signal_y'};
-    plot_struct.mag_param = {'g-','DisplayName','siganl_magnitude'};
+    plot_struct.x_param   = {'r-','DisplayName','siganl-x'};
+    plot_struct.y_param   = {'b-','DisplayName','signal-y'};
+    plot_struct.mag_param = {'g-','DisplayName','siganl-magnitude'};
     
     plot_struct.fit_x_param    = {'y', 'LineWidth',4,'HandleVisibility','off'};
     plot_struct.fit_y_param    = {'c', 'LineWidth',4,'HandleVisibility','off'};
@@ -64,6 +71,8 @@ function plot_struct = Get_Plot_Struct()
     plot_struct.peak_x_param   = {'r*','HandleVisibility','off'};
     plot_struct.peak_y_param   = {'b*','HandleVisibility','off'};
     plot_struct.peak_mag_param = {'m*','HandleVisibility','off'};
+    
+    plot_struct.peak_tracked_param = {'m*','HandleVisibility','off'};
 
 
 end

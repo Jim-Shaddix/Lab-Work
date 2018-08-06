@@ -1,4 +1,4 @@
-function tdms_data=Sub_Plots(tdms_data)
+function Sub_Plots(tdms_data)
 % This function plots data from the tdms files, based on flags that 
 % are passed in.
 
@@ -20,7 +20,7 @@ function tdms_data=Sub_Plots(tdms_data)
         set(axes, 'ButtonDownFcn', {'Sub_Plots_Pop', tdms_data(i),i})
 
         % PLOT: single file
-        tdms_data(i) = Plot_File(tdms_data(i));
+        Plot_File(axes, tdms_data(i));
         
         title(['Subplot: ',int2str(i)])
         hold off

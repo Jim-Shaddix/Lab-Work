@@ -1,10 +1,10 @@
 function Sub_Plots_Pop(varargin)
       
-      figure(777);
+      figure();
       
       % Plot
       tdms_data = varargin{3};
-      Plot_File(tdms_data);
+      Plot_File(gca, tdms_data);
       
       % Set: Axis Info
       title({['Subplot ',num2str(varargin{4})],['Temperature ',num2str(tdms_data.temperature)]})

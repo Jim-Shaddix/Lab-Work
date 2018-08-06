@@ -7,6 +7,11 @@ function tdms_data=TDMS_Load(path_to_files)
 %  path_to_files='/Users/peter/Desktop/Research/BaIrO3/RUS/5_15_2018/TDMS/';
 %  RUSdataCell=RUSload(path_to_files)
 
+    % UPDATE path_to_files
+    if path_to_files(end) ~= '/'
+        path_to_files(end+1) = '/';
+    end
+
 % GET: file names, from the given directory
 dir_data   = dir(path_to_files);
 file_names = {dir_data.name};
@@ -34,7 +39,18 @@ if isempty(tdms_file_names)
 end
 
 % STORE: tdms file data in: [Struct] -> tdms_data
-tdms_data = struct();
+  fields=  {'file_name',    ...
+    'temperature'    , ...
+    'signal_x'       , ...
+    'signal_y'       , ...
+    'frequency'      , ...
+    'plot_info'      , ...
+    'peaks_mag_given', ...
+    'peaks_mag_set'  , ...
+    'peaks_tracked'  };
+fields{2,1} = cell(1,length(tdms_file_names));
+tdms_data = struct(fields{:});
+
 for i=1:length(tdms_file_names)
     
     % STORE: tdms Data Struct
