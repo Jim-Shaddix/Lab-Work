@@ -13,13 +13,14 @@ addpath(genpath('Data_Manipulation')); % for reading tdms files
 addpath(genpath('GUI'));
 
 % SET: file paths
-dir = '../../2-Files_To_Analyze/';
+d = '../../2-Files_To_Analyze/';
 f1 = '31 May 18 TaV2/';
 f2 = '15 May 18 BalrO3/';
 f3 = 'CoNb2O6 061218/';
 f4 = 'More CoNb206/';
    
-path_to_tdms_files = [dir,f1];
+path_to_tdms_files = [d,f1];
+
 clear f1 f2 f3 f4 dir
 
 %% Read In Data
