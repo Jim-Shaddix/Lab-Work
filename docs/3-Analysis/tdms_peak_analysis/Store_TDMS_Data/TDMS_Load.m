@@ -33,7 +33,7 @@ if isempty(tdms_file_names)
     disp(path_to_files)
     fprintf("\n These are the files/directories that were found:\n")
     for i = 1:length(file_names)
-        disp(file_names(i))
+        disp(file_names{i})
     end
     error("Failed to find tmds files in the provided path !!!")
 end
