@@ -21,7 +21,7 @@ f4 = 'More CoNb206/';
    
 path_to_tdms_files = [d,f1];
 
-clear f1 f2 f3 f4 dir
+clear f1 f2 f3 f4 dir d
 
 %% Read In Data
 
@@ -49,7 +49,7 @@ plot_info.peaks_raw_given = [1,1];
 % SET: plot info
 [tdms_data.plot_info] = deal(plot_info);
 
-disp(" -- Finshed Setting Plot Struct ---")
+disp(" -- Finished Setting Plot Struct ---")
 clear plot_info
 
 %% Process The Data
@@ -62,7 +62,7 @@ fprintf(" --- Finished processing data --- \n\n")
 %% Track Peaks
 
 % Get: tracked peaks, and the intervals used to find them.
-freq_ref = 8.812 *10^5;
+%freq_ref = 8.812 *10^5;
 peak_str = 'peaks_mag_given';
 interval_size   = 1.5*10^4;
 discrim_method  = 'height';
