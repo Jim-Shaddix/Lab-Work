@@ -13,15 +13,15 @@ addpath(genpath('Data_Manipulation')); % for reading tdms files
 addpath(genpath('GUI'));
 
 % SET: file paths
-d = '../../2-Files_To_Analyze/';
-f1 = '31 May 18 TaV2/';
+direc = '../../2-Files_To_Analyze/';
+f1 = '31 May 18 TaV2';
 f2 = '15 May 18 BalrO3/';
 f3 = 'CoNb2O6 061218/';
 f4 = 'More CoNb206/';
    
-path_to_tdms_files = [d,f1];
+path_to_tdms_files = [direc, f1];
 
-clear f1 f2 f3 f4 dir d
+clear f1 f2 f3 f4 dir direc
 
 %% Read In Data
 
@@ -40,9 +40,9 @@ plot_info.preprocess = {@Process_Plot_Data};
 plot_info.raw  = 1;
 plot_info.mag  = 1;
 %plot_info.plot_width = 1;
-plot_info.peaks_raw_given = [1,1];
-%plot_info.peaks_mag_given = [1,1];
-%plot_info.peaks_raw_set   = [1,1];
+%plot_info.peaks_raw_given = [1,1];
+plot_info.peaks_mag_given = [1,1];
+plot_info.peaks_raw_set   = [1,1];
 %plot_info.peaks_mag_set   = [1,1];
 %plot_info.peaks_tracked = 1;
 
