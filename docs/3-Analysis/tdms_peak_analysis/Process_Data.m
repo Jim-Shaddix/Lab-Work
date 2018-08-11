@@ -4,7 +4,8 @@ function tdms_data = Process_Data(tdms_data, plot_info_struct)
 % PARAMETERS
 % * tdms_data: [struct array] all of the data that will be proccessed
 % * plot_info_struct: [struct array] allows you to pass in a sepperate plot info struct, if you don't want
-%                     to use the one stored in tdms_data.
+%                     to use the one stored in tdms_data. The length of 
+%                     plot_info_struct must match the length of tdms_data.
     
     if nargin < 2
         plot_info_struct = [tdms_data.plot_info];
@@ -22,7 +23,7 @@ function tdms_data = Process_Data(tdms_data, plot_info_struct)
     end
 
     for i = 1:length(tdms_data)
-        %% Shortcts / Preprocess Data
+        %% Shortcuts / Preprocess Data
         
         % easier access to data
         td        = tdms_data(i);

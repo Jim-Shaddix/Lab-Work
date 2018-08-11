@@ -2,35 +2,42 @@ function tdms_data=TDMS_Load(path_to_files)
 % 1. Reads directory (path_to_files) for filenames and 
 %    loads all TDMS files into Cell Array. 
 % 2. Extracts Temperature from filename string by finding character 'K'. 
-%
-% EXAMPLE CALL: 
-%  path_to_files='/Users/peter/Desktop/Research/BaIrO3/RUS/5_15_2018/TDMS/';
-%  RUSdataCell=RUSload(path_to_files)
 
     % Store File Information ----------------------------------------------
 
     % UPDATE path_to_files
     % - this is done to accomodate the TDMS_getStruct function, that
     %   requires that the directory passed in ends with /.
+    path_to_files = char(path_to_files);
     if path_to_files(end) ~= '/'
         path_to_files(end+1) = '/';
     end
 
-    % GET: file names ending with .tdms
+    % GET: structure that descibes the provided path
     dir_struct      = dir(path_to_files);
+    
+    if isempty(dir_struct)
+        error(['The directory passed in could not be reached', ...
+               ' from current path.']);
+    end
+    
+    % GET: file names ending with .tdms
     file_names      = string({dir_struct.name});
     tdms_file_names = file_names(endsWith(file_names,'.tdms'));
     
     % CHECK: that tdms files were found
     if isempty(tdms_file_names)
-        fprintf(["No tdms Files Were Found in the directory ", ...
-                 "passed in:\n", char(path_to_files),"\n\n",   ...
-                 "These are the files/directories that were found:\n"]);
-        disp([file_names{:}]');
-        error("Failed to find tmds files in the provided path !!!");
+        fprintf('No tdms Files Were Found in the directory passed in:\n')
+        fprintf([char(path_to_files),'\n\n'])
+        fprintf('These are the files/directories that were found:\n');
+        disp(file_names');
+        error('Failed to find tmds files in the provided path !!!');
     end
     
     tdms_data = Get_RUS_Data_Struct(length(tdms_file_names));
+    
+    cell_tdms_file_names = num2cell(tdms_file_names);
+    [tdms_data.file_name] = cell_tdms_file_names{:};
     
     for i=1:length(tdms_file_names)
         % Store Signal Information ----------------------------------------
@@ -38,13 +45,9 @@ function tdms_data=TDMS_Load(path_to_files)
         % STORE: tdms Data Struct
         RUSdata = TDMS_getStruct([path_to_files,tdms_file_names{i}]);
 
-        % GET/STORE: File Name
-        file_name = tdms_file_names{i};
-        tdms_data(i).file_name       = file_name;
-
         % GET/STORE: Temperature From File Name Using Regex
         pattern = '\d{0,3}\.?\d+K';
-        temperature_str = erase(regexp(file_name, pattern, 'match'), 'K');
+        temperature_str = erase(regexp(tdms_file_names{i}, pattern, 'match'), 'K');
         tdms_data(i).temperature     = str2double(temperature_str);
 
         % STORE: Plot Data
@@ -66,74 +69,24 @@ function tdms_data=TDMS_Load(path_to_files)
 
         % Store Peak Information ------------------------------------------
         
-        % GET: peak fields -> [cell-array] fields
+        % GET: peak field_names -> [cell-array] field_names
         peak_struct = RUSdata.fit;
-        fields      = fieldnames(peak_struct);
+        field_names = fieldnames(peak_struct);
+        
+        unique_fields = {'Peak','F','Width','Amplitude','Phase','Xbg','Ybg'};
+        struct_fields = {'Frequencies','F','Width','Amplitude','Phase','Xbg','Ybg'};
+        map = containers.Map(unique_fields,ones(1,length(unique_fields)));
 
-        % Store Peak Frequencies
-        k = 1;
-        for j = 1:length(fields)
-            if contains(fields{j}, 'Peak')
-                tdms_data(i).peaks_mag_given(k).Frequencies = peak_struct.(fields{j}).data;
-                k = k+1;
-            end
-        end
-
-        % Store F
-        k = 1;
-        for j = 1:length(fields)
-            if contains(fields{j}, 'F')
-                tdms_data(i).peaks_mag_given(k).F = peak_struct.(fields{j}).data;
-                k = k+1;
-            end
-        end
-
-        % Store Width
-        k = 1;
-        for j = 1:length(fields)
-            if contains(fields{j}, 'Width')
-                tdms_data(i).peaks_mag_given(k).Width = peak_struct.(fields{j}).data;
-                k = k+1;
-            end
-        end
-
-        % Store Amplitude
-        k = 1;
-        for j = 1:length(fields)
-            if contains(fields{j}, 'Amplitude')
-                tdms_data(i).peaks_mag_given(k).Amplitude = peak_struct.(fields{j}).data;
-                k = k+1;
-            end
-        end
-
-        % Store Phase
-        k = 1;
-        for j = 1:length(fields)
-            if contains(fields{j}, 'Phase')
-                tdms_data(i).peaks_mag_given(k).Phase = peak_struct.(fields{j}).data;
-                k = k+1;
-            end
-        end
-
-        % Store Xbg
-        k = 1;
-        for j = 1:length(fields)
-            if contains(fields{j}, 'Xbg')
-                tdms_data(i).peaks_mag_given(k).Xbg = peak_struct.(fields{j}).data;
-                k = k+1;
-            end
-        end
-
-        % Store Ybg
-        k = 1;
-        for j = 1:length(fields)
-            if contains(fields{j}, 'Ybg')
-                tdms_data(i).peaks_mag_given(k).Ybg = peak_struct.(fields{j}).data;
-                k = k+1;
+        for j = 1:length(field_names)
+            for k = 1:length(unique_fields)
+                if contains(field_names{j}, unique_fields(k))
+                    tdms_data(i).peaks_mag_given(map(unique_fields{k})).(struct_fields{k}) = ...
+                        peak_struct.(field_names{j}).data;
+                    map(unique_fields{k}) = map(unique_fields{k}) + 1;
+                end
             end
         end
 
     end
-
 end
 
