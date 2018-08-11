@@ -56,24 +56,18 @@ clear plot_info
 tdms_data = Process_Data(tdms_data);
 fprintf(" --- Finished processing data --- \n\n")
 
-%% Tracking GUI
-%Peak_Tracker(tdms_data);
-
 %% Track Peaks
 
 % Get: tracked peaks, and the intervals used to find them.
 %freq_ref = 8.812 *10^5;
 peak_str = 'peaks_mag_given';
 interval_size   = 1.5*10^4;
-discrim_method  = 'height';
-check = false;
+
 
 [peaks_tracked,cell_intervals] = Track_Peaks_Interval( ...
                                     {tdms_data.(peak_str)}, ...
                                     tdms_data(1).plot_info.track_freq, ...
-                                    tdms_data(1).plot_info.track_interval, ...
-                                    discrim_method, ...
-                                    check);
+                                    tdms_data(1).plot_info.track_interval);
 
 [tdms_data.peaks_tracked] = deal(peaks_tracked{:});
 

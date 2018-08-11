@@ -1,16 +1,24 @@
-function [peaks_of_interest, cell_interval] = Track_Peaks_Interval(cell_peaks,freq_track,interval_size, discrim_method, check)
-%PICK_PEAK_INTERVAL: returns the indices asscociated with all of the peaks of interest.
-% 
+function [cell_peaks_of_interest, cell_interval] = Track_Peaks_Interval(cell_peaks,freq_track,interval_size)
+%PICK_PEAK_INTERVAL: This method tracks a particular peak, by constructing
+% an interval about the x-coordinate where a peak occurs, and than
+% capturing the peaks corresponding to the next file that fall inside that
+% interval. The center of the interval is set to the new peak that is
+% found.
+%
+% RETURNS: a cell array of all of the peaks of interest.
+% PARAMETERS: * cell_peaks: [cell array] each element contains all of the 
+%                           peak structs associated with a file.
+%             * freq_track: The frequency to begin tracking.
+%             * interval_size: the size of the interval that is used for 
+%                              tracking peaks. 
 
     % ALLOCATE: indices in the peaks, that 
-    indices_of_interest = zeros(1,length(cell_peaks));
-    cell_interval = cell(1,length(cell_peaks));
-    
-    
-    % SET: indices_of_interest
+    cell_peaks_of_interest = cell(1,length(cell_peaks));
+    cell_interval          = cell(1,length(cell_peaks));
     
     % refferernce frequency, gets updated for each loop iteration
     freq_ref = freq_track;
+    
     for i = 1:length(cell_peaks)
         
         % GET: Peaks
@@ -19,89 +27,21 @@ function [peaks_of_interest, cell_interval] = Track_Peaks_Interval(cell_peaks,fr
         % SET: interval
         mmin = freq_ref-interval_size/2;
         mmax = freq_ref+interval_size/2;
-        
         cell_interval{i} = [mmin,mmax];
         
-        % GET: peaks in the interval
-        indices_in_interval = [];
-        for j = 1:length(peaks)
-            if peaks(j).Frequencies > mmin && ...
-               peaks(j).Frequencies < mmax
-               indices_in_interval(end+1) = j;
-            end
-        end
+        % GET: peaks in interval
+        peaks_in_interval = peaks( mmin < [peaks.Frequencies] & ...
+                                   mmax > [peaks.Frequencies] );
         
-        switch discrim_method
-            case 'height'
-                largest_height = 0;
-                for j = 1:length(indices_in_interval)
-                    if peaks(indices_in_interval(j)).mag > largest_height
-                        indices_of_interest(i) = indices_in_interval(j);
-                    end
-                end
-            case 'frequency'
-                nearest_freq = 0;
-                for j = 1:length(indices_in_interval)
-                    if abs(peaks(indices_in_interval(j)).Frequencies -  freq_ref) < nearest_freq 
-                        indices_of_interest(i) = indices_in_interval(j);
-                    end
-                end
-                
-            case 'manual'
-                disp('I have not implemented the manual method!!!!')  
-        end
+        % SET: cell_peaks_of_interest
+        [~,max_index] = max([peaks_in_interval.mag]);
+        cell_peaks_of_interest{i} = peaks_in_interval(max_index);             
         
         % UPDATE: frequency refference
-        if isempty(indices_in_interval) == 0
-            freq_ref = peaks(indices_of_interest(i)).Frequencies;
+        if isempty(peaks_in_interval) == 0
+            freq_ref = cell_peaks_of_interest{i}.Frequencies;
         end
-        
-        %% CHECK: Plot: magnitude data
-%         if check == 1
-%             fig = figure();
-%             % get plot_info struct to plot
-%             plot_info = Get_Plot_Struct();
-% 
-%             % MODIFY: plot info
-%             plot_info.preprocess = tdms_data(i).plot_info.preprocess;
-%             plot_info.mag  = 1;
-%             plot_info.peaks_mag_given = [1,0];
-%             Plot_File(tdms_data(i),plot_info);
-% 
-%             % Plot: original peak
-%             y_lim=get(gca,'ylim');
-%             plot(gca,[peak_ref, peak_ref],y_lim,'r--','DisplayName','original frequency');
-%             
-%             % Plot: peak found in current file
-%             if isempty(indices_in_interval) == 0
-%                 plot(gca,[freq_ref, freq_ref],y_lim,'b--','DisplayName','found frequency');
-%             end
-% 
-%             % Plot: interval
-%             if strcmp(discrim_method, 'height') || strcmp(discrim_method, 'frequency')
-%                 plot(gca,[mmin, mmin],y_lim,'k','DisplayName','minimum peak bound');
-%                 plot(gca,[mmax, mmax],y_lim,'k','DisplayName','maximum peak bound');
-%             end
-% 
-%             title(["Temperature: ",tdms_data(i).temperature])
-%             xlabel("Frequency (khz)")
-%             ylabel("Voltage (V)")
-%             legend()
-% 
-%             uiwait(fig);
-%         end
-        
+   
     end
 
-    % ALLOCATE/SET: return variable
-    peaks_of_interest = cell(1,length(indices_of_interest)); 
-    for i = 1:length(indices_of_interest)
-         if indices_of_interest(i) == 0
-            continue
-         end
-         peaks_of_interest{i} = cell_peaks{i}(indices_of_interest(i));
-         %peaks_of_interest{i}.interval = interval{i};
-         %peaks_of_interest{i}.freq_ref = freq_track;
-    end
-    
 end
