@@ -17,15 +17,19 @@ function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess, fit_optio
 %            a struct describing the fit performed 
 
     % function handle for: [complex lorentzian]
-    % x = [A, theta, gamma, f_0, offset]
+    % x = [A, theta, gamma, f_0, offset_real, offset_imag]
     %lorentz_fnc = @(x, x_cor_fit) x(1) .* exp(1i .* x(2)) ./ ...
     %                           (x_cor_fit(1,:) - x(4) + 1i .* x(3)) + x(5);
     
     model = @(x, x_cor_fit) ... 
-    x(1) ./ ((x_cor_fit(1,:) - x(4)).^2+x(3).^2) .* ...
-    ((x_cor_fit(1,:) - x(4)).*cos(x(2)) + x(3).*sin(x(2))) + x(5) + ...
-    1i * (x(1) ./ ((x_cor_fit(1,:) - x(4)).^2+x(3).^2) .* ...
-        ((x_cor_fit(1,:) - x(4)).*sin(x(2)) + x(3).*cos(x(2))) + x(6));
+      x(1) ./ ((x_cor_fit(1,:) - x(4)).^2+x(3).^2) .* ...
+        ((x_cor_fit(1,:) - x(4)).*cos(x(2)) + x(3).*sin(x(2))) + x(5) + ...
+        ...
+1i * (x(1) ./ ((x_cor_fit(1,:) - x(4)).^2+x(3).^2) .* ...
+        ((x_cor_fit(1,:) - x(4)).*sin(x(2)) - x(3).*cos(x(2))) + x(6));
+    
+    %model = @(x, x_cor_fit) ...
+        
     
     lorentz_fnc=@(x, x_cor_fit) [real(model(x, x_cor_fit)); imag(model(x, x_cor_fit))]; 
         
@@ -75,12 +79,27 @@ function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess, fit_optio
         fit(i).y_offset = Est(6);
         
         % SET: fit parameter errors (95% confidence)
+        %matrix_errors = [ci{:}];
+        %matrix_errors = matrix_errors
+        %params = {'A','theta','gamma','f_0','x_offset','y_offset'};
+        %for j = 1:length(params)
+        %   fit(i).([params{j},'_err']) = abs(ci(j,:)-Est(j)); 
+        %end
+        
         fit(i).A_err        = (ci(1,2) - ci(1,1))/2;
         fit(i).theta_err    = (ci(2,2) - ci(2,1))/2;
         fit(i).gamma_err    = (ci(3,2) - ci(3,1))/2;
         fit(i).f_0_err      = (ci(4,2) - ci(4,1))/2;
         fit(i).x_offset_err = (ci(5,2) - ci(5,1))/2;
         fit(i).y_offset_err = (ci(6,2) - ci(6,1))/2;
+        fit(i).ci = ci;
+        
+%         fit(i).A_err        = (ci(1,2) - ci(1,1))/2;
+%         fit(i).theta_err    = (ci(2,2) - ci(2,1))/2;
+%         fit(i).gamma_err    = (ci(3,2) - ci(3,1))/2;
+%         fit(i).f_0_err      = (ci(4,2) - ci(4,1))/2;
+%         fit(i).x_offset_err = (ci(5,2) - ci(5,1))/2;
+%         fit(i).y_offset_err = (ci(6,2) - ci(6,1))/2;
 
     end
 

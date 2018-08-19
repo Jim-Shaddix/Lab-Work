@@ -23,7 +23,7 @@ function tdms_data = Process_Data(tdms_data, plot_info_struct)
     end
 
     for i = 1:length(tdms_data)
-        %% Shortcuts / Preprocess Data
+        %% Shortcuts / Preprocess Data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
         % easier access to data
         td        = tdms_data(i);
@@ -39,7 +39,7 @@ function tdms_data = Process_Data(tdms_data, plot_info_struct)
             signal_y = func(signal_y);
         end
         
-        %% Get Peaks
+        %% Get Peaks %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         param = {{frequency}, ...
                  {signal_x},  ...
                  {signal_y}};
@@ -54,7 +54,7 @@ function tdms_data = Process_Data(tdms_data, plot_info_struct)
             set_peaks = Get_Set_Peaks(param{:}, {info.peak_options});
         end
 
-        %% Get FIT DATA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        %% Get FIT DATA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
         % mag_given_peaks
         if info.peaks_raw_given(2) || info.peaks_mag_given(2)
@@ -66,7 +66,7 @@ function tdms_data = Process_Data(tdms_data, plot_info_struct)
             set_peaks = Set_Fits(set_peaks, {td.plot_info.fit_options}, 0);
         end
         
-        %% SET DATA
+        %% SET DATA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         if sum(info.peaks_raw_given) >= 1 || sum(info.peaks_mag_given) >= 1
             [tdms_data(i).peaks_mag_given] = given_peaks{:};
         end

@@ -8,7 +8,7 @@ function all_peak_info = Get_Set_Peaks(cell_frequency, cell_signal_x, cell_signa
 %                           associated with a particular file
 % 3/4. cell_signal_x/y: [Cell] each cell contains all the signal data
 %                           associated with a particular file
-% 4. peak_opts: [struct] containing the options used for performing the fit
+% 4. peak_opts: [struct] containing the optional parameters for peakfind
 %
 % RETURNS:
 % 1. [cells of structs] -> each struct describing the peak found

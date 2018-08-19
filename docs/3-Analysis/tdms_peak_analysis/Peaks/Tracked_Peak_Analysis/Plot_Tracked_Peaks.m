@@ -1,7 +1,5 @@
 function Plot_Single_Freq(ax,peaks_of_interest,peak_temps,str_to_plot,linespec)
 % plot the width of each peak found, describing a single peak
-%
-%
 
     %% Plot Settings
     marker_appearance = {linespec, 'MarkerSize', 3};

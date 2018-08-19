@@ -46,11 +46,15 @@
     \end{equation}
 
     \vspace{1cm}
-    \underline{Finally}
-    $$Re(z(f)) = \frac{A}{(f-f_{0})^{2}+\gamma^{2}} ((f-f_{0})\cos(\theta)+ \gamma\sin(\theta))$$
-    $$Im(z(f)) = \frac{A}{(f-f_{0})^{2}+\gamma^{2}}
-    ((f-f_{0})\sin(\theta)-\gamma\cos(\theta))$$
+    \underline{Finally}\\
+
+    \boxed{
+        $$Re(z(f)) = \frac{A}{(f-f_{0})^{2}+\gamma^{2}} 
+        ((f-f_{0})\cos(\theta)+ \gamma\sin(\theta))$$
+    }
+    \boxed{
+        $$Im(z(f)) = \frac{A}{(f-f_{0})^{2}+\gamma^{2}}
+        ((f-f_{0})\sin(\theta)-\gamma\cos(\theta))$$
+    }
         
-
-
 \end{document}

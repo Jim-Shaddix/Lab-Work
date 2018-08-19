@@ -35,8 +35,13 @@ function plot_struct = Get_Plot_Struct()
     plot_struct.track_freq = 881200;
     
     % Parameters: for findpeaks
-    find_peak_opts.MinPeakDistance   = 20000;
+    find_peak_opts.MinPeakHeight = -Inf;
     find_peak_opts.MinPeakProminence = 0.0001;
+    find_peak_opts.Threshold = 0;
+    find_peak_opts.MinPeakDistance   = 20000;
+    find_peak_opts.MinPeakWidth   = 0;
+    find_peak_opts.MaxPeakWidth   = Inf;
+    
     find_peak_opts.WidthReference    = 'halfprom';
     plot_struct.peak_options        = find_peak_opts;
     
@@ -60,7 +65,7 @@ function plot_struct = Get_Plot_Struct()
     plot_struct.plot_width = 0;
     
     % keyword arguements used for plotting the raw and magnitude data
-    plot_struct.x_param   = {'r-','DisplayName','siganl-x'};
+    plot_struct.x_param   = {'r-','DisplayName','signal-x'};
     plot_struct.y_param   = {'b-','DisplayName','signal-y'};
     plot_struct.mag_param = {'g-','DisplayName','signal-magnitude'};
     

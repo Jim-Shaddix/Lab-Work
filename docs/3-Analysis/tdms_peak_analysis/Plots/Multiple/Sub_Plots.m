@@ -22,7 +22,7 @@ function Sub_Plots(tdms_data)
         % PLOT: single file
         Plot_File(axes, tdms_data(i));
         
-        title(['Subplot: ',int2str(i)])
+        title(['Temperature: ',int2str(tdms_data(i).temperature),'K'])
         hold off
         
         disp(['Finished Subplot ',int2str(i),' of ',int2str(length(tdms_data))])
