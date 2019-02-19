@@ -1,0 +1,9 @@
+/* Created by mdot for Matlab */
+digraph m2html {
+
+  TDMS_Documentation [URL="TDMS_Documentation.html"];
+  TDMS_TODO_List [URL="TDMS_TODO_List.html"];
+  TDMS_VERSION_INFO [URL="TDMS_VERSION_INFO.html"];
+  TDMS_exampleFunctionCalls [URL="TDMS_exampleFunctionCalls.html"];
+  TDMS_fileFormatNotes [URL="TDMS_fileFormatNotes.html"];
+}

@@ -1,0 +1,28 @@
+/* Created by mdot for Matlab */
+digraph m2html {
+  TDMS_getPropValue -> TDMS_getDataTypeName;
+  TDMS_handleGetDataOption -> TDMS_getDataSize;
+  TDMS_initData -> TDMS_getDataTypeName;
+  TDMS_preprocessFile -> TDMS_getDataSize;
+  TDMS_preprocessFile -> TDMS_getPropValue;
+  TDMS_preprocessFile -> TDMS_processLeadIn;
+  TDMS_readFileHelper_v1 -> TDMS_getTypeSeekSizes;
+  TDMS_readFileHelper_v1 -> TDMS_initData;
+  TDMS_readFileHelper_v2 -> TDMS_getTypeSeekSizes;
+  TDMS_readFileHelper_v2 -> TDMS_initData;
+
+  TDMS_genvarname2 [URL="TDMS_genvarname2.html"];
+  TDMS_getDataSize [URL="TDMS_getDataSize.html"];
+  TDMS_getDataTypeName [URL="TDMS_getDataTypeName.html"];
+  TDMS_getGroupChanNames [URL="TDMS_getGroupChanNames.html"];
+  TDMS_getPropValue [URL="TDMS_getPropValue.html"];
+  TDMS_getTypeSeekSizes [URL="TDMS_getTypeSeekSizes.html"];
+  TDMS_handleGetDataOption [URL="TDMS_handleGetDataOption.html"];
+  TDMS_initData [URL="TDMS_initData.html"];
+  TDMS_preprocessFile [URL="TDMS_preprocessFile.html"];
+  TDMS_processLeadIn [URL="TDMS_processLeadIn.html"];
+  TDMS_rawDAQMx [URL="TDMS_rawDAQMx.html"];
+  TDMS_readFileHelper_v1 [URL="TDMS_readFileHelper_v1.html"];
+  TDMS_readFileHelper_v2 [URL="TDMS_readFileHelper_v2.html"];
+  TDMS_retrievingSubsets [URL="TDMS_retrievingSubsets.html"];
+}

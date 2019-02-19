@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Plot_File</title>
+  <meta name="keywords" content="Plot_File">
+  <meta name="description" content="This function plots the data from a single tdms file, and uses">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- ../menu.html tdms_peak_analysis --><!-- menu.html Plots -->
+<h1>Plot_File
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>This function plots the data from a single tdms file, and uses</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function Plot_File(ax, tdms_data, plot_info) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> This function plots the data from a single tdms file, and uses
+ plot_struct to determine what information to plot.
+ - I should note that the order in which the plots are made is important
+   because this determines the stacking order of the plots.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="../../tdms_peak_analysis/Data_Manipulation/Plot_Data_Manipulation/Magnitude.html" class="code" title="function processed_data = Magnitude(x,y)">Magnitude</a>	Dataplay:  returns data added in quadature</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="../../tdms_peak_analysis/Plots/Multiple/Sequential_Plots.html" class="code" title="function Sequential_Plots(tdms_data, plot_params)">Sequential_Plots</a>	This function plots data from the tdms files in a sequential fashion</li><li><a href="../../tdms_peak_analysis/Plots/Multiple/Sub_Plots.html" class="code" title="function Sub_Plots(tdms_data)">Sub_Plots</a>	This function plots data from the tdms files, based on flags that</li><li><a href="../../tdms_peak_analysis/Plots/Multiple/Sub_Plots_Pop.html" class="code" title="function Sub_Plots_Pop(varargin)">Sub_Plots_Pop</a>	</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function Plot_Fit_Raw(bool,peak_struct)</a></li><li><a href="#_sub2" class="code">function Plot_Fit_Mag(bool,peak_struct)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function Plot_File(ax, tdms_data, plot_info)</a>
+0002 <span class="comment">% This function plots the data from a single tdms file, and uses</span>
+0003 <span class="comment">% plot_struct to determine what information to plot.</span>
+0004 <span class="comment">% - I should note that the order in which the plots are made is important</span>
+0005 <span class="comment">%   because this determines the stacking order of the plots.</span>
+0006 
+0007     hold(ax, <span class="string">'on'</span>)
+0008     
+0009     <span class="comment">% easier access to data</span>
+0010     <span class="keyword">if</span> nargin &lt; 3
+0011         info = tdms_data.plot_info;
+0012     <span class="keyword">else</span>
+0013         info = plot_info;
+0014     <span class="keyword">end</span>
+0015     
+0016     frequency = tdms_data.frequency;
+0017     signal_x  = tdms_data.signal_x;
+0018     signal_y  = tdms_data.signal_y;
+0019     
+0020     <span class="comment">%% FITS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0021     
+0022     <span class="comment">% PLOT FIT: on raw data</span>
+0023     <a name="_sub1" href="#_subfunctions" class="code">function Plot_Fit_Raw(bool,peak_struct)</a>
+0024         <span class="keyword">if</span> bool == 1 &amp;&amp; ~isempty(tdms_data.(peak_struct))
+0025             all_peaks_to_fit = [tdms_data.(peak_struct)];
+0026             all_fits         = [all_peaks_to_fit.fit];
+0027 
+0028             <span class="keyword">for</span> z = 1:length(all_fits)
+0029                 
+0030                 plot(ax, <span class="keyword">...</span>
+0031                      all_fits(z).frequencies,  <span class="keyword">...</span>
+0032                      all_fits(z).signal_x,     <span class="keyword">...</span>
+0033                      info.fit_x_param{:})
+0034                 plot(ax, <span class="keyword">...</span>
+0035                      all_fits(z).frequencies,  <span class="keyword">...</span>
+0036                      all_fits(z).signal_y,     <span class="keyword">...</span>
+0037                      info.fit_y_param{:})
+0038             <span class="keyword">end</span>
+0039         <span class="keyword">end</span>
+0040     <span class="keyword">end</span> 
+0041 
+0042     <span class="comment">% PLOT FIT: on mag data</span>
+0043     <a name="_sub2" href="#_subfunctions" class="code">function Plot_Fit_Mag(bool,peak_struct)</a>
+0044         <span class="keyword">if</span> bool == 1 &amp;&amp; ~isempty(tdms_data.(peak_struct))
+0045             all_peaks_to_fit = [tdms_data.(peak_struct)];
+0046             all_fits         = [all_peaks_to_fit.fit];
+0047             <span class="keyword">for</span> z = 1:length(all_fits)
+0048                 plot(ax, <span class="keyword">...</span>
+0049                      [all_fits(z).frequencies],  <span class="keyword">...</span>
+0050                      <a href="../../tdms_peak_analysis/Data_Manipulation/Plot_Data_Manipulation/Magnitude.html" class="code" title="function processed_data = Magnitude(x,y)">Magnitude</a>(all_fits(z).signal_x,all_fits(z).signal_y), <span class="keyword">...</span>
+0051                      info.fit_mag_param{:})
+0052             <span class="keyword">end</span>
+0053         <span class="keyword">end</span>
+0054     <span class="keyword">end</span> 
+0055 
+0056     <span class="comment">% (FITS) Peaks_Mag_Given</span>
+0057     peak_struct = &quot;peaks_mag_given&quot;;
+0058     <a href="#_sub1" class="code" title="subfunction Plot_Fit_Raw(bool,peak_struct)">Plot_Fit_Raw</a>(info.peaks_raw_given(2),peak_struct)
+0059     <a href="#_sub2" class="code" title="subfunction Plot_Fit_Mag(bool,peak_struct)">Plot_Fit_Mag</a>(info.peaks_mag_given(2),peak_struct)
+0060 
+0061     <span class="comment">% (FITS) Peaks_Mag_Set</span>
+0062     peak_struct = &quot;peaks_mag_set&quot;;
+0063     <a href="#_sub1" class="code" title="subfunction Plot_Fit_Raw(bool,peak_struct)">Plot_Fit_Raw</a>(info.peaks_raw_set(2),peak_struct)
+0064     <a href="#_sub2" class="code" title="subfunction Plot_Fit_Mag(bool,peak_struct)">Plot_Fit_Mag</a>(info.peaks_mag_set(2),peak_struct)
+0065 
+0066     <span class="comment">%% SIGNAL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0067     
+0068     <span class="comment">% pre-process the signal</span>
+0069     <span class="keyword">for</span> i = 1:length(info.preprocess)
+0070         func = info.preprocess{i};
+0071         signal_x = func(signal_x);
+0072         signal_y = func(signal_y);
+0073     <span class="keyword">end</span>
+0074     
+0075     <span class="comment">% Raw Signal:</span>
+0076     <span class="keyword">if</span> info.raw == 1
+0077         plot(ax, frequency, signal_x, info.x_param{:})
+0078         plot(ax, frequency, signal_y, info.y_param{:})
+0079     <span class="keyword">end</span>
+0080 
+0081     <span class="comment">% Magnitude Signal</span>
+0082     <span class="keyword">if</span> info.mag == 1
+0083         mag = <a href="../../tdms_peak_analysis/Data_Manipulation/Plot_Data_Manipulation/Magnitude.html" class="code" title="function processed_data = Magnitude(x,y)">Magnitude</a>(signal_x, signal_y);
+0084         plot(ax, frequency, mag, info.mag_param{:})
+0085     <span class="keyword">end</span>
+0086 
+0087     <span class="comment">%% PEAKS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+0088     
+0089     <span class="comment">% (PEAKS) GIVEN</span>
+0090     peak_struct = &quot;peaks_mag_given&quot;;
+0091     <span class="keyword">if</span> info.peaks_raw_given(1) == 1 &amp;&amp; ~isempty(tdms_data.(peak_struct))
+0092         all_peaks = [tdms_data.(peak_struct)];
+0093         plot(ax, [all_peaks.Frequencies],[all_peaks.signal_x], info.peak_x_param{:})
+0094         plot(ax, [all_peaks.Frequencies],[all_peaks.signal_y], info.peak_y_param{:})
+0095     <span class="keyword">end</span>
+0096     <span class="keyword">if</span> info.peaks_mag_given(1) == 1 &amp;&amp; ~isempty(tdms_data.(peak_struct))
+0097         all_peaks = [tdms_data.(peak_struct)];
+0098         plot(ax, [all_peaks.Frequencies], [all_peaks.mag], info.peak_mag_param{:})
+0099     <span class="keyword">end</span>
+0100     
+0101     <span class="comment">% (PEAKS) SET</span>
+0102     peak_struct = &quot;peaks_mag_set&quot;;
+0103     <span class="keyword">if</span> info.peaks_raw_set(1) == 1 &amp;&amp; ~isempty(tdms_data.(peak_struct))
+0104         all_peaks = [tdms_data.(peak_struct)];
+0105         plot(ax, [all_peaks.Frequencies],[all_peaks.signal_x],info.peak_x_param{:})
+0106         plot(ax, [all_peaks.Frequencies],[all_peaks.signal_y],info.peak_y_param{:})
+0107     <span class="keyword">end</span>
+0108     <span class="keyword">if</span> info.peaks_mag_set(1) == 1 &amp;&amp; ~isempty(tdms_data.(peak_struct))
+0109         all_peaks = [tdms_data.(peak_struct)];
+0110         plot(ax, [all_peaks.Frequencies],[all_peaks.mag],info.peak_mag_param{:})
+0111     <span class="keyword">end</span>
+0112     
+0113     <span class="comment">% (PEAKS) Tracked</span>
+0114     peak_struct = &quot;peaks_tracked&quot;;
+0115     <span class="keyword">if</span> info.peaks_tracked == 1 &amp;&amp; ~isempty(tdms_data.(peak_struct))
+0116         
+0117         <span class="comment">% easier accesss to data</span>
+0118         peak_tracked = tdms_data.peaks_tracked;
+0119         peak_freq = peak_tracked.Frequencies;
+0120         peak_mag = peak_tracked.mag;
+0121         <span class="comment">%mmin = peak_tracked.interval(1);</span>
+0122         <span class="comment">%mmax = peak_tracked.interval(2);</span>
+0123         
+0124         <span class="comment">% Plot: peak found in current file</span>
+0125         <span class="comment">%plot(ax,[peak_freq, peak_freq],y_lim,'b--','DisplayName','found frequency');</span>
+0126         plot(ax,peak_freq ,peak_mag,<span class="string">'bx'</span>,<span class="string">'DisplayName'</span>,<span class="string">'peak tracked'</span>,<span class="keyword">...</span>
+0127                                          <span class="string">'MarkerSize'</span>,15,<span class="string">'LineWidth'</span>,3);
+0128     <span class="keyword">end</span>
+0129 
+0130     <span class="comment">% (PEAKS) WIDTHS</span>
+0131     <span class="keyword">if</span> info.plot_width == 1 &amp;&amp; info.mag == 1
+0132         findpeaks(<a href="../../tdms_peak_analysis/Data_Manipulation/Plot_Data_Manipulation/Magnitude.html" class="code" title="function processed_data = Magnitude(x,y)">Magnitude</a>(signal_x,signal_y),frequency,info.peak_options,<span class="string">'Annotate'</span>,<span class="string">'extents'</span>)
+0133     <span class="keyword">end</span>
+0134 
+0135 <span class="keyword">end</span>
+0136 
+0137</pre></div>
+<hr><address>Generated on Sun 19-Aug-2018 19:01:02 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

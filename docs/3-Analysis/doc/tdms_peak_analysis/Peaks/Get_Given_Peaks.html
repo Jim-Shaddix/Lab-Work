@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Get_Given_Peaks</title>
+  <meta name="keywords" content="Get_Given_Peaks">
+  <meta name="description" content="ALLOCATE: return value">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- ../menu.html tdms_peak_analysis --><!-- menu.html Peaks -->
+<h1>Get_Given_Peaks
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>ALLOCATE: return value</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function all_peak_info = Get_Given_Peaks(cell_frequency, cell_signal_x, cell_signal_y, cell_peaks_mag_given) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> ALLOCATE: return value</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="../../tdms_peak_analysis/Data_Manipulation/Plot_Data_Manipulation/Magnitude.html" class="code" title="function processed_data = Magnitude(x,y)">Magnitude</a>	Dataplay:  returns data added in quadature</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="../../tdms_peak_analysis/Process_Data.html" class="code" title="function tdms_data = Process_Data(tdms_data, plot_info_struct)">Process_Data</a>	this function sets all of the fields specified by plot_info</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function all_peak_info = Get_Given_Peaks(cell_frequency, cell_signal_x, cell_signal_y, cell_peaks_mag_given)</a>
+0002 
+0003     <span class="comment">% ALLOCATE: return value</span>
+0004     all_peak_info = cell(1,length(cell_frequency));
+0005 
+0006     <span class="comment">% SET: return struct fields</span>
+0007     <span class="keyword">for</span> i = 1:length(all_peak_info)
+0008         
+0009         <span class="comment">% easier access to data</span>
+0010         freq            = cell_frequency{i};
+0011         signal_x        = cell_signal_x{i};
+0012         signal_y        = cell_signal_y{i};
+0013         mag_given_peaks = cell_peaks_mag_given{i};
+0014         
+0015         mag = <a href="../../tdms_peak_analysis/Data_Manipulation/Plot_Data_Manipulation/Magnitude.html" class="code" title="function processed_data = Magnitude(x,y)">Magnitude</a>(signal_x, signal_y);
+0016             
+0017         <span class="keyword">for</span> j = 1:length(mag_given_peaks) 
+0018 
+0019             <span class="comment">% index in the frequency list, where the peak occured</span>
+0020             index = find(freq == mag_given_peaks(j).Frequencies, 1);
+0021 
+0022             <span class="comment">% SET: y-coordinates</span>
+0023             mag_given_peaks(j).signal_x = signal_x(index);
+0024             mag_given_peaks(j).signal_y = signal_y(index);
+0025             mag_given_peaks(j).mag      = mag(index);
+0026 
+0027         <span class="keyword">end</span>
+0028         all_peak_info{i} = mag_given_peaks;
+0029     <span class="keyword">end</span>
+0030 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 19-Aug-2018 19:01:02 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

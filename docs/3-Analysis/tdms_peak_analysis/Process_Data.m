@@ -12,13 +12,16 @@ function tdms_data = Process_Data(tdms_data, plot_info_struct)
     end
 
     % SET: fit_data in peaks & return peaks
-    function peaks = Set_Fits(peaks, fit_options, given_bool) 
+    function peaks = Set_Fits(peaks, fit_options, fit_width_multiplier, hard_coded_width, fit_width, given_bool)
         peaks = Lorentz_Fit_File(       ...
                         {frequency},    ...
                         {signal_x},     ...
                         {signal_y},     ...
                         peaks,          ...
                         fit_options,    ...
+                        fit_width_multiplier, ...
+                        hard_coded_width,     ... 
+                        fit_width,            ...
                         given_bool); 
     end
 
@@ -58,18 +61,23 @@ function tdms_data = Process_Data(tdms_data, plot_info_struct)
         
         % mag_given_peaks
         if info.peaks_raw_given(2) || info.peaks_mag_given(2)
-            given_peaks = Set_Fits(given_peaks, {td.plot_info.fit_options}, 1); 
+            given_peaks = Set_Fits(given_peaks, {info.fit_options}, ...
+                info.fit_width_multiplier, info.hard_coded_width, ...
+                info.fit_width, 1); 
         end
         
         % mag_set_peaks
         if info.peaks_raw_set(2) || info.peaks_mag_set(2)
-            set_peaks = Set_Fits(set_peaks, {td.plot_info.fit_options}, 0);
+            set_peaks = Set_Fits(set_peaks, {info.fit_options}, ...
+                info.fit_width_multiplier, info.hard_coded_width, ...
+                info.fit_width, 0);
         end
         
         %% SET DATA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         if sum(info.peaks_raw_given) >= 1 || sum(info.peaks_mag_given) >= 1
             [tdms_data(i).peaks_mag_given] = given_peaks{:};
         end
+        
         if sum(info.peaks_raw_set) >= 1 || sum(info.peaks_mag_set) >= 1
             [tdms_data(i).peaks_mag_set]   = set_peaks{:};
         end

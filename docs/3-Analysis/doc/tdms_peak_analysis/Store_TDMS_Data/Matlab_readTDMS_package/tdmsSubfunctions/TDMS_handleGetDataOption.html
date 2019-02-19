@@ -1,0 +1,477 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of TDMS_handleGetDataOption</title>
+  <meta name="keywords" content="TDMS_handleGetDataOption">
+  <meta name="description" content="TDMS_handleGetDataOption  Processes input options">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- ../../../menu.html tdms_peak_analysis --><!-- ../../menu.html Store_TDMS_Data --><!-- ../menu.html Matlab_readTDMS_package --><!-- menu.html tdmsSubfunctions -->
+<h1>TDMS_handleGetDataOption
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>TDMS_handleGetDataOption  Processes input options</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>function varargout = TDMS_handleGetDataOption(mode,optionsIn,metaStruct) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">TDMS_handleGetDataOption  Processes input options 
+
+   Shouldn't be called directly by user
+
+   This function does some initial verfication on the types of inputs
+   that have been passed in.  The second call generates instructions
+   on how to read the file, given the meta data.
+
+   INITIAL CALL:
+   TDMS_handleGetDataOption('check',optionsIn)
+
+   SECOND CALL:
+   optionStruct = TDMS_handleGetDataOption('getArray',optionsIn,metaStruct)
+
+   See Also:
+       <a href="TDMS_retrievingSubsets.html" class="code" title="function TDMS_retrievingSubsets">TDMS_retrievingSubsets</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+<li><a href="TDMS_getDataSize.html" class="code" title="function dataSize = TDMS_getDataSize(dataType)">TDMS_getDataSize</a>	TDMS_getDataSize  Returns data size in bytes</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+<li><a href="../../../../tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/TDMS_readTDMSFile.html" class="code" title="function [finalOutput,metaStruct] = TDMS_readTDMSFile(tdmsFileName,varargin)">TDMS_readTDMSFile</a>	TDMS_readTDMSFile  Reads TDMS file and does minimal processing to obtain output</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function varargout = TDMS_handleGetDataOption(mode,optionsIn,metaStruct)</a>
+0002 <span class="comment">%TDMS_handleGetDataOption  Processes input options</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   Shouldn't be called directly by user</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">%   This function does some initial verfication on the types of inputs</span>
+0007 <span class="comment">%   that have been passed in.  The second call generates instructions</span>
+0008 <span class="comment">%   on how to read the file, given the meta data.</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">%   INITIAL CALL:</span>
+0011 <span class="comment">%   TDMS_handleGetDataOption('check',optionsIn)</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">%   SECOND CALL:</span>
+0014 <span class="comment">%   optionStruct = TDMS_handleGetDataOption('getArray',optionsIn,metaStruct)</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%   See Also:</span>
+0017 <span class="comment">%       TDMS_retrievingSubsets</span>
+0018 
+0019 GET_DATA_OPTION  = optionsIn.GET_DATA_OPTION;
+0020 OBJECTS_GET      = optionsIn.OBJECTS_GET;
+0021 OBJECTS_IGNORE   = optionsIn.OBJECTS_IGNORE;
+0022 SUBSET_GET       = optionsIn.SUBSET_GET;
+0023 GET_INDICES      = optionsIn.GET_INDICES;
+0024 SUBSET_IS_LENGTH = optionsIn.SUBSET_IS_LENGTH;
+0025 
+0026 <span class="keyword">if</span> strcmp(mode,<span class="string">'check'</span>)
+0027     
+0028     <span class="comment">%KEEP DATA ARRAY HANDLING</span>
+0029     <span class="comment">%================================================</span>
+0030     <span class="keyword">switch</span> lower(GET_DATA_OPTION)
+0031         <span class="keyword">case</span> {<span class="string">'getall'</span> <span class="string">'getnone'</span>}
+0032             <span class="keyword">if</span> ~isempty(OBJECTS_GET) || ~isempty(OBJECTS_IGNORE)
+0033                 error(<span class="string">'For GET_DATA_OPTION: %s, neither OBJECTS_GET or OBJECTS_IGNORE should be specified'</span>,GET_DATA_OPTION)
+0034             <span class="keyword">end</span>
+0035         <span class="keyword">case</span> <span class="string">'getsubset'</span>
+0036             <span class="keyword">if</span> isempty(OBJECTS_GET) || ~isempty(OBJECTS_IGNORE)
+0037                 error(<span class="string">'For GET_DATA_OPTION: %s, OBJECTS_GET should be specified, OBJECTS_IGNORE should not'</span>,GET_DATA_OPTION)
+0038             <span class="keyword">end</span>
+0039             <span class="keyword">if</span> length(OBJECTS_GET) ~= 1
+0040                 error(<span class="string">'For GET_DATA_OPTION: %s, OBJECTS_GET should have length 1, might be missing {} in struct initialization'</span>,GET_DATA_OPTION)
+0041             <span class="keyword">end</span>
+0042             <span class="keyword">if</span> ~isfield(OBJECTS_GET,<span class="string">'fullPathsKeep'</span>) &amp;&amp; ~isfield(OBJECTS_GET,<span class="string">'groupsKeep'</span>)
+0043                 error(<span class="string">'OBJECTS_GET must have fields fullPathsKeep and/or groupsKeep'</span>)
+0044             <span class="keyword">end</span>
+0045             
+0046         <span class="keyword">case</span> <span class="string">'ignoresubset'</span>
+0047             <span class="keyword">if</span> ~isempty(OBJECTS_GET) || isempty(OBJECTS_IGNORE)
+0048                 error(<span class="string">'For GET_DATA_OPTION: %s, OBJECTS_GET should be specified, OBJECTS_IGNORE should not'</span>,GET_DATA_OPTION)
+0049             <span class="keyword">end</span>
+0050             <span class="keyword">if</span> length(OBJECTS_IGNORE) ~= 1
+0051                 error(<span class="string">'For GET_DATA_OPTION: %s, OBJECTS_IGNORE should have length 1, might be missing {} in struct initialization'</span>,GET_DATA_OPTION)
+0052             <span class="keyword">end</span>
+0053             <span class="keyword">if</span> ~isfield(OBJECTS_IGNORE,<span class="string">'fullPathsIgnore'</span>) &amp;&amp; ~isfield(OBJECTS_IGNORE,<span class="string">'groupsIgnore'</span>)
+0054                 error(<span class="string">'OBJECTS_GET must have fields fullPathsIgnore and/or groupsIgnore'</span>)
+0055             <span class="keyword">end</span>
+0056         <span class="keyword">otherwise</span>
+0057             error(<span class="string">'Unrecognized GET_DATA_OPTION'</span>)
+0058     <span class="keyword">end</span>
+0059     
+0060     <span class="comment">%SUBSET RULE HANDLING</span>
+0061     <span class="comment">%================================================</span>
+0062     <span class="keyword">if</span> ~isempty(SUBSET_GET)
+0063         <span class="keyword">if</span> length(SUBSET_GET) ~= 2
+0064             error([<span class="string">'SUBSET_GET is an array with columns'</span> <span class="keyword">...</span>
+0065                 <span class="string">' [startIndex Length], # columns observed: %d'</span>],size(SUBSET_GET,2))
+0066         <span class="keyword">end</span>
+0067         <span class="keyword">if</span> SUBSET_GET(1) &lt; 1
+0068             error(<span class="string">'The first input to SUBSET_GET should be 1 or higher'</span>)
+0069         <span class="keyword">end</span>
+0070         <span class="keyword">if</span> SUBSET_GET(2) &lt; 1
+0071             error(<span class="string">'The second input to SUBSET_GET should be 1 or higher'</span>)
+0072         <span class="keyword">end</span>
+0073         <span class="keyword">if</span> strcmpi(<span class="string">'getnone'</span>,GET_DATA_OPTION)
+0074             error(<span class="string">'The SUBSET_GET input option shouldn''t be used in conjunction with GET_DATA_OPTION of getNone'</span>)
+0075         <span class="keyword">end</span>
+0076         
+0077         <span class="comment">%Could add additional check on 2 vs 1 if SUBSET_IS_LENGTH is false</span>
+0078     <span class="keyword">end</span>
+0079     
+0080     <span class="comment">%GET INDICES</span>
+0081     <span class="comment">%==================================================</span>
+0082     <span class="keyword">if</span> ~isempty(GET_INDICES)
+0083         <span class="keyword">if</span> ~strcmpi(<span class="string">'getall'</span>,GET_DATA_OPTION)
+0084             error(<span class="string">'The GET_DATA_OPTION isn''t used with GET_INDICES, and should be left as getAll'</span>)
+0085         <span class="keyword">end</span> 
+0086         <span class="keyword">if</span> ~isstruct(GET_INDICES) || ~isfield(GET_INDICES,<span class="string">'group'</span>) || <span class="keyword">...</span>
+0087                 ~isfield(GET_INDICES,<span class="string">'channel'</span>) || ~isfield(GET_INDICES,<span class="string">'indices'</span>)
+0088            error([<span class="string">'GET_INDICES must be a structure that defines the following fields: '</span> <span class="keyword">...</span>
+0089                <span class="string">'group, channel, &amp; indices'</span>])
+0090         <span class="keyword">end</span>
+0091         <span class="keyword">if</span> ~isempty(SUBSET_GET)
+0092             error(<span class="string">'SUBSET_GET shouldn''t be defined when GET_INDICES is used'</span>)
+0093         <span class="keyword">end</span>
+0094         <span class="comment">%skipping for now, index checking ...</span>
+0095     <span class="keyword">end</span>
+0096     
+0097 <span class="keyword">else</span>
+0098     
+0099     <span class="comment">%metaStruct unpacking</span>
+0100     <span class="comment">%-----------------------------------------</span>
+0101     objectPaths = metaStruct.objectNameList; 
+0102     groupNames  = metaStruct.groupNames;
+0103     rawDataInfo = metaStruct.rawDataInfo; <span class="comment">%Information on a per object basis</span>
+0104     segInfo     = metaStruct.segInfo; <span class="comment">%Information on a per segment basis</span>
+0105     
+0106     numObjects = length(objectPaths);
+0107     <span class="comment">%KEEP DATA ARRAY HANDLING</span>
+0108     <span class="comment">%======================================================================</span>
+0109     <span class="comment">%NOTE: This variable is ultimately ignored if GET_INDICES is specified</span>
+0110     <span class="keyword">switch</span> lower(GET_DATA_OPTION)
+0111         <span class="keyword">case</span> <span class="string">'getall'</span>;
+0112             keepDataArray = true(1,numObjects);
+0113         <span class="keyword">case</span> <span class="string">'getsubset'</span>
+0114             <span class="keyword">if</span> ~isfield(OBJECTS_GET,<span class="string">'fullPathsKeep'</span>)
+0115                 OBJECTS_GET.fullPathsKeep = {};
+0116             <span class="keyword">end</span>
+0117             <span class="keyword">if</span> ~isfield(OBJECTS_GET,<span class="string">'groupsKeep'</span>)
+0118                 OBJECTS_GET.groupsKeep = {};
+0119             <span class="keyword">end</span>
+0120             keepDataArray = ismember(objectPaths,OBJECTS_GET.fullPathsKeep) | <span class="keyword">...</span>
+0121                 ismember(groupNames,OBJECTS_GET.groupsKeep);
+0122         <span class="keyword">case</span> <span class="string">'ignoresubset'</span>
+0123             <span class="keyword">if</span> ~isfield(OBJECTS_IGNORE,<span class="string">'fullPathsIgnore'</span>)
+0124                 OBJECTS_IGNORE.fullPathsIgnore = {};
+0125             <span class="keyword">end</span>
+0126             <span class="keyword">if</span> ~isfield(OBJECTS_IGNORE,<span class="string">'groupsIgnore'</span>)
+0127                 OBJECTS_IGNORE.groupsIgnore = {};
+0128             <span class="keyword">end</span>
+0129             keepDataArray = ~(ismember(objectPaths,OBJECTS_IGNORE.fullPathsIgnore) | <span class="keyword">...</span>
+0130                 ismember(groupNames,OBJECTS_IGNORE.groupsIgnore));
+0131         <span class="keyword">case</span> <span class="string">'getnone'</span>
+0132             keepDataArray = false(1,numObjects);
+0133     <span class="keyword">end</span>
+0134     <span class="comment">%Result, keepDataArray specifies whether or not to keep the data</span>
+0135     <span class="comment">%for each object</span>
+0136    
+0137     <span class="comment">%SUBSET HANDLING</span>
+0138     <span class="comment">%======================================================================</span>
+0139     <span class="keyword">if</span> isempty(SUBSET_GET) &amp;&amp; isempty(GET_INDICES)
+0140         useSubset  = false;
+0141         subsetInfo = struct([]);
+0142         numValuesToGetActual = metaStruct.numberDataPoints;
+0143         numValuesToGetActual(~keepDataArray) = 0;
+0144     <span class="keyword">else</span>
+0145         useSubset = true;
+0146         
+0147         <span class="comment">%In this section we create the indexStruct structure array.</span>
+0148         <span class="comment">%The Length of indexStruct is equal to the # of raw data objects</span>
+0149         <span class="comment">%we'll retrieve raw data from</span>
+0150         <span class="comment">%------------------------------------------------------------------</span>
+0151         <span class="comment">%.id      - which object in the file the entry refers to</span>
+0152         <span class="comment">%.indices - [startIndex stopIndex]  OR [startIndex GrabLength]</span>
+0153         <span class="comment">%   indices may have multiple rows, corresponding to multiple subsets</span>
+0154         <span class="keyword">if</span> ~isempty(SUBSET_GET)
+0155             <span class="comment">%Here we keep objects based on keepDataArray</span>
+0156             objectsUse = find((metaStruct.numberDataPoints &gt; 0 &amp; keepDataArray));
+0157             indexStruct = struct(<span class="string">'id'</span>,num2cell(objectsUse),<span class="string">'indices'</span>,[SUBSET_GET(1) SUBSET_GET(2)]);
+0158         <span class="keyword">else</span>
+0159             <span class="comment">%-&gt; path format -&gt; /'group'/'channel'</span>
+0160             <span class="comment">%this variable with contain the full paths of the objects</span>
+0161             <span class="comment">%to retrieve</span>
+0162             objPaths_getIndex = arrayfun(@(x) [<span class="string">'/'''</span> x.group <span class="string">'''/'''</span> x.channel <span class="string">''''</span>],GET_INDICES,<span class="string">'UniformOutput'</span>,false);
+0163             [~,loc] = ismember(objPaths_getIndex,objectPaths);
+0164             <span class="keyword">if</span> any(loc == 0)
+0165                 disp(<span class="string">'Bad Paths:'</span>)
+0166                 disp(objPaths_getIndex(loc == 0)')
+0167                 error(<span class="string">'Invalid group &amp; channel specifications found'</span>)
+0168             <span class="keyword">end</span>
+0169             <span class="comment">%NOTE: we copy indexStruct from the GET_INDICES structure</span>
+0170             <span class="comment">%thus we've copied the .indices field, still need to define</span>
+0171             <span class="comment">%the id field</span>
+0172             indexStruct = GET_INDICES;
+0173             ids = num2cell(loc);
+0174             [indexStruct.id] = deal(ids{:});
+0175         <span class="keyword">end</span>
+0176         
+0177         <span class="comment">%OUTPUT THUS FAR:</span>
+0178         <span class="comment">%-------------------------------------</span>
+0179         <span class="comment">%indexStruct</span>
+0180         <span class="comment">%   .id      -&gt; index of an object to retrieve raw data from</span>
+0181         <span class="comment">%   .indices -&gt; start and (stop OR length) of indices (samples) to retrieve</span>
+0182         
+0183         <span class="comment">%Interleaved data check</span>
+0184         <span class="comment">%-----------------------------------------------------------------</span>
+0185         isInterleavedSegment = find(logical([segInfo(:).isInterleaved]));
+0186         <span class="keyword">if</span> ~isempty(isInterleavedSegment)
+0187             <span class="keyword">if</span> any(ismember(unique([segInfo(isInterleavedSegment).objOrder]),[indexStruct.id]))
+0188                 error([<span class="string">'Some channel objects that have subsets of data requested'</span> <span class="keyword">...</span>
+0189                     <span class="string">' are interleaved, this is currently not supported'</span>])
+0190             <span class="keyword">end</span>
+0191         <span class="keyword">end</span>
+0192         
+0193         <span class="comment">%GETTING READ/SEEK INSTRUCTIONS</span>
+0194         <span class="comment">%==================================================================</span>
+0195         <span class="comment">%To read subsets of data we are going to form read/seek</span>
+0196         <span class="comment">%instructions.  The quickest way of reading subsets of data from a</span>
+0197         <span class="comment">%channel or multiple channels is to read what is needed, seek to</span>
+0198         <span class="comment">%the next point of needed data, and to read some more.  This next</span>
+0199         <span class="comment">%part of code forms these read/seek instructions.  First</span>
+0200         <span class="comment">%instructions are generated for each channel, then all of these</span>
+0201         <span class="comment">%instructions are interleaved so that we don't need to backtrack.</span>
+0202         <span class="comment">%For each read, we specify which channel that particular</span>
+0203         <span class="comment">%read belongs to.</span>
+0204         
+0205         <span class="comment">%This will occur in four steps</span>
+0206         <span class="comment">%1) For each object, reduce subset instructions to clean</span>
+0207         <span class="comment">%   start and stop indices -&gt; yLin variable</span>
+0208         <span class="comment">%2) Determining which chunk #s contain the start sample and end</span>
+0209         <span class="comment">%   sample for each stretch of indices -&gt; bin2d</span>
+0210         <span class="comment">%3) For each chunk that is going to be read, specify where to</span>
+0211         <span class="comment">%   start, how much to read, and which chunk it is that we are going</span>
+0212         <span class="comment">%   to read</span>
+0213         <span class="comment">%4) Take these instructions and relate them back to the file</span>
+0214         <span class="comment">%Finally, once we have done this for all objects we will sort the</span>
+0215         <span class="comment">%reads based on the start read position in the file</span>
+0216         
+0217         numValuesToGetActual = zeros(1,length(metaStruct.numberDataPoints));
+0218         subsetInfo           = cell(1,length(indexStruct));
+0219         <span class="keyword">for</span> iObject = 1:length(indexStruct)
+0220             
+0221             curEntry = indexStruct(iObject);
+0222             curRaw   = rawDataInfo(curEntry.id);
+0223             
+0224             <span class="comment">%STEP 1)</span>
+0225             <span class="comment">%==============================================================</span>
+0226             <span class="comment">%Setup of x &amp; y</span>
+0227             <span class="comment">%--------------------------------------------------------------</span>
+0228             <span class="comment">%- x represents the 1st sample of each &quot;chunk&quot;</span>
+0229             <span class="comment">%     i.e. which sample of that channel is represented</span>
+0230             <span class="comment">%     by that chunk</span>
+0231             <span class="comment">%- y are the subsets of the data we are going to grab</span>
+0232             <span class="comment">%- x is the size of the # of chunks that contain that object</span>
+0233             <span class="comment">%- y is user input specified</span>
+0234             <span class="comment">%- see TDMS_preprocessFile towards end for dataMatrix definition</span>
+0235             <span class="comment">%- chunkIndex represents the last valid chunk, since the # of</span>
+0236             <span class="comment">%  rows will be lareger due to preallocation</span>
+0237             nChunksCurObject = curRaw.chunkIndex;
+0238             x = curRaw.dataMatrix(1:nChunksCurObject,2); 
+0239             y = curEntry.indices;
+0240             
+0241             <span class="comment">%NOTE: After this point, y(:,2) is now an index</span>
+0242             <span class="comment">%regardless of user input intention, this flag calculates index</span>
+0243             <span class="comment">%in case the user wants the 2nd input to represent length</span>
+0244             <span class="keyword">if</span> SUBSET_IS_LENGTH
+0245                 y(:,2) = y(:,1) + y(:,2) - 1;
+0246             <span class="keyword">end</span>
+0247             
+0248             <span class="comment">%This little bit of code reduces artificial breaks</span>
+0249             <span class="comment">%that the user may have introduced</span>
+0250             <span class="comment">%--------------------------------------------------------------</span>
+0251             <span class="keyword">if</span> size(y,1) &gt; 1
+0252                 <span class="comment">%Example of y:</span>
+0253                 <span class="comment">%[5 10;</span>
+0254                 <span class="comment">%10 15;</span>
+0255                 <span class="comment">%15 20</span>
+0256                 <span class="comment">%25 30];</span>
+0257                 <span class="comment">%</span>
+0258                 <span class="comment">%Should result in:</span>
+0259                 <span class="comment">%[5 20;</span>
+0260                 <span class="comment">%25 30];</span>
+0261                 I_fix = find(y(2:<span class="keyword">end</span>,1) == y(1:end-1,2));
+0262                 <span class="keyword">if</span> ~isempty(I_fix)
+0263                     <span class="comment">%Run in reverse to allow multiple merges</span>
+0264                     <span class="comment">%Like the example of 5 to 20 above from</span>
+0265                     <span class="comment">%5 to 10, 10 to 15, 15 to 20</span>
+0266                     I_fix = I_fix(:)';
+0267                     <span class="keyword">for</span> iMerge = I_fix(end:-1:1)
+0268                         y(iMerge,2) = y(iMerge+1,2);
+0269                         y(iMerge+1,:) = [];
+0270                     <span class="keyword">end</span>
+0271                 <span class="keyword">end</span>
+0272             <span class="keyword">end</span>
+0273             
+0274             nRows = size(y,1);
+0275             yLin  = y';
+0276             yLin  = yLin(:);
+0277             <span class="comment">%Now: yLin(1) = start index 1,</span>
+0278             <span class="comment">%     yLin(2) = end index 1</span>
+0279             <span class="comment">%     yLin(3) = start index 2,</span>
+0280             <span class="comment">%     yLin(4) = end index 2, etc</span>
+0281             
+0282             
+0283             <span class="comment">%ERROR CHECKING</span>
+0284             <span class="comment">%-------------------------------------------------------------</span>
+0285             <span class="keyword">if</span> ~issorted(yLin)
+0286                 error(<span class="string">'index inputs for GET_INDICES should be sorted'</span>)
+0287                 <span class="comment">%NOTE: for SUBSET_GET this shouldn't be an issue</span>
+0288                 <span class="comment">%due to the way that the request is passed in</span>
+0289             <span class="keyword">end</span>
+0290             
+0291             <span class="keyword">if</span> yLin(1) &lt; 1 || yLin(end) &gt; metaStruct.numberDataPoints(curEntry.id)
+0292                 fprintf(<span class="string">'ERROR FOR: %s\n'</span>,objectPaths{curEntry.id})
+0293                 error(<span class="string">'indices requested are out of range for current object'</span>)
+0294             <span class="keyword">end</span>
+0295             
+0296             <span class="comment">%STEP 2</span>
+0297             <span class="comment">%==============================================================</span>
+0298             <span class="comment">%Calculation of bin2d, nGrabs, and nChunksPerRow</span>
+0299             <span class="comment">%--------------------------------------------------------------</span>
+0300             <span class="comment">%NOTE: We add 0.5 so that histc will include an element, as</span>
+0301             <span class="comment">%histc normally does a check for  EDGES(k) &lt;= X(i) &lt; EDGES(k+1)</span>
+0302             <span class="comment">%NOT,  EDGES(k) &lt;= X(i) &lt;= EDGES(k+1)</span>
+0303             yLin(2:2:end) = yLin(2:2:end) + 0.5;
+0304             [~,bin]       = histc(yLin,x);
+0305             <span class="comment">%bin, represents which chunks of data each .indices value</span>
+0306             <span class="comment">%belongs to, both for the start (column 1, and the finish</span>
+0307             <span class="comment">%column 2), If these two values are not the same, then the</span>
+0308             <span class="comment">%subset of data requested in .indices for a particular row</span>
+0309             <span class="comment">%spans multiple data chunks in the file</span>
+0310             bin2d = reshape(bin(:),[2 nRows])';
+0311             <span class="comment">%bin2d</span>
+0312             <span class="comment">%   - column 1, index of which chunk has the first data</span>
+0313             <span class="comment">%     point for each row in indices</span>
+0314             <span class="comment">%   - column 2, index of which chunk has the last data</span>
+0315             <span class="comment">%     point for each row in indices</span>
+0316             
+0317             nChunksPerRow = (bin2d(:,2) - bin2d(:,1)) + 1; 
+0318             nGrabs        = sum(nChunksPerRow); 
+0319             <span class="comment">%NOTE: nGrabs represents the # of reads to perform</span>
+0320 
+0321             <span class="comment">%STEP 3</span>
+0322             <span class="comment">%==============================================================</span>
+0323             <span class="comment">%Parsing read instructions -&gt; start, length, which chunk</span>
+0324             <span class="comment">%--------------------------------------------------------------</span>
+0325             giChunkNumbers   = zeros(nGrabs,1);  <span class="comment">%gi -&gt; grab info</span>
+0326             giNumSamplesRead = zeros(nGrabs,1);
+0327             giSampleNumber   = zeros(nGrabs,1);
+0328                         
+0329             curIndex = 0;
+0330             <span class="keyword">for</span> iSet = 1:nRows 
+0331                 <span class="keyword">if</span> nChunksPerRow(iSet) == 1 
+0332                     <span class="comment">%- first and last sample from indices are in the same chunk</span>
+0333                     <span class="comment">%- only grab data from 1 chunk</span>
+0334                     curIndex = curIndex + 1;
+0335                     giChunkNumbers(curIndex)   = bin2d(iSet,1);
+0336                     giNumSamplesRead(curIndex) = y(iSet,2) - y(iSet,1) + 1;
+0337                     giSampleNumber(curIndex)   = y(iSet,1);
+0338                 <span class="keyword">else</span>
+0339                     curBin    = bin2d(iSet,1);
+0340                     startSamp = y(iSet,1);
+0341                     lastSamp  = x(curBin+1) - 1;
+0342                     
+0343                     <span class="comment">%Notes:</span>
+0344                     <span class="comment">%- we only go up to the last chunk to grab (hence the -1)</span>
+0345                     <span class="comment">%- all grab lengths are referenced to the end of the chunk</span>
+0346                     <span class="keyword">for</span> iD = 1:nChunksPerRow(iSet)-1
+0347                         curIndex = curIndex + 1;
+0348                         giChunkNumbers(curIndex)   = curBin;
+0349                         giNumSamplesRead(curIndex) = lastSamp - startSamp + 1;
+0350                         giSampleNumber(curIndex)   = startSamp;
+0351                         
+0352                         startSamp = lastSamp + 1;
+0353                         curBin    = curBin + 1;
+0354                         lastSamp  = x(curBin+1) - 1;
+0355                     <span class="keyword">end</span>
+0356                     <span class="comment">%- the last one is referenced to the last sample to grab</span>
+0357                     curIndex = curIndex + 1;
+0358                     giChunkNumbers(curIndex,1) = curBin;
+0359                     giNumSamplesRead(curIndex) = y(iSet,2) - startSamp + 1;
+0360                     giSampleNumber(curIndex)   = startSamp;
+0361                 <span class="keyword">end</span>
+0362             <span class="keyword">end</span>
+0363             
+0364             <span class="comment">%STEP 4</span>
+0365             <span class="comment">%==============================================================</span>
+0366             <span class="comment">%COLUMN DEFINITIONS</span>
+0367             <span class="comment">%==================</span>
+0368             <span class="comment">%1) positon to start read, unless a string, then this points</span>
+0369             <span class="comment">%   to the start of the chunk, where we get instructions</span>
+0370             <span class="comment">%   on how long each string is</span>
+0371             <span class="comment">%2) # of samples to grab in that chunk (i.e. read length)</span>
+0372             <span class="comment">%3) index of first read sample, relative to chunk start</span>
+0373             <span class="comment">%   this is needed for strings :/</span>
+0374             <span class="comment">%4) channelID, index of channel for later use in data saving</span>
+0375             <span class="comment">%5) seg #, which segment the chunk belongs to, only used</span>
+0376             <span class="comment">%   for strings :/</span>
+0377             
+0378             grabInfo = zeros(nGrabs,5);
+0379             nSampsAboveStart = giSampleNumber - x(giChunkNumbers);
+0380             fileStartPos     = curRaw.dataMatrix(1:nChunksCurObject,1);
+0381             <span class="keyword">if</span> curRaw.dataType == 32
+0382                 grabInfo(:,1) = fileStartPos(giChunkNumbers);
+0383             <span class="keyword">else</span>
+0384                 grabInfo(:,1) = fileStartPos(giChunkNumbers) + nSampsAboveStart.*<a href="TDMS_getDataSize.html" class="code" title="function dataSize = TDMS_getDataSize(dataType)">TDMS_getDataSize</a>(curRaw.dataType);
+0385             <span class="keyword">end</span>
+0386             
+0387             grabInfo(:,2) = giNumSamplesRead;
+0388             grabInfo(:,3) = nSampsAboveStart + 1;
+0389             grabInfo(:,4) = curEntry.id; <span class="comment">%This will be needed with multiple objects</span>
+0390             
+0391             segNumbers       = curRaw.dataMatrix(1:nChunksCurObject,3);
+0392             grabInfo(:,5)    = segNumbers(giChunkNumbers); <span class="comment">%needed for strings :/</span>
+0393             
+0394             <span class="comment">%Put temporarily into a cell array</span>
+0395             subsetInfo{iObject} = grabInfo;
+0396             
+0397             <span class="comment">%This gets used in data initialization &amp; error checking</span>
+0398             numValuesToGetActual(curEntry.id) = sum(giNumSamplesRead);
+0399         <span class="keyword">end</span> <span class="comment">%END OF LOOP OVER EACH OBJECT</span>
+0400         <span class="comment">%==================================================================</span>
+0401         
+0402         
+0403         <span class="keyword">if</span> length(indexStruct) == 1
+0404             subsetInfo = grabInfo;
+0405         <span class="keyword">else</span>
+0406             subsetInfo = cat(1,subsetInfo{:});
+0407             <span class="comment">%Resort rows by read order, so that we minimize the distance of fseeks</span>
+0408             [~,I] = sort(subsetInfo(:,1));
+0409             subsetInfo = subsetInfo(I,:);
+0410         <span class="keyword">end</span>
+0411     <span class="keyword">end</span>
+0412     
+0413     optionStruct = struct(<span class="string">'keepDataArray'</span>,keepDataArray,<span class="string">'useSubset'</span>,useSubset,<span class="keyword">...</span>
+0414         <span class="string">'subsetInfo'</span>,subsetInfo,<span class="string">'numValuesToGetActual'</span>,numValuesToGetActual);
+0415     varargout{1} = optionStruct;
+0416 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 19-Aug-2018 19:01:02 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

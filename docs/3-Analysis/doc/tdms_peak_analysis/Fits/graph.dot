@@ -1,0 +1,11 @@
+/* Created by mdot for Matlab */
+digraph m2html {
+  Lorentz_Fit_File -> Lorentz_Fit;
+  Lorentz_Fit_File -> Lorentz_Fit_Get_Guess;
+  Lorentz_Fit_File -> Lorentz_Fit_Get_Window;
+
+  Lorentz_Fit [URL="Lorentz_Fit.html"];
+  Lorentz_Fit_File [URL="Lorentz_Fit_File.html"];
+  Lorentz_Fit_Get_Guess [URL="Lorentz_Fit_Get_Guess.html"];
+  Lorentz_Fit_Get_Window [URL="Lorentz_Fit_Get_Window.html"];
+}

@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Andrew_main</title>
+  <meta name="keywords" content="Andrew_main">
+  <meta name="description" content="% Load TMDS">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- menu.html tdms_peak_analysis -->
+<h1>Andrew_main
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>% Load TMDS</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre class="comment">% Load TMDS</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../matlabicon.gif)">
+<li><a href="../tdms_peak_analysis/Data_Manipulation/Plot_Data_Manipulation/Detrend.html" class="code" title="function processed_data = Detrend(data)">Detrend</a>	removes the linear trend in the data</li><li><a href="../tdms_peak_analysis/Data_Manipulation/Plot_Data_Manipulation/Smooth.html" class="code" title="function smoothed = Smooth(data)">Smooth</a>	Smooth data using a gaussian weighted moving average of width 25.</li><li><a href="../tdms_peak_analysis/Fits/Lorentz_Fit_File.html" class="code" title="function cell_peak_data = Lorentz_Fit_File(cell_x_cor_all, cell_real_cor_all, cell_imag_cor_all, cell_peak_data, cell_fit_options, given_bool)">Lorentz_Fit_File</a>	Lorentz_ Fit_File.m Fits a complex lorentzian function to all of the peaks</li><li><a href="../tdms_peak_analysis/Store_TDMS_Data/TDMS_Load.html" class="code" title="function tdms_data=TDMS_Load(path_to_files)">TDMS_Load</a>	1. Reads directory (path_to_files) for filenames and</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%% Load TMDS</span>
+0002 file1 = <span class="string">'C:\Users\Cepheid\Documents\GitHub\rus-probe\docs\2-Files_To_Analyze\31 May 18 TaV2\'</span>;
+0003 file2 = <span class="string">'C:\Users\Cepheid\Documents\GitHub\rus-probe\docs\2-Files_To_Analyze\CoNb2O6 061218\'</span>;
+0004 file3 = <span class="string">'C:\Users\Cepheid\Documents\GitHub\rus-probe\docs\2-Files_To_Analyze\More CoNb2O6\'</span>;
+0005 file4 = <span class="string">'C:\Users\Cepheid\Documents\GitHub\rus-probe\docs\2-Files_To_Analyze\Cobalt_ACaxis_500-4000_repeating\'</span>;
+0006 
+0007 tdms_data = <a href="../tdms_peak_analysis/Store_TDMS_Data/TDMS_Load.html" class="code" title="function tdms_data=TDMS_Load(path_to_files)">TDMS_Load</a>(file2);
+0008 
+0009 <span class="comment">%% Clean up data</span>
+0010 <span class="keyword">for</span> i = 1:length(tdms_data)
+0011     <span class="comment">% Uses weighted gaussian moving average to smooth noisy data</span>
+0012     smoothed_x = <a href="../tdms_peak_analysis/Data_Manipulation/Plot_Data_Manipulation/Smooth.html" class="code" title="function smoothed = Smooth(data)">Smooth</a>(tdms_data(i).signal_x);
+0013     smoothed_y = <a href="../tdms_peak_analysis/Data_Manipulation/Plot_Data_Manipulation/Smooth.html" class="code" title="function smoothed = Smooth(data)">Smooth</a>(tdms_data(i).signal_y);
+0014     <span class="comment">% Removes linear trends in data</span>
+0015     tdms_data(i).cleaned_x = <a href="../tdms_peak_analysis/Data_Manipulation/Plot_Data_Manipulation/Detrend.html" class="code" title="function processed_data = Detrend(data)">Detrend</a>(smoothed_x);
+0016     tdms_data(i).cleaned_y = <a href="../tdms_peak_analysis/Data_Manipulation/Plot_Data_Manipulation/Detrend.html" class="code" title="function processed_data = Detrend(data)">Detrend</a>(smoothed_y);
+0017 <span class="keyword">end</span>
+0018 clear smoothed_x; clear smoothed_y;
+0019 
+0020 <span class="comment">%% Fitting stuff</span>
+0021 peak_width = 0.01*10^6;
+0022 perform_fit = true;
+0023 
+0024 <span class="keyword">if</span> perform_fit == true
+0025     
+0026     peaks = &quot;mag_given_peaks&quot;;
+0027     <span class="comment">%peaks = &quot;mag_set_peaks&quot;;</span>
+0028     <span class="comment">%peaks = &quot;mag_given_peaks&quot;;</span>
+0029 
+0030     <span class="comment">% PERFORM: fit</span>
+0031     fit_data = <a href="../tdms_peak_analysis/Fits/Lorentz_Fit_File.html" class="code" title="function cell_peak_data = Lorentz_Fit_File(cell_x_cor_all, cell_real_cor_all, cell_imag_cor_all, cell_peak_data, cell_fit_options, given_bool)">Lorentz_Fit_File</a>(           <span class="keyword">...</span>
+0032                     {tdms_data.frequency}, <span class="keyword">...</span>
+0033                     {tdms_data.cleaned_x},  <span class="keyword">...</span>
+0034                     {tdms_data.cleaned_y},  <span class="keyword">...</span>
+0035                     {tdms_data.(peaks)},   <span class="keyword">...</span>
+0036                     peak_width);
+0037 
+0038     <span class="comment">% SET: fit_data</span>
+0039     <span class="keyword">for</span> i = 1:length(fit_data)
+0040         <span class="keyword">for</span> j = 1:length(tdms_data(i).(peaks))
+0041             [tdms_data(i).(peaks)(j).fit] = fit_data{i}(j);
+0042         <span class="keyword">end</span>
+0043     <span class="keyword">end</span>
+0044 
+0045     disp(&quot;Finished: Performing Fit&quot;)
+0046     clear peaks perform_fit 
+0047     
+0048 <span class="keyword">end</span>
+0049 
+0050 <span class="comment">%% Plot peaks</span>
+0051 hold on;
+0052 
+0053 <span class="keyword">for</span> num = 1:5:41
+0054     x = tdms_data(num).signal_x;
+0055     y = tdms_data(num).signal_y;
+0056     amp = sqrt(x.^2 + y.^2);
+0057     freq = tdms_data(num).frequency./1000;
+0058 
+0059     plot(freq, amp)
+0060 
+0061     name = tdms_data(num).file_name(14:length(tdms_data(num).file_name)-5);
+0062     l = legend(name);
+0063     set(l,<span class="string">'Interpreter'</span>, <span class="string">'none'</span>);
+0064 <span class="keyword">end</span>
+0065 
+0066 <span class="comment">%% Convolution Testing</span>
+0067 <span class="comment">% Smooth then detrend, or detrend then smooth?</span>
+0068 <span class="keyword">for</span> i = 4
+0069     x = tdms_data(i).signal_x;
+0070     figure(i);
+0071     hold on;
+0072     
+0073     smooth_x = <a href="../tdms_peak_analysis/Data_Manipulation/Plot_Data_Manipulation/Smooth.html" class="code" title="function smoothed = Smooth(data)">Smooth</a>(x);
+0074     smooth_detrend_x = <a href="../tdms_peak_analysis/Data_Manipulation/Plot_Data_Manipulation/Detrend.html" class="code" title="function processed_data = Detrend(data)">Detrend</a>(smooth_x);
+0075     
+0076     detrend_x = <a href="../tdms_peak_analysis/Data_Manipulation/Plot_Data_Manipulation/Detrend.html" class="code" title="function processed_data = Detrend(data)">Detrend</a>(x);
+0077     detrend_smooth_x = <a href="../tdms_peak_analysis/Data_Manipulation/Plot_Data_Manipulation/Smooth.html" class="code" title="function smoothed = Smooth(data)">Smooth</a>(detrend_x);
+0078     
+0079     plot(tdms_data(i).frequency, detrend_smooth_x, <span class="string">'r-'</span>)
+0080     plot(tdms_data(i).frequency, smooth_detrend_x, <span class="string">'b-'</span>)
+0081 <span class="keyword">end</span>
+0082 
+0083</pre></div>
+<hr><address>Generated on Sun 19-Aug-2018 19:01:02 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

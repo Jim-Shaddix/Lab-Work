@@ -1,0 +1,701 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of TDMS_preprocessFile</title>
+  <meta name="keywords" content="TDMS_preprocessFile">
+  <meta name="description" content="TDMS_preprocessFile  Populates props and gets segment information">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- ../../../menu.html tdms_peak_analysis --><!-- ../../menu.html Store_TDMS_Data --><!-- ../menu.html Matlab_readTDMS_package --><!-- menu.html tdmsSubfunctions -->
+<h1>TDMS_preprocessFile
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>TDMS_preprocessFile  Populates props and gets segment information</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>function metaStruct = TDMS_preprocessFile(fid,tdmsFileName,params) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">TDMS_preprocessFile  Populates props and gets segment information
+
+   NOTE: This file shouldn't be called directly by the user
+
+   metaStruct = TDMS_preprocessFile(fid,tdmsFileName,params)
+
+   INPUTS
+   =======================================================================
+   fid          : file id of opened tdms file, may be null if INDEX_DEBUG is true
+   tdmsFileName : full path to tdms file OR tdms index file for INDEX_DEBUG
+   params       : all optional inputs from TDMS_readTDMSFile
+
+   OUTPUTS
+   =======================================================================
+   metaStruct :
+       structure with fields:
+
+   The following 3 variables are all the same length, and have one index
+   for each unique object.  Each object may be one of the following types,
+   file root, group object, or channel object.  Only channel objects may
+   have data.
+
+   rawDataInfo           : (structure array)
+           NOTE: This holds the most recent info for an object, and can be
+           changed on a per segment basis, segInfo is used to hold
+           information that is needed per segement
+
+           .lengthOfIndex    - length of raw data index (not used)
+           .dataType         - enumerated dataType (Labview)
+           .dimensionData    - currently ignored (should be 1d)
+           .numberOfValues   - # of values to read each time
+           .totalSizeBytes   - # of bytes per values
+           .numberProperties - # of properties defined for the object
+           .infoSet          - a logical on whether or not this data has
+                               been set (for error checking)
+           .propNames        - a cell array for definining property names
+           .propValues       - cell array for holding property values
+
+   numberDataPoints     : an array which specifies the # of data points for
+                          each object (used for preallocation)
+   objectNameList       : (cell array of strings) names of all objects in the
+                          TDMS file
+
+   Info for each segment ...
+
+   segInfo              : (struct array)
+           .rawPos - position of raw data for that segment
+           .kTocNewObjList - flag on whether a new channel list was
+           created or not
+           .objOrder - array specifying indices of the objects to assign
+                       data to, order specifies read order, and values
+                       are indexed
+           into the objectNameList &amp; rawDataInfo struct
+           .nRawObjects - length of objOrder
+           .nSamplesRead - array, # of samples to read for each object
+           .isInterleaved - logical, whether that segment uses interleaved
+                               data or not
+           .isBigEndian - logical
+           .nChunks     - # of times to read data using the parameters
+                           above before moving onto the next segment
+
+   See also: <a href="TDMS_processLeadIn.html" class="code" title="function [flags,info,eof_error] = TDMS_processLeadIn(fid,lastLetter)">TDMS_processLeadIn</a>, <a href="TDMS_getDataSize.html" class="code" title="function dataSize = TDMS_getDataSize(dataType)">TDMS_getDataSize</a>, <a href="TDMS_getPropValue.html" class="code" title="function propValue = TDMS_getPropValue(fid,propDataType,UTC_DIFF,DATE_STR_FORMAT)">TDMS_getPropValue</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+<li><a href="TDMS_getDataSize.html" class="code" title="function dataSize = TDMS_getDataSize(dataType)">TDMS_getDataSize</a>	TDMS_getDataSize  Returns data size in bytes</li><li><a href="TDMS_getPropValue.html" class="code" title="function propValue = TDMS_getPropValue(fid,propDataType,UTC_DIFF,DATE_STR_FORMAT)">TDMS_getPropValue</a>	TDMS_getPropValue  Returns the property value given the Labview DataType</li><li><a href="TDMS_processLeadIn.html" class="code" title="function [flags,info,eof_error] = TDMS_processLeadIn(fid,lastLetter)">TDMS_processLeadIn</a>	TDMS_processLeadIn  Reads the "Lead In" portion of the data segment</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+<li><a href="../../../../tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/TDMS_readTDMSFile.html" class="code" title="function [finalOutput,metaStruct] = TDMS_readTDMSFile(tdmsFileName,varargin)">TDMS_readTDMSFile</a>	TDMS_readTDMSFile  Reads TDMS file and does minimal processing to obtain output</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function segStruct = initSegStruct(nSegs)</a></li><li><a href="#_sub2" class="code">function rawInfoStruct = initRawInfoStruct(MAX_NUM_PROPS,MAX_NUM_OBJECTS)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function metaStruct = TDMS_preprocessFile(fid,tdmsFileName,params)</a>
+0002 <span class="comment">%TDMS_preprocessFile  Populates props and gets segment information</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   NOTE: This file shouldn't be called directly by the user</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">%   metaStruct = TDMS_preprocessFile(fid,tdmsFileName,params)</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">%   INPUTS</span>
+0009 <span class="comment">%   =======================================================================</span>
+0010 <span class="comment">%   fid          : file id of opened tdms file, may be null if INDEX_DEBUG is true</span>
+0011 <span class="comment">%   tdmsFileName : full path to tdms file OR tdms index file for INDEX_DEBUG</span>
+0012 <span class="comment">%   params       : all optional inputs from TDMS_readTDMSFile</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">%   OUTPUTS</span>
+0015 <span class="comment">%   =======================================================================</span>
+0016 <span class="comment">%   metaStruct :</span>
+0017 <span class="comment">%       structure with fields:</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">%   The following 3 variables are all the same length, and have one index</span>
+0020 <span class="comment">%   for each unique object.  Each object may be one of the following types,</span>
+0021 <span class="comment">%   file root, group object, or channel object.  Only channel objects may</span>
+0022 <span class="comment">%   have data.</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">%   rawDataInfo           : (structure array)</span>
+0025 <span class="comment">%           NOTE: This holds the most recent info for an object, and can be</span>
+0026 <span class="comment">%           changed on a per segment basis, segInfo is used to hold</span>
+0027 <span class="comment">%           information that is needed per segement</span>
+0028 <span class="comment">%</span>
+0029 <span class="comment">%           .lengthOfIndex    - length of raw data index (not used)</span>
+0030 <span class="comment">%           .dataType         - enumerated dataType (Labview)</span>
+0031 <span class="comment">%           .dimensionData    - currently ignored (should be 1d)</span>
+0032 <span class="comment">%           .numberOfValues   - # of values to read each time</span>
+0033 <span class="comment">%           .totalSizeBytes   - # of bytes per values</span>
+0034 <span class="comment">%           .numberProperties - # of properties defined for the object</span>
+0035 <span class="comment">%           .infoSet          - a logical on whether or not this data has</span>
+0036 <span class="comment">%                               been set (for error checking)</span>
+0037 <span class="comment">%           .propNames        - a cell array for definining property names</span>
+0038 <span class="comment">%           .propValues       - cell array for holding property values</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">%   numberDataPoints     : an array which specifies the # of data points for</span>
+0041 <span class="comment">%                          each object (used for preallocation)</span>
+0042 <span class="comment">%   objectNameList       : (cell array of strings) names of all objects in the</span>
+0043 <span class="comment">%                          TDMS file</span>
+0044 <span class="comment">%</span>
+0045 <span class="comment">%   Info for each segment ...</span>
+0046 <span class="comment">%</span>
+0047 <span class="comment">%   segInfo              : (struct array)</span>
+0048 <span class="comment">%           .rawPos - position of raw data for that segment</span>
+0049 <span class="comment">%           .kTocNewObjList - flag on whether a new channel list was</span>
+0050 <span class="comment">%           created or not</span>
+0051 <span class="comment">%           .objOrder - array specifying indices of the objects to assign</span>
+0052 <span class="comment">%                       data to, order specifies read order, and values</span>
+0053 <span class="comment">%                       are indexed</span>
+0054 <span class="comment">%           into the objectNameList &amp; rawDataInfo struct</span>
+0055 <span class="comment">%           .nRawObjects - length of objOrder</span>
+0056 <span class="comment">%           .nSamplesRead - array, # of samples to read for each object</span>
+0057 <span class="comment">%           .isInterleaved - logical, whether that segment uses interleaved</span>
+0058 <span class="comment">%                               data or not</span>
+0059 <span class="comment">%           .isBigEndian - logical</span>
+0060 <span class="comment">%           .nChunks     - # of times to read data using the parameters</span>
+0061 <span class="comment">%                           above before moving onto the next segment</span>
+0062 <span class="comment">%</span>
+0063 <span class="comment">%   See also: TDMS_processLeadIn, TDMS_getDataSize, TDMS_getPropValue</span>
+0064 
+0065 
+0066 <span class="comment">%PARAMETERS - passed in from TDMS_readTDMSFile</span>
+0067 <span class="comment">%==========================================================================</span>
+0068 UTC_DIFF        = params.UTC_DIFF;
+0069 MAX_NUM_OBJECTS = params.MAX_NUM_OBJECTS;
+0070 MAX_NUM_PROPS   = params.MAX_NUM_PROPS;
+0071 N_SEGS_GUESS    = params.N_SEGS_GUESS;
+0072 N_SEGS_INC      = params.N_SEGS_INC;
+0073 DEBUG           = params.DEBUG;
+0074 DATE_STR_FORMAT = params.DATE_STR_FORMAT;
+0075 UNICODE_FORMAT  = params.STRING_ENCODING;
+0076 USE_INDEX       = params.USE_INDEX;
+0077 INIT_CHUNK_SIZE = params.INIT_CHUNK_SIZE;
+0078 TDMS_INDEX_EXT  = params.TDMS_INDEX_EXT;
+0079 MACHINE_FORMAT  = params.MACHINE_FORMAT;
+0080 STRING_ENCODING = params.STRING_ENCODING;
+0081 CURRENT_VERSION = params.CURRENT_VERSION;
+0082 INDEX_DEBUG     = params.INDEX_DEBUG;
+0083 
+0084 <span class="comment">%DONT CHANGE THESE</span>
+0085 <span class="comment">%==========================================================================</span>
+0086 LEAD_IN_LENGTH = 28; <span class="comment">%# of bytes of lead in</span>
+0087 
+0088 <span class="comment">%FIGURING OUT WHICH FILE TO READ</span>
+0089 <span class="comment">%==========================================================================</span>
+0090 [tdmsPathToFile,tdmsNameOnly] = fileparts(tdmsFileName);
+0091 <span class="keyword">if</span> isempty(params.META_STRUCT)
+0092     isIndexFID = false;
+0093     <span class="keyword">if</span> USE_INDEX || INDEX_DEBUG
+0094         <span class="keyword">if</span> INDEX_DEBUG
+0095             indexFile = tdmsFileName;
+0096         <span class="keyword">else</span>
+0097             indexFile = fullfile(tdmsPathToFile,[tdmsNameOnly TDMS_INDEX_EXT]);
+0098         <span class="keyword">end</span>
+0099         <span class="keyword">if</span> exist(indexFile,<span class="string">'file'</span>)
+0100             fid = fopen(indexFile,<span class="string">'r'</span>,MACHINE_FORMAT,STRING_ENCODING);
+0101             isIndexFID = true;
+0102         <span class="keyword">else</span>
+0103             <span class="comment">%Just use the tdms file, which we have already tested to exist</span>
+0104             <span class="keyword">if</span> INDEX_DEBUG
+0105                 <span class="comment">%NOTE: With INDEX_DEBUG we explicitly passed in the index</span>
+0106                 <span class="comment">%file to read and parse (generally for debugging purposes</span>
+0107                 <span class="comment">%so if it doesn't exist, then we have a problem</span>
+0108                 error(<span class="string">'Specified tdms_index file doesn not exist'</span>)
+0109             <span class="keyword">end</span>
+0110         <span class="keyword">end</span>
+0111     <span class="keyword">end</span>
+0112 <span class="keyword">else</span>
+0113     <span class="comment">%Quits early if meta struct input is valid</span>
+0114     <span class="comment">%======================================================================</span>
+0115     metaStruct = params.META_STRUCT;
+0116     <span class="keyword">if</span> ~isstruct(metaStruct) || ~isfield(metaStruct,<span class="string">'version'</span>) || ~isfield(metaStruct,<span class="string">'fileName'</span>)
+0117         error(<span class="string">'The META_STRUCT parameter passed should be a structure with fields &quot;version&quot; and &quot;fileName&quot;'</span>)
+0118     <span class="keyword">end</span>
+0119     <span class="keyword">if</span> metaStruct.version ~= CURRENT_VERSION
+0120         error(<span class="string">'Mismatch in version creation, version of struct %d, please run with latest version: %d'</span>)
+0121     <span class="keyword">end</span>
+0122     <span class="keyword">if</span> ~strcmpi(metaStruct.fileName,tdmsNameOnly)
+0123         fprintf(<span class="string">'Filename from metaStruct: %s\n'</span>,metaStruct.fileName);
+0124         fprintf(<span class="string">'Filename from input: %s\n'</span>,tdmsNameOnly);
+0125         error(<span class="string">'Mismatch in filenames, see printout above'</span>)
+0126     <span class="keyword">end</span>
+0127     <span class="keyword">return</span>
+0128 <span class="keyword">end</span>
+0129 
+0130 <span class="keyword">if</span> isIndexFID
+0131     lastLetter = double(<span class="string">'h'</span>);  <span class="comment">%used for .tdms_index files</span>
+0132 <span class="keyword">else</span>
+0133     lastLetter = double(<span class="string">'m'</span>);  <span class="comment">%used for .tdms files</span>
+0134 <span class="keyword">end</span>
+0135 
+0136 
+0137 <span class="comment">%INITIALIZE OUTPUTS</span>
+0138 <span class="comment">%==========================================================================</span>
+0139 curNumTotalObjects  = 0; <span class="comment">%Current # of objects</span>
+0140 numberDataPoints    = zeros(1,MAX_NUM_OBJECTS);
+0141 objectNameList      = cell(1,MAX_NUM_OBJECTS);  <span class="comment">%names of all objects</span>
+0142 
+0143 rawDataInfo = <a href="#_sub2" class="code" title="subfunction rawInfoStruct = initRawInfoStruct(MAX_NUM_PROPS,MAX_NUM_OBJECTS)">initRawInfoStruct</a>(MAX_NUM_PROPS,MAX_NUM_OBJECTS);
+0144 segInfo     = <a href="#_sub1" class="code" title="subfunction segStruct = initSegStruct(nSegs)">initSegStruct</a>(N_SEGS_GUESS);
+0145 <span class="comment">%==========================================================================</span>
+0146 
+0147 <span class="comment">%TEMP VARIABLES</span>
+0148 <span class="comment">%==========================================================================</span>
+0149 objectHasRawData    = false(1,MAX_NUM_OBJECTS); <span class="comment">%This is needed for adding</span>
+0150 <span class="comment">%# of data points together</span>
+0151 ranOnce    = false;
+0152 nSegs      = 0;
+0153 
+0154 <span class="comment">%Get eof &amp; return to start</span>
+0155 fseek(fid,0,1);
+0156 eofPosition = ftell(fid);
+0157 fseek(fid,0,-1);
+0158 
+0159 <span class="comment">%START OF READING</span>
+0160 <span class="comment">%==========================================================================</span>
+0161 curPosCounter = 0; <span class="comment">%Used to keep track of where in the actual tdms file we</span>
+0162 <span class="comment">%would be at various points, this is used for parsing verification as well</span>
+0163 <span class="comment">%as assisting with more complicated reads</span>
+0164 <span class="keyword">while</span> ftell(fid) ~= eofPosition
+0165     
+0166     nSegs = nSegs + 1;
+0167     <span class="keyword">if</span> nSegs &gt; length(segInfo)
+0168         segInfo = [segInfo <a href="#_sub1" class="code" title="subfunction segStruct = initSegStruct(nSegs)">initSegStruct</a>(N_SEGS_INC)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0169     <span class="keyword">end</span>
+0170     
+0171     <span class="keyword">if</span> DEBUG
+0172         disp(<span class="string">'------  START OF DEBUG -------'</span>)
+0173         fprintf(2,<span class="string">'CURRENT SEGMENT: %d\n'</span>,nSegs);
+0174         fprintf(2,<span class="string">'Current file position: %d\n'</span>,curPosCounter);
+0175     <span class="keyword">end</span>
+0176     
+0177     <span class="comment">%LEAD IN HANDLING</span>
+0178     <span class="comment">%======================================================================</span>
+0179     [flags,info,eof_error]  = <a href="TDMS_processLeadIn.html" class="code" title="function [flags,info,eof_error] = TDMS_processLeadIn(fid,lastLetter)">TDMS_processLeadIn</a>(fid,lastLetter);
+0180     
+0181     <span class="keyword">if</span> eof_error
+0182         <span class="comment">%This should only happen once at the end</span>
+0183         fprintf(2,[<span class="string">'WARNING: File was not closed properly.\n'</span> <span class="keyword">...</span><span class="comment"> </span>
+0184             <span class="string">'Data will most likely be missing at the end of the file\n'</span>]);
+0185         nSegs = nSegs - 1;
+0186         <span class="keyword">break</span>
+0187     <span class="keyword">end</span>
+0188     
+0189     curPosCounter = curPosCounter + LEAD_IN_LENGTH + info.segLength;
+0190     segInfo(nSegs).rawPos = curPosCounter - info.segLength + info.metaLength;
+0191     
+0192     
+0193     <span class="keyword">if</span> ~ranOnce
+0194         <span class="comment">%NOTE: This might be false if no channels are defined ...</span>
+0195         <span class="keyword">if</span> flags.kTocNewObjList == false
+0196             error(<span class="string">'the kTocNewObjList was false when first run, this is not expected'</span>)
+0197         <span class="keyword">end</span>
+0198         ranOnce = true;
+0199     <span class="keyword">end</span>
+0200     <span class="comment">%======================================================================</span>
+0201     
+0202     
+0203     <span class="comment">%======================================================================</span>
+0204     <span class="comment">%                       META INFORMATION PROCESSING</span>
+0205     <span class="comment">%======================================================================</span>
+0206     <span class="keyword">if</span> flags.hasMetaData
+0207         
+0208         <span class="comment">%Get # of changed objects</span>
+0209         numNewObjInSeg = fread(fid,1,<span class="string">'uint32'</span>);
+0210         
+0211         <span class="comment">%Reinitialize order list if new</span>
+0212         <span class="keyword">if</span> flags.kTocNewObjList
+0213             curObjListCount      = 0;
+0214             objOrder             = zeros(1,2*numNewObjInSeg);
+0215             nValuesRead          = zeros(1,2*numNewObjInSeg);
+0216             <span class="comment">%NOTE: I padded this by doubling the #, we might append extra</span>
+0217             <span class="comment">%channels in subsequent reads, I currently don't resize this</span>
+0218             <span class="comment">%...</span>
+0219         <span class="keyword">end</span>
+0220         
+0221         <span class="keyword">for</span> iNewObject = 1:numNewObjInSeg
+0222             
+0223             <span class="comment">%1) GET OBJECT PATH</span>
+0224             <span class="comment">%-------------------------------</span>
+0225             objPathLength = fread(fid,1,<span class="string">'uint32'</span>);
+0226             temp          = fread(fid,objPathLength,<span class="string">'*uint8'</span>);
+0227             objName       = native2unicode(temp,UNICODE_FORMAT)'; <span class="comment">%#ok&lt;*N2UNI&gt;</span>
+0228             
+0229             <span class="comment">%POPULATE ALL OBJECT LIST</span>
+0230             <span class="comment">%----------------------------------------</span>
+0231             objIndex = find(strcmp(objectNameList(1:curNumTotalObjects),objName),1);
+0232             <span class="keyword">if</span> isempty(objIndex)
+0233                 curNumTotalObjects  = curNumTotalObjects + 1;
+0234                 <span class="keyword">if</span> curNumTotalObjects &gt; length(rawDataInfo)
+0235                     rawDataInfo      = [rawDataInfo      <span class="keyword">...</span>
+0236                         <a href="#_sub2" class="code" title="subfunction rawInfoStruct = initRawInfoStruct(MAX_NUM_PROPS,MAX_NUM_OBJECTS)">initRawInfoStruct</a>(MAX_NUM_PROPS,MAX_NUM_OBJECTS)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0237                     numberDataPoints = [numberDataPoints zeros(1,MAX_NUM_OBJECTS)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0238                     objectNameList   = [objectNameList   cell(1,MAX_NUM_OBJECTS)]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0239                     objectHasRawData = [objectHasRawData false(1,MAX_NUM_OBJECTS)];  <span class="comment">%#ok&lt;AGROW&gt;</span>
+0240                 <span class="keyword">end</span>
+0241                 objIndex            = curNumTotalObjects;
+0242                 objectNameList{curNumTotalObjects} = objName;
+0243             <span class="keyword">end</span>
+0244             
+0245             
+0246             
+0247             <span class="comment">%RAW DATA INDEX PROCESSING</span>
+0248             <span class="comment">%---------------------------------------------</span>
+0249             curPos = ftell(fid);
+0250             
+0251             rawDataIndexLength = fread(fid,1,<span class="string">'uint32'</span>);
+0252             
+0253             rawDataInfo(objIndex).lengthOfIndex = rawDataIndexLength;
+0254             
+0255             <span class="keyword">if</span> DEBUG
+0256                 fprintf(2,<span class="string">'RawDataLength: %d\n'</span>,rawDataIndexLength);
+0257                 fprintf(2,<span class="string">'CurrentPos: %d\n'</span>,curPos);
+0258             <span class="keyword">end</span>
+0259             
+0260             
+0261             <span class="keyword">switch</span> rawDataIndexLength
+0262                 <span class="keyword">case</span> 0 <span class="comment">%Same as previous</span>
+0263                     <span class="keyword">if</span> rawDataInfo(objIndex).infoSet == false
+0264                         error(<span class="string">'Channel %s set to use previous rawDataIndex but this channel is new'</span>,objName)
+0265                     <span class="keyword">end</span>
+0266                     
+0267                     <span class="comment">%NOTE: &quot;same as previous segment&quot; apparently means</span>
+0268                     <span class="comment">%&quot;same as the previous one with data ...&quot;</span>
+0269                     
+0270                     <span class="keyword">if</span> rawDataInfo(objIndex).numberOfValues &gt; 0 &amp;&amp; ~objectHasRawData(objIndex)
+0271                         objectHasRawData(objIndex) = true;
+0272                     <span class="keyword">end</span>
+0273                     
+0274                 <span class="keyword">case</span> 2^32-1 <span class="comment">%no raw data</span>
+0275                     rawDataInfo(objIndex).infoSet    = true;
+0276                     objectHasRawData(objIndex)       = false;
+0277                 <span class="keyword">otherwise</span>
+0278                     objectHasRawData(objIndex)    = true;
+0279                     rawDataInfo(objIndex).infoSet = true;
+0280                     
+0281                     <span class="comment">%DATA TYPE HANDLING</span>
+0282                     <span class="comment">%------------------------------------------------------</span>
+0283                     dataType = fread(fid,1,<span class="string">'uint32'</span>);
+0284                     <span class="keyword">if</span> rawDataInfo(objIndex).infoSet &amp;&amp; dataType ~= rawDataInfo(objIndex).dataType &amp;&amp; numberDataPoints(objIndex) &gt; 0
+0285                         error(<span class="string">'Raw data type for channel %s has changed from %d to %d'</span>,<span class="keyword">...</span>
+0286                             objName,rawDataInfo(objIndex).dataType,dataType)
+0287                     <span class="keyword">else</span>
+0288                         rawDataInfo(objIndex).dataType = dataType;
+0289                     <span class="keyword">end</span>
+0290 
+0291                     <span class="comment">%DATA SIZE HANDLING</span>
+0292                     <span class="comment">%-----------------------------------------------------</span>
+0293                     rawDataInfo(objIndex).dimensionData  = fread(fid,1,<span class="string">'uint32'</span>);
+0294                     <span class="keyword">if</span> rawDataInfo(objIndex).dimensionData ~= 1
+0295                         error(<span class="string">'Code doesn''t yet handle non 1D data'</span>)
+0296                     <span class="keyword">end</span>
+0297                     
+0298                     rawDataInfo(objIndex).numberOfValues = fread(fid,1,<span class="string">'uint64'</span>);
+0299                     
+0300                     <span class="comment">%RawDaqMX</span>
+0301                     <span class="comment">%------------------------------------------------------</span>
+0302                     <span class="comment">%NOTES:</span>
+0303                     <span class="keyword">if</span> dataType == 2^32-1
+0304                         <span class="comment">%JIM CODE IN PROGRESS</span>
+0305                         rawDataInfo(objIndex).isRawDAQmx = true; <span class="comment">%We can</span>
+0306 <span class="comment">% % %                         %post process this to convert from bits to an</span>
+0307 <span class="comment">% % %                         %actual value</span>
+0308 <span class="comment">% % %</span>
+0309 <span class="comment">% % %                         %FORMAT:</span>
+0310 <span class="comment">% % %                         %1) -</span>
+0311 <span class="comment">% % %                         daqMXVersion = rawDataIndexLength;</span>
+0312 <span class="comment">% % %                         if ~ismember(daqMXVersion,[4713 4714])</span>
+0313 <span class="comment">% % %                             error('Unexpected version: %d',daqMXVersion)</span>
+0314 <span class="comment">% % %                         end</span>
+0315 <span class="comment">% % %</span>
+0316 <span class="comment">% % %</span>
+0317 <span class="comment">% % %                         %2) Let's get the remaining # of bytes</span>
+0318 <span class="comment">% % %                         %This seems to be 32 ...</span>
+0319 <span class="comment">% % %</span>
+0320 <span class="comment">% % % % %                         wtf = fread(fid,8,'uint32');</span>
+0321 <span class="comment">% % % % %                         disp(wtf)</span>
+0322 <span class="comment">% % %                         %4713</span>
+0323 <span class="comment">% % %                         %13000012</span>
+0324 <span class="comment">% % %                         %15000018</span>
+0325 <span class="comment">% % %                         %? -&gt; 8th indicates data type? OR -&gt; bytes per sample</span>
+0326 <span class="comment">% % %</span>
+0327 <span class="comment">% % %                         %4714</span>
+0328 <span class="comment">% % %                         %1 0 0 0 256 256 512</span>
+0329 <span class="comment">% % %</span>
+0330 <span class="comment">% % %                         %3) Update datetype - where the heck is it?</span>
+0331 <span class="comment">% % %                         %rawDataInfo(objIndex).dataType = dataType;</span>
+0332                     <span class="keyword">else</span> <span class="comment">%Non RawDAQmx type</span>
+0333                         <span class="keyword">if</span> rawDataInfo(objIndex).dataType == 32
+0334                             <span class="comment">%If string, size is specified by an additional field</span>
+0335                             rawDataInfo(objIndex).totalSizeBytes = fread(fid,1,<span class="string">'uint64'</span>);
+0336                         <span class="keyword">else</span>
+0337                             rawDataInfo(objIndex).totalSizeBytes = <span class="keyword">...</span>
+0338                                 rawDataInfo(objIndex).numberOfValues*<a href="TDMS_getDataSize.html" class="code" title="function dataSize = TDMS_getDataSize(dataType)">TDMS_getDataSize</a>(dataType);
+0339                         <span class="keyword">end</span>
+0340                         
+0341                         <span class="comment">%Another chance to check correct reading</span>
+0342                         <span class="keyword">if</span> curPos + rawDataIndexLength ~= ftell(fid)
+0343                             error([<span class="string">'Raw Data Index length was incorrect: %d stated vs %d observed,'</span> <span class="keyword">...</span>
+0344                                 <span class="string">'likely indicates bad code or a bad tdms file'</span>],rawDataIndexLength,ftell(fid) - curPos)
+0345                         <span class="keyword">end</span>
+0346                     <span class="keyword">end</span>
+0347                     
+0348                     <span class="keyword">if</span> DEBUG
+0349                         fprintf(2,<span class="string">'nSegs: %d\n'</span>,nSegs);
+0350                         fprintf(2,<span class="string">'objName: %s\n'</span>,objName);
+0351                     <span class="keyword">end</span>
+0352             <span class="keyword">end</span>
+0353             
+0354             
+0355             <span class="comment">%--------------------------------------------------------------</span>
+0356             <span class="comment">%POPULATE ORDER TO RETRIEVE RAW DATA</span>
+0357             <span class="comment">%--------------------------------------------------------------</span>
+0358             <span class="keyword">if</span> objectHasRawData(objIndex)
+0359                 appendToList = false;
+0360                 <span class="keyword">if</span> flags.kTocNewObjList
+0361                     appendToList = true;
+0362                 <span class="keyword">else</span> <span class="comment">%Only append if not currently specified</span>
+0363                     I_objOrder = find(objOrder(1:curObjListCount) == objIndex,1);
+0364                     <span class="keyword">if</span> isempty(I_objOrder)
+0365                         appendToList = true;
+0366                     <span class="keyword">else</span>
+0367                         nValuesRead(I_objOrder) = rawDataInfo(objIndex).numberOfValues;
+0368                     <span class="keyword">end</span>
+0369                 <span class="keyword">end</span>
+0370                 
+0371                 <span class="comment">%NOTE: No overflow code in place yet, however we do</span>
+0372                 <span class="comment">%initialize with twice the # of objects specified to be</span>
+0373                 <span class="comment">%in a segement when a new list is created, new segments</span>
+0374                 <span class="comment">%might add more objects to the list</span>
+0375                 <span class="keyword">if</span> appendToList
+0376                     curObjListCount                 = curObjListCount + 1;
+0377                     objOrder(curObjListCount)       = objIndex;
+0378                     nValuesRead(curObjListCount)    = rawDataInfo(objIndex).numberOfValues;
+0379                 <span class="keyword">end</span>
+0380             <span class="keyword">end</span>
+0381             
+0382             
+0383             <span class="comment">%PROPERTY HANDLING</span>
+0384             <span class="comment">%--------------------------------------------------------------</span>
+0385             numberProperties = fread(fid,1,<span class="string">'uint32'</span>);
+0386             <span class="comment">%Below is the # of props already assigned to that channel</span>
+0387             nPropsChan       = rawDataInfo(objIndex).numberProperties;
+0388             curProps         = rawDataInfo(objIndex).propNames;
+0389             
+0390             <span class="keyword">for</span> iProp = 1:numberProperties
+0391                 propNameLength  = fread(fid,1,<span class="string">'uint32'</span>);
+0392                 temp            = fread(fid,propNameLength,<span class="string">'*uint8'</span>);
+0393                 propName        = native2unicode(temp,UNICODE_FORMAT)';
+0394                 propDataType    = fread(fid,1,<span class="string">'uint32'</span>);
+0395                 
+0396                 propIndex = find(strcmp(curProps(1:nPropsChan),propName),1);
+0397                 <span class="keyword">if</span> isempty(propIndex)
+0398                     <span class="comment">%Updates needed for new properties</span>
+0399                     nPropsChan              = nPropsChan + 1;
+0400                     propIndex               = nPropsChan;
+0401                     curProps{propIndex}     = propName;
+0402                     rawDataInfo(objIndex).propNames{propIndex} = propName;
+0403                 <span class="keyword">end</span>
+0404                
+0405                 <span class="comment">%Update value</span>
+0406                 propValue = <a href="TDMS_getPropValue.html" class="code" title="function propValue = TDMS_getPropValue(fid,propDataType,UTC_DIFF,DATE_STR_FORMAT)">TDMS_getPropValue</a>(fid,propDataType,UTC_DIFF,DATE_STR_FORMAT);
+0407                 rawDataInfo(objIndex).propValues{propIndex} = propValue;
+0408             <span class="keyword">end</span>
+0409             rawDataInfo(objIndex).numberProperties = nPropsChan;
+0410             
+0411             <span class="keyword">if</span> DEBUG
+0412                 fprintf(2,<span class="string">'end of index position: %d\n'</span>,ftell(fid));
+0413             <span class="keyword">end</span>
+0414         <span class="keyword">end</span>
+0415     <span class="keyword">end</span>
+0416     <span class="comment">%======================================================================</span>
+0417     <span class="comment">%               END OF META DATA PROCESSING</span>
+0418     
+0419     
+0420     
+0421     <span class="comment">%RAW DATA SAMPLE COUNTING</span>
+0422     <span class="comment">%======================================================================</span>
+0423     
+0424     segInfo(nSegs).kTocNewObjList = flags.kTocNewObjList;
+0425     byteSizeRaw = info.segLength - info.metaLength;
+0426     <span class="keyword">if</span> ~flags.hasRawData || byteSizeRaw == 0
+0427         segInfo(nSegs).nChunks = 0;
+0428     <span class="keyword">else</span>
+0429         segInfo(nSegs).objOrder      = objOrder(1:curObjListCount);
+0430         segInfo(nSegs).nRawObjects   = curObjListCount;
+0431         segInfo(nSegs).nSamplesRead  = nValuesRead(1:curObjListCount);
+0432         segInfo(nSegs).isInterleaved = flags.isInterleaved;
+0433         segInfo(nSegs).isBigEndian   = flags.isBigEndian;
+0434         
+0435         <span class="comment">%# OF CHUNK PROCESSING</span>
+0436         <span class="comment">%------------------------------------------------------------------</span>
+0437         totalBytesPerChunk = sum([rawDataInfo(objOrder(1:curObjListCount)).totalSizeBytes]);
+0438         nChunks            = byteSizeRaw/totalBytesPerChunk;
+0439         
+0440         <span class="comment">%Some error checking</span>
+0441         <span class="comment">%------------------------------------------</span>
+0442         <span class="keyword">if</span> DEBUG
+0443             fprintf(2,<span class="string">'nChunks: %d\n'</span>,nChunks);
+0444             fprintf(2,<span class="string">'nSamplesRead: %s\n'</span>,mat2str(nValuesRead(1:curObjListCount)));
+0445             fprintf(2,<span class="string">'totalBytesPerChunk: %d\n'</span>,totalBytesPerChunk);
+0446             fprintf(2,<span class="string">'byteSizeRaw: %d\n'</span>,byteSizeRaw);
+0447         <span class="keyword">end</span>
+0448         
+0449         <span class="keyword">if</span> nChunks ~= floor(nChunks)
+0450             error([<span class="string">'The remaining data doesn''t split evently into'</span> <span class="keyword">...</span>
+0451                 <span class="string">' chunks, estimated # of chunks: %d'</span>],nChunks)
+0452         <span class="keyword">end</span>
+0453         
+0454         chunkByteOffset = 0;
+0455         <span class="comment">%Increment the number of data points</span>
+0456         <span class="keyword">for</span> iObject = 1:curObjListCount
+0457             
+0458             curIndex = objOrder(iObject);
+0459             
+0460             nSamplesReadCurObject = rawDataInfo(curIndex).numberOfValues;
+0461             
+0462             <span class="comment">%Apparently some writers don't stripe the objects when some</span>
+0463             <span class="comment">%objects don't have any data and some do ...</span>
+0464             <span class="keyword">if</span> nSamplesReadCurObject &gt; 0            
+0465                 <span class="comment">%This allows us to grow these values if we haven't sufficiently preallocated</span>
+0466                 <span class="keyword">if</span> rawDataInfo(curIndex).chunkIndex + nChunks &gt; rawDataInfo(curIndex).chunkLength
+0467                     rawDataInfo(curIndex).dataMatrix  = [rawDataInfo(curIndex).dataMatrix; zeros(INIT_CHUNK_SIZE,3)];
+0468                     rawDataInfo(curIndex).chunkLength = rawDataInfo(curIndex).chunkLength + INIT_CHUNK_SIZE;
+0469                 <span class="keyword">end</span>
+0470 
+0471                 <span class="comment">%DataMatrix:</span>
+0472                 <span class="comment">%==============================================================</span>
+0473                 <span class="comment">%This information is used for reading parts of an object during</span>
+0474                 <span class="comment">%a single read instead of the entire object</span>
+0475 
+0476                 <span class="comment">%Column 1, file position</span>
+0477                 indices = (rawDataInfo(curIndex).chunkIndex+1):(rawDataInfo(curIndex).chunkIndex+nChunks);
+0478                 rawDataInfo(curIndex).dataMatrix(indices,1) = <span class="keyword">...</span>
+0479                     segInfo(nSegs).rawPos + chunkByteOffset + (0:totalBytesPerChunk:(nChunks-1)*totalBytesPerChunk);
+0480 
+0481                 <span class="comment">%Column 2, first sample at that position</span>
+0482                 rawDataInfo(curIndex).dataMatrix(indices,2) = <span class="keyword">...</span>
+0483                     numberDataPoints(curIndex) + (0:nSamplesReadCurObject:(nChunks-1)*nSamplesReadCurObject) + 1;
+0484 
+0485                 <span class="comment">%Column 3, segment number</span>
+0486                 rawDataInfo(curIndex).dataMatrix(indices,3) = nSegs;
+0487 
+0488                 chunkByteOffset                  = chunkByteOffset + rawDataInfo(curIndex).totalSizeBytes;
+0489                 numberDataPoints(curIndex)       = numberDataPoints(curIndex) + nSamplesReadCurObject*nChunks;
+0490                 rawDataInfo(curIndex).chunkIndex = rawDataInfo(curIndex).chunkIndex+nChunks;
+0491             <span class="keyword">end</span>
+0492         <span class="keyword">end</span>
+0493         
+0494         <span class="comment">%nChunksAll = nChunksAll + nChunks;</span>
+0495         segInfo(nSegs).nChunks = nChunks;
+0496         
+0497         <span class="comment">%This needs to be handled in some manner for RawDaqMx</span>
+0498         <span class="keyword">if</span> ~isIndexFID
+0499             fseek(fid,byteSizeRaw,<span class="string">'cof'</span>);
+0500         <span class="keyword">end</span>
+0501     <span class="keyword">end</span>
+0502     
+0503     <span class="comment">%Addition for raw data (needs to be fixed)</span>
+0504     <span class="comment">%In general, the tdms_index requires skipping some meta data</span>
+0505     <span class="comment">%I think this is only needed for raw data (I need to flush this out</span>
+0506     <span class="comment">%better as it will cause an error when reading index files for regular</span>
+0507     <span class="comment">%tdms files)</span>
+0508 <span class="comment">%     if isIndexFID</span>
+0509 <span class="comment">%         fseek(fid,segInfo(nSegs).rawPos,'bof');</span>
+0510 <span class="comment">%     end</span>
+0511 <span class="keyword">end</span>
+0512 
+0513 
+0514 
+0515 
+0516 
+0517 <span class="comment">%Trim output:</span>
+0518 <span class="comment">%==========================================================================</span>
+0519 rawDataInfo         = rawDataInfo(1:curNumTotalObjects);
+0520 <span class="keyword">for</span> iObject = 1:length(rawDataInfo)
+0521     nProps = rawDataInfo(iObject).numberProperties;
+0522     rawDataInfo(iObject).propNames  = rawDataInfo(iObject).propNames(1:nProps);
+0523     rawDataInfo(iObject).propValues = rawDataInfo(iObject).propValues(1:nProps);
+0524     
+0525     <span class="comment">%Add extra value for later processing</span>
+0526     <span class="keyword">if</span> rawDataInfo(iObject).chunkIndex ~= 0
+0527         rawDataInfo(iObject).chunkIndex = rawDataInfo(iObject).chunkIndex + 1;
+0528         rawDataInfo(iObject).dataMatrix(rawDataInfo(iObject).chunkIndex,2) = numberDataPoints(iObject) + 1;
+0529     <span class="keyword">end</span>
+0530 <span class="keyword">end</span>
+0531 
+0532 numberDataPoints    = numberDataPoints(1:curNumTotalObjects);
+0533 objectNameList     = objectNameList(1:curNumTotalObjects);
+0534 segInfo             = segInfo(1:nSegs);
+0535 
+0536 metaStruct = struct(<span class="keyword">...</span>
+0537     <span class="string">'eof_error'</span>,        eof_error,<span class="keyword">...</span>
+0538     <span class="string">'numberDataPoints'</span>, numberDataPoints,<span class="keyword">...</span>
+0539     <span class="string">'objectNameList'</span>,   {objectNameList},<span class="keyword">...</span>
+0540     <span class="string">'segInfo'</span>,          segInfo,<span class="keyword">...</span>
+0541     <span class="string">'rawDataInfo'</span>,      rawDataInfo,<span class="keyword">...</span>
+0542     <span class="string">'fileName'</span>,         tdmsNameOnly,<span class="keyword">...</span>
+0543     <span class="string">'version'</span>,          CURRENT_VERSION);
+0544 
+0545 <span class="keyword">if</span> isIndexFID
+0546     <span class="comment">%If using the index file to parse meta, close it</span>
+0547     fclose(fid);
+0548 <span class="keyword">end</span>
+0549 
+0550 
+0551 <span class="keyword">end</span>
+0552 
+0553 <a name="_sub1" href="#_subfunctions" class="code">function segStruct = initSegStruct(nSegs)</a>
+0554 <span class="comment">%initSegStruct</span>
+0555 <span class="comment">%</span>
+0556 <span class="comment">%   segStruct = initSegStruct(nSegs)</span>
+0557 <span class="comment">%</span>
+0558 segStruct = struct(<span class="keyword">...</span>
+0559     <span class="string">'rawPos'</span>,repmat({0},[1 nSegs]),<span class="keyword">...</span>
+0560     <span class="string">'kTocNewObjList'</span>,0,<span class="keyword">...</span>
+0561     <span class="string">'objOrder'</span>,[],<span class="keyword">...</span>
+0562     <span class="string">'nRawObjects'</span>,0,<span class="keyword">...</span>
+0563     <span class="string">'nSamplesRead'</span>,[],<span class="keyword">...</span>
+0564     <span class="string">'isInterleaved'</span>,false,<span class="keyword">...</span>
+0565     <span class="string">'isBigEndian'</span>,false,<span class="keyword">...</span>
+0566     <span class="string">'nChunks'</span>,false);
+0567 
+0568 <span class="keyword">end</span>
+0569 
+0570 <a name="_sub2" href="#_subfunctions" class="code">function rawInfoStruct = initRawInfoStruct(MAX_NUM_PROPS,MAX_NUM_OBJECTS)</a>
+0571 
+0572 rawInfoStruct = struct( <span class="keyword">...</span>
+0573     <span class="string">'isRawDAQmx'</span>,       false, <span class="keyword">...</span>
+0574     <span class="string">'lengthOfIndex'</span>,    0,<span class="keyword">...</span>
+0575     <span class="string">'dataType'</span>,         0,<span class="keyword">...</span>
+0576     <span class="string">'dimensionData'</span>,    0,<span class="keyword">...</span>
+0577     <span class="string">'numberOfValues'</span>,   0,<span class="keyword">...</span>
+0578     <span class="string">'totalSizeBytes'</span>,   0,<span class="keyword">...</span><span class="comment"> %Only valid for strings</span>
+0579     <span class="string">'numberProperties'</span>, 0,<span class="keyword">...</span>
+0580     <span class="string">'chunkIndex'</span>,       0,<span class="keyword">...</span>
+0581     <span class="keyword">...</span><span class="comment"> %Could initialize to zero, this would save space</span>
+0582     <span class="keyword">...</span><span class="comment"> %with non-raw data objects</span>
+0583     <span class="string">'chunkLength'</span>,      0,<span class="keyword">...</span>
+0584     <span class="keyword">...</span><span class="comment"> %SEE ALSO: chunk loop above for resizing</span>
+0585     <span class="string">'dataMatrix'</span>,       zeros(0,3),<span class="keyword">...</span>
+0586     <span class="keyword">...</span><span class="comment">%Position #</span>
+0587     <span class="keyword">...</span><span class="comment">%1st Sample #</span>
+0588     <span class="keyword">...</span><span class="comment">%Seg #</span>
+0589     <span class="string">'infoSet'</span>,          false, <span class="keyword">...</span>
+0590     <span class="string">'propNames'</span>,        repmat({cell(1,MAX_NUM_PROPS)},1,MAX_NUM_OBJECTS),<span class="keyword">...</span>
+0591     <span class="string">'propValues'</span>,       repmat({cell(1,MAX_NUM_PROPS)},1,MAX_NUM_OBJECTS));
+0592 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 19-Aug-2018 19:01:02 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

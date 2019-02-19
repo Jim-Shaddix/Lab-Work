@@ -16,6 +16,10 @@ function tdms_data=TDMS_Load(path_to_files)
     % GET: structure that descibes the provided path
     dir_struct      = dir(path_to_files);
     
+    % CHECK: if a faulty directory was passed in
+    % refferences to the current and previous directory will always be
+    % found, so if no files or directiories are found, than a faulty path
+    % was used.
     if isempty(dir_struct)
         error(['The directory passed in could not be reached', ...
                ' from current path.']);
@@ -34,15 +38,22 @@ function tdms_data=TDMS_Load(path_to_files)
         error('Failed to find tmds files in the provided path !!!');
     end
     
+    % Creates the struct template that I will be storing all 
+    % of the info from the tdms files into.
     tdms_data = Get_RUS_Data_Struct(length(tdms_file_names));
     
-    cell_tdms_file_names = num2cell(tdms_file_names);
+    % store all of the tdms file names into our struct
+    cell_tdms_file_names =  num2cell(tdms_file_names);
     [tdms_data.file_name] = cell_tdms_file_names{:};
     
     for i=1:length(tdms_file_names)
         % Store Signal Information ----------------------------------------
         
-        % STORE: tdms Data Struct
+        % Prints Information as it is being read in
+        fprintf('Reading In: File-Number = %i \t file_name = %s\n',i,tdms_file_names{i})
+        
+        % STORE: uses a package found online for reading tdms files, to
+        % store all of the data from the tdms file into a struct
         RUSdata = TDMS_getStruct([path_to_files,tdms_file_names{i}]);
 
         % GET/STORE: Temperature From File Name Using Regex
@@ -51,7 +62,9 @@ function tdms_data=TDMS_Load(path_to_files)
         tdms_data(i).temperature     = str2double(temperature_str);
 
         % STORE: Plot Data
-        % Eliminates leading 0 in data set if needed
+        % Eliminates leading 0 in data set if needed.
+        % In particular, I through out the first 4 values if a zero was
+        % found, just in case something was going wrong.
         if RUSdata.p.Signal_X.data(1) == 0 || RUSdata.p.Signal_Y.data(1) == 0
             tdms_data(i).signal_x        = RUSdata.p.Signal_X.data(5:length(RUSdata.p.Signal_X.data));
             tdms_data(i).signal_y        = RUSdata.p.Signal_Y.data(5:length(RUSdata.p.Signal_Y.data));

@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of TDMS_rawDAQMx</title>
+  <meta name="keywords" content="TDMS_rawDAQMx">
+  <meta name="description" content="{">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- ../../../menu.html tdms_peak_analysis --><!-- ../../menu.html Store_TDMS_Data --><!-- ../menu.html Matlab_readTDMS_package --><!-- menu.html tdmsSubfunctions -->
+<h1>TDMS_rawDAQMx
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>{</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>This is a script file. </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">{</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <span class="comment">%{</span>
+0002 
+0003 TDMS files can store many different types of data inside of them, such as 
+0004 uint8, int16, doubles, etc. A full list is outside the scope of this document.
+0005 
+0006 One of these data types is rawDAQmx. I think this data type is actually the
+0007 bit representation captured by the DAQ (hence the name raw). The presence
+0008 of this data type in the meta <span class="keyword">for</span> a TDMS file refers to the fact that the
+0009 data has a true IEEE like data type underneath, as well as properties that
+0010 are stored with the file that inform the user how to scale the data from
+0011 the the bit-level representation to a true number.
+0012 
+0013 The primary reason one might use this format is because it gets rid of the
+0014 intermediate step of converting the data to a known data type before
+0015 saving. This could be advantageous because it could save computational
+0016 time and memory from not doing the conversion, as well as time and disk space
+0017 from writing a smaller file to disk.
+0018 
+0019 This data type however is not an open specification. In the TDMS file the
+0020 header before the data will specify that upcoming data has this data type,
+0021 allowing one to skip over that data section.
+0022 
+0023 I have contacted the NI about this and received the following response:
+0024 <span class="comment">%==========================================================================</span>
+0025 I apologize but since most of the TDMS format  is a National Instrument
+0026 proprietary file structure I can really only help you out with any of the
+0027 information that is already provided.  I have included a link to a
+0028 KnowledgeBase below that walks through TDMS in a lot more detail.  Please
+0029 have a look through and hopefully it will answer some of your questions.
+0030 
+0031 TDMS File Format Internal Structure
+0032 http://zone.ni.com/devzone/cda/tut/p/id/5696
+0033 <span class="comment">%==========================================================================</span>
+0034 
+0035 That being said I have been able to obtain the data from this format in
+0036 some example files that I created. However, since these example files are
+0037 relatively few, and since I have no idea how to generalize my code, I have
+0038 not formally included support <span class="keyword">for</span> this data type. If I get some more
+0039 example files with rawDAQmx data I would likely include a mode in which one
+0040 could attempt to retrieve data from this data type.
+0041 
+0042 Finally, National Instruments does provide some old drivers. I think they
+0043 only work <span class="keyword">for</span> 32 bit Windows but they may support the rawDAQmx data type
+0044 <span class="keyword">...</span>
+0045 
+0046 <span class="comment">%}</span></pre></div>
+<hr><address>Generated on Sun 19-Aug-2018 19:01:02 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -20,9 +20,9 @@ function all_peak_info = Get_Set_Peaks(cell_frequency, cell_signal_x, cell_signa
     for i = 1:length(all_peak_info)
         
         % easier access to data
-        freq     = cell_frequency{i};
-        signal_x = cell_signal_x{i};
-        signal_y = cell_signal_y{i};
+        freq      = cell_frequency{i};
+        signal_x  = cell_signal_x{i};
+        signal_y  = cell_signal_y{i};
         peak_opts = cell_peak_opts{i};
         
         mag = Magnitude(signal_x, signal_y);
@@ -39,7 +39,7 @@ function all_peak_info = Get_Set_Peaks(cell_frequency, cell_signal_x, cell_signa
         % SET: peak info
         set_peaks(length(peak_signal)) = struct();
 
-        for j = 1:length(peak_signal) 
+        for j = 1:length(peak_signal)
 
             % SET: basic info
             set_peaks(j).signal      = peak_signal(j);

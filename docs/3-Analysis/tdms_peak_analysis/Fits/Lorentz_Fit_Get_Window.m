@@ -1,4 +1,4 @@
-function [fit_x_cor, fit_y_cor] = Lorentz_Fit_Get_Window(x_cor_all, y_cor_all, x_cor_peaks, peak_widths, given_bool)
+function [fit_x_cor, fit_y_cor] = Lorentz_Fit_Get_Window(x_cor_all, y_cor_all, x_cor_peaks, peak_widths, fit_width_multiplier, hard_coded_width, fit_width, given_bool)
 % LORENTZ_FIT_REGION: Returns the x/y-coordinates, that will be 
 % used to perform the lorentizian fit.
 %
@@ -28,10 +28,14 @@ function [fit_x_cor, fit_y_cor] = Lorentz_Fit_Get_Window(x_cor_all, y_cor_all, x
         if given_bool == 1
             interval_size = peak_width*8;
         else
-            interval_size = peak_width;
+            if hard_coded_width == 0
+                interval_size = peak_width * fit_width_multiplier;
+            else 
+                interval_size = fit_width;
+            end
         end
         % hard coded interval
-        interval_size = 0.01*10^6;
+        %interval_size = 0.01*10^6;
         
         % GET: indices of data to be fitted
         mmin = x_cor_peak - interval_size/2; % minimum x-coordinate

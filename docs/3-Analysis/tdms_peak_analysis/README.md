@@ -1,3 +1,7 @@
+
+# Color
+https://www.mathworks.com/matlabcentral/fileexchange/53862-matlab-schemer
+
 # Files #
 1. `main.m`: This is the main project file. This file calls all of the 
            functions I have developed, in order to visualize and track peaks.

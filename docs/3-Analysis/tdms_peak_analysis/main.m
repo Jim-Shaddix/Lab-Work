@@ -1,3 +1,6 @@
+% This file is used to run my program, without a GUI. This file is used for
+% testing purposes.
+
 clear
 clc
 
@@ -8,17 +11,19 @@ clc
 addpath(genpath('Store_TDMS_Data')); % for reading tdms files
 addpath(genpath('Fits'));            % for fitting Lorentzian to data
 addpath(genpath('Plots'));           % for plotting data
-addpath(genpath('Peaks'));       % for setting peak values
+addpath(genpath('Peaks'));           % for setting peak values
 addpath(genpath('Data_Manipulation')); % for reading tdms files
-addpath(genpath('GUI'));
+%addpath(genpath('GUI'));
+addpath(genpath('GUI2'));
 
 % SET: file paths
 direc = '../../2-Files_To_Analyze/';
-f1 = '31 May 18 TaV2';
+f1 = '31 May 18 TaV2/';
 f2 = '15 May 18 BalrO3/';
 f3 = 'CoNb2O6 061218/';
 f4 = 'More CoNb206/';
-   
+f5 = 'TaV2 October 27 2018/';
+
 path_to_tdms_files = [direc, f1];
 
 clear f1 f2 f3 f4 dir direc
@@ -72,9 +77,9 @@ interval_size   = 1.5*10^4;
 
 clear peaks_tracked
 disp(" --- Finished Tracking Peaks ---")
-
+%%
+freq_plot(tdms_data)
 %% Plot
-
 Sub_Plots(tdms_data);
 
 disp(" --- Finished: Plotting ---")
@@ -88,3 +93,4 @@ disp("Finished Analyzing Peaks")
 
 %% FINISHED
 disp("[Finished Script]")
+app1(1,4)

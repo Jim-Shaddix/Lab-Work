@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of TDMS_dataToGroupChanStruct_v4</title>
+  <meta name="keywords" content="TDMS_dataToGroupChanStruct_v4">
+  <meta name="description" content="TDMS_dataToGroupChanStruct_v4">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- ../../menu.html tdms_peak_analysis --><!-- ../menu.html Store_TDMS_Data --><!-- menu.html Matlab_readTDMS_package -->
+<h1>TDMS_dataToGroupChanStruct_v4
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>TDMS_dataToGroupChanStruct_v4</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function output = TDMS_dataToGroupChanStruct_v4(inputStruct,varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">TDMS_dataToGroupChanStruct_v4  
+
+   NOTE: This reproduces the data structure for the old lab functionality 
+   of the function getStructTDM
+   
+   See Also: TDMS_genvarname2, <a href="TDMS_readTDMSFile.html" class="code" title="function [finalOutput,metaStruct] = TDMS_readTDMSFile(tdmsFileName,varargin)">TDMS_readTDMSFile</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_genvarname2.html" class="code" title="function varName = TDMS_genvarname2(string,replaceStr,prependStr,alwaysPrepend)">TDMS_genvarname2</a>	GENVARNAME2: Outputs a valid variable name VARNAME</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="TDMS_getStruct.html" class="code" title="function [output,metaStruct] = TDMS_getStruct(filePath,structVersion,readOptions,structConvOptions)">TDMS_getStruct</a>	TDMS_getStruct  A wrapper for simplifying data retrieval from TDMS_readTDMSFile</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function propStruct = propsToStruct(names,values,REPLACE_STR,PREPEND_STR,ALWAYS_PREPEND)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function output = TDMS_dataToGroupChanStruct_v4(inputStruct,varargin)</a>
+0002 <span class="comment">%TDMS_dataToGroupChanStruct_v4</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   NOTE: This reproduces the data structure for the old lab functionality</span>
+0005 <span class="comment">%   of the function getStructTDM</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">%   See Also: TDMS_genvarname2, TDMS_readTDMSFile</span>
+0008 
+0009 REPLACE_STR = <span class="string">'_'</span>;
+0010 PREPEND_STR = <span class="string">'p_'</span>;
+0011 PREPEND_GRP_STRING = <span class="string">'g_'</span>;
+0012 PREPEND_CHAN_STRING = <span class="string">'c_'</span>;
+0013 ALWAYS_PREPEND = false;
+0014 PROP_NAME = <span class="string">'Props'</span>;
+0015 
+0016 propNames    = inputStruct.propNames;
+0017 propValues   = inputStruct.propValues;
+0018 groupIndices = inputStruct.groupIndices;
+0019 groupNames   = inputStruct.groupNames;
+0020 chanIndices  = inputStruct.chanIndices;
+0021 chanNames    = inputStruct.chanNames;
+0022 rootIndex    = inputStruct.rootIndex;
+0023 data         = inputStruct.data;
+0024 
+0025 groupNames = cellfun(@(x) <a href="../../../tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_genvarname2.html" class="code" title="function varName = TDMS_genvarname2(string,replaceStr,prependStr,alwaysPrepend)">TDMS_genvarname2</a>(x,REPLACE_STR,PREPEND_GRP_STRING,ALWAYS_PREPEND),groupNames,<span class="string">'UniformOutput'</span>,false);
+0026 
+0027 
+0028 
+0029 rootPropStruct = <a href="#_sub1" class="code" title="subfunction propStruct = propsToStruct(names,values,REPLACE_STR,PREPEND_STR,ALWAYS_PREPEND)">propsToStruct</a>(propNames{rootIndex},propValues{rootIndex},REPLACE_STR,PREPEND_STR,ALWAYS_PREPEND);
+0030 output = struct(PROP_NAME,rootPropStruct);
+0031 
+0032 <span class="keyword">for</span> iGroup = 1:length(groupIndices)
+0033     curGroupIndex = groupIndices(iGroup);
+0034     curChanIndices = chanIndices{iGroup};
+0035     curChanNames   = chanNames{iGroup};
+0036     
+0037     curChanNames = cellfun(@(x) <a href="../../../tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_genvarname2.html" class="code" title="function varName = TDMS_genvarname2(string,replaceStr,prependStr,alwaysPrepend)">TDMS_genvarname2</a>(x,REPLACE_STR,PREPEND_CHAN_STRING,ALWAYS_PREPEND),curChanNames,<span class="string">'UniformOutput'</span>,false);
+0038     
+0039     groupPropStruct = <a href="#_sub1" class="code" title="subfunction propStruct = propsToStruct(names,values,REPLACE_STR,PREPEND_STR,ALWAYS_PREPEND)">propsToStruct</a>(propNames{curGroupIndex},propValues{curGroupIndex},REPLACE_STR,PREPEND_STR,ALWAYS_PREPEND);
+0040     groupStruct = struct(<span class="string">'name'</span>,groupNames(iGroup),PROP_NAME,groupPropStruct);
+0041     <span class="keyword">for</span> iChan = 1:length(curChanIndices)
+0042         curChanIndex = curChanIndices(iChan);
+0043         chanPropStruct = <a href="#_sub1" class="code" title="subfunction propStruct = propsToStruct(names,values,REPLACE_STR,PREPEND_STR,ALWAYS_PREPEND)">propsToStruct</a>(propNames{curChanIndex},propValues{curChanIndex},REPLACE_STR,PREPEND_STR,ALWAYS_PREPEND);
+0044         chanStruct =  struct(<span class="string">'name'</span>,curChanNames{iChan},PROP_NAME,chanPropStruct,<span class="keyword">...</span>
+0045             <span class="string">'data'</span>,[]);
+0046         chanStruct.data = data{curChanIndex};
+0047         <span class="comment">%NOTE: I had a case statement in case the data type was a string,</span>
+0048         <span class="comment">%which would change the interpretation of the struct input</span>
+0049         <span class="keyword">if</span> strcmp(chanStruct.name,<span class="string">'name'</span>)
+0050             error(<span class="string">'The variable &quot;name&quot; for a channel is off limits, need a different conversion wrapper (probably 2)'</span>)
+0051         <span class="keyword">end</span>
+0052         groupStruct.(<a href="../../../tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_genvarname2.html" class="code" title="function varName = TDMS_genvarname2(string,replaceStr,prependStr,alwaysPrepend)">TDMS_genvarname2</a>(chanStruct.name,<span class="keyword">...</span>
+0053             REPLACE_STR,PREPEND_STR,ALWAYS_PREPEND)) = chanStruct;
+0054     <span class="keyword">end</span>
+0055     output.(<a href="../../../tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_genvarname2.html" class="code" title="function varName = TDMS_genvarname2(string,replaceStr,prependStr,alwaysPrepend)">TDMS_genvarname2</a>(groupStruct.name,<span class="keyword">...</span>
+0056         REPLACE_STR,PREPEND_STR,ALWAYS_PREPEND)) = groupStruct;
+0057 <span class="keyword">end</span>
+0058 <span class="keyword">end</span>
+0059 
+0060 <a name="_sub1" href="#_subfunctions" class="code">function propStruct = propsToStruct(names,values,REPLACE_STR,PREPEND_STR,ALWAYS_PREPEND)</a>
+0061 propStruct = struct([]);
+0062 <span class="keyword">for</span> iProp = 1:length(names)
+0063    propStruct(1).(<a href="../../../tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_genvarname2.html" class="code" title="function varName = TDMS_genvarname2(string,replaceStr,prependStr,alwaysPrepend)">TDMS_genvarname2</a>(names{iProp},REPLACE_STR,PREPEND_STR,ALWAYS_PREPEND)) = values{iProp}; 
+0064 <span class="keyword">end</span>
+0065 <span class="keyword">end</span>
+0066</pre></div>
+<hr><address>Generated on Sun 19-Aug-2018 19:01:02 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

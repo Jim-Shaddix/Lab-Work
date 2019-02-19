@@ -1,0 +1,239 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>main</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-08-19"><meta name="DC.source" content="main.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Initialization</a></li><li><a href="#3">Read In Data</a></li><li><a href="#4">Set Struct</a></li><li><a href="#5">Process The Data</a></li><li><a href="#6">Track Peaks</a></li><li><a href="#7">Plot</a></li><li><a href="#8">Peak Analysis</a></li><li><a href="#9">FINISHED</a></li></ul></div><pre class="codeinput">clear
+clc
+</pre><h2 id="2">Initialization</h2><p>These settings initialize the program, and our subject to change.</p><pre class="codeinput"><span class="comment">% SET: paths</span>
+addpath(genpath(<span class="string">'Store_TDMS_Data'</span>)); <span class="comment">% for reading tdms files</span>
+addpath(genpath(<span class="string">'Fits'</span>));            <span class="comment">% for fitting Lorentzian to data</span>
+addpath(genpath(<span class="string">'Plots'</span>));           <span class="comment">% for plotting data</span>
+addpath(genpath(<span class="string">'Peaks'</span>));       <span class="comment">% for setting peak values</span>
+addpath(genpath(<span class="string">'Data_Manipulation'</span>)); <span class="comment">% for reading tdms files</span>
+addpath(genpath(<span class="string">'GUI'</span>));
+
+<span class="comment">% SET: file paths</span>
+direc = <span class="string">'../../2-Files_To_Analyze/'</span>;
+f1 = <span class="string">'31 May 18 TaV2'</span>;
+f2 = <span class="string">'15 May 18 BalrO3/'</span>;
+f3 = <span class="string">'CoNb2O6 061218/'</span>;
+f4 = <span class="string">'More CoNb206/'</span>;
+
+path_to_tdms_files = [direc, f1];
+
+clear <span class="string">f1</span> <span class="string">f2</span> <span class="string">f3</span> <span class="string">f4</span> <span class="string">dir</span> <span class="string">direc</span>
+</pre><h2 id="3">Read In Data</h2><pre class="codeinput"><span class="comment">% STORE: data from tdms files</span>
+tdms_data = TDMS_Load(path_to_tdms_files);
+fprintf(<span class="string">' --- Finished: Reading Data ---\n\n'</span>)
+</pre><pre class="codeoutput error">Error using TDMS_Load (line 20)
+The directory passed in could not be reached from current path.
+
+Error in main (line 29)
+tdms_data = TDMS_Load(path_to_tdms_files);
+</pre><h2 id="4">Set Struct</h2><pre class="codeinput"><span class="comment">%tdms_data = tdms_data([14,25]);</span>
+
+<span class="comment">% GET: plot info</span>
+plot_info = Get_Plot_Struct();
+
+<span class="comment">% MODIFY: plot info</span>
+plot_info.preprocess = {@Process_Plot_Data};
+plot_info.raw  = 1;
+plot_info.mag  = 1;
+<span class="comment">%plot_info.plot_width = 1;</span>
+<span class="comment">%plot_info.peaks_raw_given = [1,1];</span>
+plot_info.peaks_mag_given = [1,1];
+plot_info.peaks_raw_set   = [1,1];
+<span class="comment">%plot_info.peaks_mag_set   = [1,1];</span>
+<span class="comment">%plot_info.peaks_tracked = 1;</span>
+
+<span class="comment">% SET: plot info</span>
+[tdms_data.plot_info] = deal(plot_info);
+
+disp(<span class="string">" -- Finished Setting Plot Struct ---"</span>)
+clear <span class="string">plot_info</span>
+</pre><h2 id="5">Process The Data</h2><pre class="codeinput">tdms_data = Process_Data(tdms_data);
+fprintf(<span class="string">" --- Finished processing data --- \n\n"</span>)
+</pre><h2 id="6">Track Peaks</h2><pre class="codeinput"><span class="comment">% Get: tracked peaks, and the intervals used to find them.</span>
+<span class="comment">%freq_ref = 8.812 *10^5;</span>
+peak_str = <span class="string">'peaks_mag_given'</span>;
+interval_size   = 1.5*10^4;
+
+[peaks_tracked,cell_intervals] = Track_Peaks_Interval( <span class="keyword">...</span>
+                                    {tdms_data.(peak_str)}, <span class="keyword">...</span>
+                                    tdms_data(1).plot_info.track_freq, <span class="keyword">...</span>
+                                    tdms_data(1).plot_info.track_interval);
+
+[tdms_data.peaks_tracked] = deal(peaks_tracked{:});
+
+clear <span class="string">peaks_tracked</span>
+disp(<span class="string">" --- Finished Tracking Peaks ---"</span>)
+</pre><h2 id="7">Plot</h2><p><tt>MONOSPACED TEXT Interesting stuff.... I guess</tt> <img src="main_eq15682195134482745114.png" alt="$x^2+e^{\pi i}$"> <a href="http://www.mathworks.com">MathWorks</a></p><pre class="codeinput">Sub_Plots(tdms_data);
+
+disp(<span class="string">" --- Finished: Plotting ---"</span>)
+</pre><h2 id="8">Peak Analysis</h2><pre class="codeinput">Peak_Analyzer(tdms_data);
+
+clear <span class="string">freq_ref</span> <span class="string">peak_str</span> <span class="string">peaks_of_interest</span> <span class="string">peak_temps</span>
+disp(<span class="string">"Finished Analyzing Peaks"</span>)
+</pre><h2 id="9">FINISHED</h2><pre class="codeinput">disp(<span class="string">"[Finished Script]"</span>)
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+clear
+clc
+
+%% Initialization
+% These settings initialize the program, and our subject to change.
+
+% SET: paths
+addpath(genpath('Store_TDMS_Data')); % for reading tdms files
+addpath(genpath('Fits'));            % for fitting Lorentzian to data
+addpath(genpath('Plots'));           % for plotting data
+addpath(genpath('Peaks'));       % for setting peak values
+addpath(genpath('Data_Manipulation')); % for reading tdms files
+addpath(genpath('GUI'));
+
+% SET: file paths
+direc = '../../2-Files_To_Analyze/';
+f1 = '31 May 18 TaV2';
+f2 = '15 May 18 BalrO3/';
+f3 = 'CoNb2O6 061218/';
+f4 = 'More CoNb206/';
+   
+path_to_tdms_files = [direc, f1];
+
+clear f1 f2 f3 f4 dir direc
+
+%% Read In Data
+
+% STORE: data from tdms files
+tdms_data = TDMS_Load(path_to_tdms_files);
+fprintf(' REPLACE_WITH_DASH_DASH- Finished: Reading Data REPLACE_WITH_DASH_DASH-\n\n')
+
+%% Set Struct
+%tdms_data = tdms_data([14,25]);
+
+% GET: plot info
+plot_info = Get_Plot_Struct();
+
+% MODIFY: plot info
+plot_info.preprocess = {@Process_Plot_Data};
+plot_info.raw  = 1;
+plot_info.mag  = 1;
+%plot_info.plot_width = 1;
+%plot_info.peaks_raw_given = [1,1];
+plot_info.peaks_mag_given = [1,1];
+plot_info.peaks_raw_set   = [1,1];
+%plot_info.peaks_mag_set   = [1,1];
+%plot_info.peaks_tracked = 1;
+
+% SET: plot info
+[tdms_data.plot_info] = deal(plot_info);
+
+disp(" REPLACE_WITH_DASH_DASH Finished Setting Plot Struct REPLACE_WITH_DASH_DASH-")
+clear plot_info
+
+%% Process The Data
+tdms_data = Process_Data(tdms_data);
+fprintf(" REPLACE_WITH_DASH_DASH- Finished processing data REPLACE_WITH_DASH_DASH- \n\n")
+
+%% Track Peaks
+
+% Get: tracked peaks, and the intervals used to find them.
+%freq_ref = 8.812 *10^5;
+peak_str = 'peaks_mag_given';
+interval_size   = 1.5*10^4;
+
+[peaks_tracked,cell_intervals] = Track_Peaks_Interval( ...
+                                    {tdms_data.(peak_str)}, ...
+                                    tdms_data(1).plot_info.track_freq, ...
+                                    tdms_data(1).plot_info.track_interval);
+
+[tdms_data.peaks_tracked] = deal(peaks_tracked{:});
+
+clear peaks_tracked
+disp(" REPLACE_WITH_DASH_DASH- Finished Tracking Peaks REPLACE_WITH_DASH_DASH-")
+
+%% Plot
+% 
+% |MONOSPACED TEXT Interesting stuff.... I guess|
+% $x^2+e^{\pi i}$
+% <http://www.mathworks.com MathWorks>
+Sub_Plots(tdms_data);
+
+disp(" REPLACE_WITH_DASH_DASH- Finished: Plotting REPLACE_WITH_DASH_DASH-")
+
+%% Peak Analysis
+
+Peak_Analyzer(tdms_data);
+
+clear freq_ref peak_str peaks_of_interest peak_temps
+disp("Finished Analyzing Peaks")
+
+%% FINISHED
+disp("[Finished Script]")
+
+##### SOURCE END #####
+--></body></html>
