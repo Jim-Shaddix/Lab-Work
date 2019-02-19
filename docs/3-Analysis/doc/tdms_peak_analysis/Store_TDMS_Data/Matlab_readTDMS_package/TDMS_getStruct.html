@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of TDMS_getStruct</title>
+  <meta name="keywords" content="TDMS_getStruct">
+  <meta name="description" content="TDMS_getStruct  A wrapper for simplifying data retrieval from TDMS_readTDMSFile">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- ../../menu.html tdms_peak_analysis --><!-- ../menu.html Store_TDMS_Data --><!-- menu.html Matlab_readTDMS_package -->
+<h1>TDMS_getStruct
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>TDMS_getStruct  A wrapper for simplifying data retrieval from TDMS_readTDMSFile</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [output,metaStruct] = TDMS_getStruct(filePath,structVersion,readOptions,structConvOptions) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">TDMS_getStruct  A wrapper for simplifying data retrieval from TDMS_readTDMSFile
+
+   output = TDMS_getStruct(*filePath,*structVer,*readOptions,*structConvOptions)
+
+   OPTIONAL INPUTS
+   ===============================================
+   filePath          : (default prompts for file)
+   structVersion     : (default ??, see code), determines which struct conversion
+                       function to use
+   readOptions       : (default {}), gets passed into TDMS_readTDMSFile
+   structConvOptions : (default {}), gets passed into conversion function
+
+   See Also: <a href="TDMS_readTDMSFile.html" class="code" title="function [finalOutput,metaStruct] = TDMS_readTDMSFile(tdmsFileName,varargin)">TDMS_readTDMSFile</a>,
+             <a href="TDMS_dataToGroupChanStruct_v1.html" class="code" title="function output = TDMS_dataToGroupChanStruct_v1(inputStruct,varargin)">TDMS_dataToGroupChanStruct_v1</a>,
+             <a href="TDMS_dataToGroupChanStruct_v2.html" class="code" title="function [outputStruct,navigator] = TDMS_dataToGroupChanStruct_v2(inputStruct,varargin)">TDMS_dataToGroupChanStruct_v2</a>,
+             <a href="TDMS_dataToGroupChanStruct_v3.html" class="code" title="function output = TDMS_dataToGroupChanStruct_v3(inputStruct,varargin)">TDMS_dataToGroupChanStruct_v3</a>,
+             <a href="TDMS_dataToGroupChanStruct_v4.html" class="code" title="function output = TDMS_dataToGroupChanStruct_v4(inputStruct,varargin)">TDMS_dataToGroupChanStruct_v4</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="TDMS_dataToGroupChanStruct_v1.html" class="code" title="function output = TDMS_dataToGroupChanStruct_v1(inputStruct,varargin)">TDMS_dataToGroupChanStruct_v1</a>	TDMS_dataToGroupChanStruct_v1</li><li><a href="TDMS_dataToGroupChanStruct_v2.html" class="code" title="function [outputStruct,navigator] = TDMS_dataToGroupChanStruct_v2(inputStruct,varargin)">TDMS_dataToGroupChanStruct_v2</a>	TDMS_dataToGroupChanStruct_v2  Converts output into tiered structure</li><li><a href="TDMS_dataToGroupChanStruct_v3.html" class="code" title="function output = TDMS_dataToGroupChanStruct_v3(inputStruct,varargin)">TDMS_dataToGroupChanStruct_v3</a>	TDMS_dataToGroupChanStruct_v3</li><li><a href="TDMS_dataToGroupChanStruct_v4.html" class="code" title="function output = TDMS_dataToGroupChanStruct_v4(inputStruct,varargin)">TDMS_dataToGroupChanStruct_v4</a>	TDMS_dataToGroupChanStruct_v4</li><li><a href="TDMS_readTDMSFile.html" class="code" title="function [finalOutput,metaStruct] = TDMS_readTDMSFile(tdmsFileName,varargin)">TDMS_readTDMSFile</a>	TDMS_readTDMSFile  Reads TDMS file and does minimal processing to obtain output</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../tdms_peak_analysis/Store_TDMS_Data/TDMS_Load.html" class="code" title="function tdms_data=TDMS_Load(path_to_files)">TDMS_Load</a>	1. Reads directory (path_to_files) for filenames and</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [output,metaStruct] = TDMS_getStruct(filePath,structVersion,readOptions,structConvOptions)</a>
+0002 <span class="comment">%TDMS_getStruct  A wrapper for simplifying data retrieval from TDMS_readTDMSFile</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   output = TDMS_getStruct(*filePath,*structVer,*readOptions,*structConvOptions)</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">%   OPTIONAL INPUTS</span>
+0007 <span class="comment">%   ===============================================</span>
+0008 <span class="comment">%   filePath          : (default prompts for file)</span>
+0009 <span class="comment">%   structVersion     : (default ??, see code), determines which struct conversion</span>
+0010 <span class="comment">%                       function to use</span>
+0011 <span class="comment">%   readOptions       : (default {}), gets passed into TDMS_readTDMSFile</span>
+0012 <span class="comment">%   structConvOptions : (default {}), gets passed into conversion function</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">%   See Also: TDMS_readTDMSFile,</span>
+0015 <span class="comment">%             TDMS_dataToGroupChanStruct_v1,</span>
+0016 <span class="comment">%             TDMS_dataToGroupChanStruct_v2,</span>
+0017 <span class="comment">%             TDMS_dataToGroupChanStruct_v3,</span>
+0018 <span class="comment">%             TDMS_dataToGroupChanStruct_v4</span>
+0019 
+0020 <span class="comment">%LOCAL CONSTANTS</span>
+0021 DEFAULT_STRUCT_VERSION = 4;  <span class="comment">%Feel free to change me if you'd like something different</span>
+0022 <span class="comment">%This is particular to my lab, although you might prefer 3</span>
+0023 CONV_RANGE = [1 4];
+0024 
+0025 <span class="comment">%filePath input handling</span>
+0026 <span class="keyword">if</span> nargin &lt; 1 || isempty(filePath)
+0027    [filename,pathname] = uigetfile({<span class="string">'*.tdms'</span>},<span class="string">'Choose TDMS file to read'</span>); 
+0028    <span class="keyword">if</span> isequal(filename,0) || isequal(pathname,0) 
+0029       <span class="keyword">return</span>
+0030    <span class="keyword">else</span>
+0031       filePath = fullfile(pathname,filename); 
+0032    <span class="keyword">end</span>
+0033 <span class="keyword">end</span>
+0034 
+0035 <span class="comment">%structVer handling</span>
+0036 <span class="keyword">if</span> nargin &lt; 2 || isempty(structVersion)
+0037     structVersion = DEFAULT_STRUCT_VERSION;
+0038 <span class="keyword">end</span>
+0039 
+0040 <span class="comment">%readOptions</span>
+0041 <span class="keyword">if</span> nargin &lt; 3 || isempty(readOptions)
+0042     readOptions = {};
+0043 <span class="keyword">end</span>
+0044 
+0045 <span class="comment">%structConvOptions</span>
+0046 <span class="keyword">if</span> nargin &lt; 4 || isempty(structConvOptions)
+0047     structConvOptions = {};
+0048 <span class="keyword">end</span>
+0049 
+0050 <span class="keyword">if</span> ~isnumeric(structVersion) || structVersion &lt; CONV_RANGE(1) || structVersion &gt; CONV_RANGE(2)
+0051     error(<span class="string">'The output structure version must be numeric and be between %d &amp; %d'</span>,CONV_RANGE(1),CONV_RANGE(2))
+0052 <span class="keyword">end</span>
+0053 
+0054 
+0055 <span class="comment">%ACTUAL FILE READING</span>
+0056 <span class="comment">%==============================================================</span>
+0057 [temp,metaStruct] = <a href="TDMS_readTDMSFile.html" class="code" title="function [finalOutput,metaStruct] = TDMS_readTDMSFile(tdmsFileName,varargin)">TDMS_readTDMSFile</a>(filePath,readOptions{:});
+0058 
+0059 <span class="comment">%POST PROCESSING</span>
+0060 <span class="comment">%==============================================================</span>
+0061 <span class="keyword">switch</span> structVersion
+0062     <span class="keyword">case</span> 1
+0063         output = <a href="TDMS_dataToGroupChanStruct_v1.html" class="code" title="function output = TDMS_dataToGroupChanStruct_v1(inputStruct,varargin)">TDMS_dataToGroupChanStruct_v1</a>(temp,structConvOptions{:});
+0064     <span class="keyword">case</span> 2
+0065         output = <a href="TDMS_dataToGroupChanStruct_v2.html" class="code" title="function [outputStruct,navigator] = TDMS_dataToGroupChanStruct_v2(inputStruct,varargin)">TDMS_dataToGroupChanStruct_v2</a>(temp,structConvOptions{:});
+0066     <span class="keyword">case</span> 3
+0067         output = <a href="TDMS_dataToGroupChanStruct_v3.html" class="code" title="function output = TDMS_dataToGroupChanStruct_v3(inputStruct,varargin)">TDMS_dataToGroupChanStruct_v3</a>(temp,structConvOptions{:});
+0068     <span class="keyword">case</span> 4
+0069         output = <a href="TDMS_dataToGroupChanStruct_v4.html" class="code" title="function output = TDMS_dataToGroupChanStruct_v4(inputStruct,varargin)">TDMS_dataToGroupChanStruct_v4</a>(temp,structConvOptions{:});
+0070 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 19-Aug-2018 19:01:02 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

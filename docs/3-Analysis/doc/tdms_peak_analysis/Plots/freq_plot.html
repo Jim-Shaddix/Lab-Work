@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of freq_plot</title>
+  <meta name="keywords" content="freq_plot">
+  <meta name="description" content="plots all of the peak frequencies vs temperature.">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- ../menu.html tdms_peak_analysis --><!-- menu.html Plots -->
+<h1>freq_plot
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>plots all of the peak frequencies vs temperature.</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function freq_plot(tdms_data) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> plots all of the peak frequencies vs temperature.</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+</ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function freq_plot(tdms_data)</a>
+0002 <span class="comment">% plots all of the peak frequencies vs temperature.</span>
+0003 
+0004     cell_peaks = {tdms_data.peaks_mag_given};
+0005     all_temps      = [tdms_data.temperature];
+0006 
+0007     <span class="comment">%freqs_to_plot = zeros(length(cell_peaks));</span>
+0008     <span class="comment">%temps_to_plot = zeros(length(cell_peaks));</span>
+0009     temps_to_plot = [];
+0010     freqs_to_plot = [];
+0011     gammas_to_plot = [];
+0012     A_to_plot = [];
+0013     
+0014     <span class="keyword">for</span> i = 1:length(cell_peaks)
+0015         peaks = cell_peaks{i};
+0016         temps_to_plot = [temps_to_plot,repmat(all_temps(i),1,length(peaks))];
+0017         freqs_to_plot = [freqs_to_plot,peaks.Frequencies];
+0018         fits = [peaks.fit];
+0019         gammas_to_plot = [gammas_to_plot,fits.gamma];
+0020         A_to_plot = [A_to_plot,fits.A];
+0021     <span class="keyword">end</span>
+0022     
+0023     figure();
+0024     scatter3(temps_to_plot,freqs_to_plot,gammas_to_plot,<span class="string">'Display'</span>,<span class="string">'Single Peak'</span>);
+0025     
+0026     title(<span class="string">'All Peak Frequenices vs. Temperature vs. Fit Parameter Gamma'</span>)
+0027     xlabel(<span class="string">'Temperature (K)'</span>)
+0028     ylabel(<span class="string">'Frequency (hz)'</span>)
+0029     zlabel(<span class="string">'Fit Parameter Gamma (hz)'</span>)
+0030 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 19-Aug-2018 19:01:02 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

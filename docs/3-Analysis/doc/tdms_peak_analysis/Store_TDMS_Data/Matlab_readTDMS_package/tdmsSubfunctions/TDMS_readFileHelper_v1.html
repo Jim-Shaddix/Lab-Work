@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of TDMS_readFileHelper_v1</title>
+  <meta name="keywords" content="TDMS_readFileHelper_v1">
+  <meta name="description" content="TDMS_readFileHelper_v1">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- ../../../menu.html tdms_peak_analysis --><!-- ../../menu.html Store_TDMS_Data --><!-- ../menu.html Matlab_readTDMS_package --><!-- menu.html tdmsSubfunctions -->
+<h1>TDMS_readFileHelper_v1
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>TDMS_readFileHelper_v1</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>function data = TDMS_readFileHelper_v1(fid,optionStruct,metaStruct,paramsStruct) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">TDMS_readFileHelper_v1</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+<li><a href="TDMS_getTypeSeekSizes.html" class="code" title="function [precisionType,nBytes] = TDMS_getTypeSeekSizes">TDMS_getTypeSeekSizes</a>	TDMS_getTypeSeekSizes  Returns information for fread and fseek</li><li><a href="TDMS_initData.html" class="code" title="function output = TDMS_initData(dataType,nSamples)">TDMS_initData</a>	TDMS_initData  Initializes raw data arrays</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+<li><a href="../../../../tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/TDMS_readTDMSFile.html" class="code" title="function [finalOutput,metaStruct] = TDMS_readTDMSFile(tdmsFileName,varargin)">TDMS_readTDMSFile</a>	TDMS_readTDMSFile  Reads TDMS file and does minimal processing to obtain output</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function data = TDMS_readFileHelper_v1(fid,optionStruct,metaStruct,paramsStruct)</a>
+0002 <span class="comment">%TDMS_readFileHelper_v1</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%</span>
+0005 
+0006 <span class="comment">% Time stamps in TDMS are stored as a structure of two components:</span>
+0007 <span class="comment">% (i64) seconds: since the epoch 01/01/1904 00:00:00.00 UTC (using the Gregorian calendar and ignoring leap seconds)</span>
+0008 <span class="comment">% (u64) positive fractions: (2^-64) of a second</span>
+0009 <span class="comment">% Boolean values are stored as 1 byte each, where 1 represents TRUE and 0 represents FALSE.</span>
+0010 
+0011 
+0012 SECONDS_IN_DAY  = paramsStruct.SECONDS_IN_DAY;
+0013 CONV_FACTOR     = paramsStruct.CONV_FACTOR;
+0014 UTC_DIFF        = paramsStruct.UTC_DIFF;
+0015 STRING_ENCODING = paramsStruct.STRING_ENCODING;
+0016 
+0017 <span class="comment">%INPUT UNPACKING</span>
+0018 <span class="comment">%==========================================================================</span>
+0019 keepDataArray        = optionStruct.keepDataArray;
+0020 numValuesToGetActual = optionStruct.numValuesToGetActual;
+0021 
+0022 rawDataInfo      = metaStruct.rawDataInfo;
+0023 segInfo          = metaStruct.segInfo;
+0024 numberDataPoints = metaStruct.numberDataPoints;
+0025 
+0026 numObjects = length(rawDataInfo);
+0027 numSegs    = length(segInfo);
+0028 
+0029 <span class="comment">%INITIALIZATION OF OBJECTS</span>
+0030 <span class="comment">%==========================================================================</span>
+0031 curFileIndex  = zeros(1,numObjects); <span class="comment">%current # of samples read from file</span>
+0032 curDataIndex  = zeros(1,numObjects); <span class="comment">%current # of samples assigned to output</span>
+0033 data          = cell(1,numObjects);  <span class="comment">%a pointer for each channel</span>
+0034 dataTypeArray = [rawDataInfo.dataType];
+0035 
+0036 propNames  = cell(1,numObjects);
+0037 propValues = cell(1,numObjects);
+0038 
+0039 <span class="keyword">for</span> iObject = 1:numObjects
+0040     propNames{iObject}  = rawDataInfo(iObject).propNames;
+0041     propValues{iObject} = rawDataInfo(iObject).propValues;
+0042     <span class="keyword">if</span> numberDataPoints(iObject) &gt; 0 &amp;&amp; keepDataArray(iObject)
+0043         data{iObject} = <a href="TDMS_initData.html" class="code" title="function output = TDMS_initData(dataType,nSamples)">TDMS_initData</a>(dataTypeArray(iObject),numberDataPoints(iObject));
+0044     <span class="keyword">end</span>
+0045 <span class="keyword">end</span>
+0046 
+0047 <span class="comment">%==================================================================</span>
+0048 <span class="comment">%                        RAW DATA PROCESSSING</span>
+0049 <span class="comment">%==================================================================</span>
+0050 
+0051 <span class="comment">%This will be used later for fread and fseek</span>
+0052 <span class="comment">%Simplifies the switch statements</span>
+0053 [precisionType, nBytes] = <a href="TDMS_getTypeSeekSizes.html" class="code" title="function [precisionType,nBytes] = TDMS_getTypeSeekSizes">TDMS_getTypeSeekSizes</a>;
+0054 
+0055 <span class="comment">%Get end of file position, seek back to beginning</span>
+0056 fseek(fid,0,1);
+0057 eofPosition = ftell(fid);
+0058 fseek(fid,0,-1);
+0059 
+0060 <span class="keyword">for</span> iSeg = 1:numSegs
+0061     curSeg = segInfo(iSeg);
+0062     <span class="comment">%Seek to this raw position, this is needed to avoid meta data</span>
+0063     fseek(fid,curSeg.rawPos,<span class="string">'bof'</span>);
+0064     
+0065     nChunksUse = curSeg.nChunks;
+0066     <span class="keyword">for</span> iChunk = 1:nChunksUse
+0067         <span class="comment">%------------------------------------------------------------------</span>
+0068         <span class="comment">%Interleaved data processing</span>
+0069         <span class="comment">%------------------------------------------------------------------</span>
+0070         <span class="keyword">if</span> curSeg.isInterleaved
+0071             objOrder  = curSeg.objOrder;
+0072             dataTypes = dataTypeArray(objOrder);
+0073             nRead     = curSeg.nSamplesRead;
+0074             
+0075             <span class="comment">%error checking</span>
+0076             <span class="keyword">if</span> any(dataTypes ~= dataTypes(1))
+0077                 error(<span class="string">'Interleaved data is assumed to be all of the same type'</span>)
+0078             <span class="keyword">end</span>
+0079             
+0080             <span class="keyword">if</span> any(nRead ~= nRead(1))
+0081                 error(<span class="string">'# of values to read are not all the same'</span>)
+0082             <span class="keyword">end</span>
+0083             
+0084             <span class="comment">%NOTE: unlike below, these are arrays that we are working with</span>
+0085             startI = curFileIndex(objOrder) + 1;
+0086             endI   = curFileIndex(objOrder) + nRead(1);
+0087             curFileIndex(objOrder) = endI;
+0088             curDataIndex(objOrder) = endI;
+0089             
+0090             nChans        = length(objOrder);
+0091             numValuesRead = nRead(1);
+0092             <span class="keyword">switch</span> dataTypes(1)
+0093                 <span class="keyword">case</span> {1 2 3 4 5 6 7 8 9 10}
+0094                     temp = fread(fid,numValuesRead*nChans,precisionType{dataTypes(1)});
+0095                 <span class="keyword">case</span> 32
+0096                     error(<span class="string">'Unexpected interleaved string data'</span>)
+0097                     <span class="comment">%In Labview 2009, the interleaved input is ignored</span>
+0098                     <span class="comment">%Not sure about other versions</span>
+0099                 <span class="keyword">case</span> 33
+0100                     <span class="comment">%This never seems to be called, shows up as uint8 :/</span>
+0101                     temp = logical(fread(fid,numValuesRead*nChans,<span class="string">'uint8'</span>));
+0102                 <span class="keyword">case</span> 68
+0103                     temp = fread(fid,numValuesRead*2*nChans,<span class="string">'*uint64'</span>);
+0104                     temp = (double(temp(1:2:end))/2^64 + double(typecast(temp(2:2:end),<span class="string">'int64'</span>)))<span class="keyword">...</span>
+0105                         /SECONDS_IN_DAY + CONV_FACTOR + UTC_DIFF/24;
+0106                 <span class="keyword">otherwise</span>
+0107                     error(<span class="string">'Unexpected data type: %d'</span>,dataTypes(1))
+0108                     
+0109             <span class="keyword">end</span>
+0110             
+0111             <span class="comment">%NOTE: When reshaping for interleaved, we must put nChans as</span>
+0112             <span class="comment">%the rows, as that is the major indexing direction, we then</span>
+0113             <span class="comment">%grab across columns</span>
+0114             <span class="comment">%Channel 1 2 3 1  2  3</span>
+0115             <span class="comment">%Data    1 2 3 11 22 33 becomes:</span>
+0116             <span class="comment">%   1 11</span>
+0117             <span class="comment">%   2 22    We can now grab rows to get individual channels</span>
+0118             <span class="comment">%   3 33</span>
+0119             temp = reshape(temp,[nChans numValuesRead]);
+0120             <span class="keyword">for</span> iChan = 1:nChans
+0121                 <span class="keyword">if</span> keepDataArray(objOrder(iChan))
+0122                     data{objOrder(iChan)}(startI(iChan):endI(iChan)) = temp(iChan,:);
+0123                 <span class="keyword">end</span>
+0124             <span class="keyword">end</span>
+0125             
+0126         <span class="keyword">else</span>
+0127             <span class="comment">%--------------------------------------------------------------</span>
+0128             <span class="comment">%NOT INTERLEAVED</span>
+0129             <span class="comment">%--------------------------------------------------------------</span>
+0130             <span class="keyword">for</span> iObjList = 1:length(curSeg.objOrder);
+0131                 I_object = curSeg.objOrder(iObjList);
+0132                 
+0133                 numValuesAvailable   = curSeg.nSamplesRead(iObjList);
+0134                 dataType             = dataTypeArray(I_object);
+0135                 
+0136                 curFileIndex(I_object) = curFileIndex(I_object) + numValuesAvailable;
+0137                 
+0138                 <span class="comment">%Actual reading of data (or seeking past)</span>
+0139                 <span class="comment">%------------------------------------------</span>
+0140                 <span class="keyword">if</span> ~keepDataArray(I_object);
+0141                     fseek(fid,numValuesAvailable*nBytes(dataType),<span class="string">'cof'</span>);
+0142                 <span class="keyword">else</span>
+0143                     startI = curDataIndex(I_object) + 1;
+0144                     endI   = curDataIndex(I_object) + numValuesAvailable;
+0145                     curDataIndex(I_object) = endI;
+0146                     <span class="keyword">switch</span> dataType
+0147                         <span class="keyword">case</span> {1 2 3 4 5 6 7 8 9 10}
+0148                             data{I_object}(startI:endI) = fread(fid,numValuesAvailable,precisionType{dataType});
+0149                         <span class="keyword">case</span> 32
+0150                             <span class="comment">%Done above now ...</span>
+0151                             strOffsetArray = [0; fread(fid,numValuesAvailable,<span class="string">'uint32'</span>)];
+0152                             offsetString = startI - 1;
+0153                             <span class="keyword">for</span> iString = 1:numValuesAvailable
+0154                                 offsetString = offsetString + 1;
+0155                                 temp = fread(fid,strOffsetArray(iString+1)-strOffsetArray(iString),<span class="string">'*uint8'</span>);
+0156                                 data{I_object}{offsetString}  = native2unicode(temp,STRING_ENCODING)'; <span class="comment">%#ok&lt;*N2UNI&gt;</span>
+0157                             <span class="keyword">end</span>
+0158                             <span class="comment">%NOTE: Even when using a subset, we</span>
+0159                             <span class="comment">%will only ever have one valid read</span>
+0160                         <span class="keyword">case</span> 33
+0161                             data{I_object}(startI:endI)   = logical(fread(fid,numValuesAvailable,<span class="string">'uint8'</span>));
+0162                         <span class="keyword">case</span> 68
+0163                             temp = fread(fid,numValuesAvailable*2,<span class="string">'*uint64'</span>);
+0164                             <span class="comment">%First row: conversion to seconds</span>
+0165                             <span class="comment">%Second row: conversion to days, and changing of reference frame</span>
+0166                             data{I_object}(startI:endI) = (double(temp(1:2:end))/2^64 + double(typecast(temp(2:2:end),<span class="string">'int64'</span>)))<span class="keyword">...</span>
+0167                                 /SECONDS_IN_DAY + CONV_FACTOR + UTC_DIFF/24;
+0168                         <span class="keyword">otherwise</span>
+0169                             error(<span class="string">'Unexpected type: %d'</span>, dataType)
+0170                     <span class="keyword">end</span>
+0171                 <span class="keyword">end</span>
+0172             <span class="keyword">end</span>
+0173         <span class="keyword">end</span>
+0174     <span class="keyword">end</span>
+0175     
+0176     
+0177     <span class="comment">%Some error checking just in case</span>
+0178     <span class="keyword">if</span> iSeg ~= numSegs
+0179         Ttag = fread(fid,1,<span class="string">'uint8'</span>);
+0180         Dtag = fread(fid,1,<span class="string">'uint8'</span>);
+0181         Stag = fread(fid,1,<span class="string">'uint8'</span>);
+0182         mtag = fread(fid,1,<span class="string">'uint8'</span>);
+0183         <span class="keyword">if</span> ~(Ttag == 84 &amp;&amp; Dtag == 68 &amp;&amp; Stag == 83 &amp;&amp; mtag == 109)
+0184             error(<span class="string">'Catastrophic error detected, code probably has an error somewhere'</span>)
+0185         <span class="keyword">end</span>
+0186     <span class="keyword">else</span>
+0187         <span class="keyword">if</span> eofPosition ~= ftell(fid) &amp;&amp; ~metaStruct.eof_error
+0188             error(<span class="string">'Catastrophic error detected, code probably has an error somewhere'</span>)
+0189         <span class="keyword">end</span>
+0190     <span class="keyword">end</span>
+0191 <span class="keyword">end</span>
+0192 
+0193 <span class="comment">%ERROR CHECKING ON # OF VALUES READ</span>
+0194 <span class="comment">%==========================================================================</span>
+0195 <span class="keyword">if</span> ~isequal(numValuesToGetActual,curDataIndex)
+0196     error(<span class="string">'The # of requested values does not equal the # of returned values, error in code likely'</span>)
+0197 <span class="keyword">end</span>
+0198 
+0199 <span class="comment">%END OF READING RAW DATA</span>
+0200 <span class="comment">%==========================================================================</span>
+0201 fclose(fid);</pre></div>
+<hr><address>Generated on Sun 19-Aug-2018 19:01:02 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

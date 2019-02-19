@@ -1,0 +1,17 @@
+/* Created by mdot for Matlab */
+digraph m2html {
+  TDMS_getStruct -> TDMS_dataToGroupChanStruct_v1;
+  TDMS_getStruct -> TDMS_dataToGroupChanStruct_v2;
+  TDMS_getStruct -> TDMS_dataToGroupChanStruct_v3;
+  TDMS_getStruct -> TDMS_dataToGroupChanStruct_v4;
+  TDMS_getStruct -> TDMS_readTDMSFile;
+  TDMS_readChannelOrGroup -> TDMS_readTDMSFile;
+
+  TDMS_dataToGroupChanStruct_v1 [URL="TDMS_dataToGroupChanStruct_v1.html"];
+  TDMS_dataToGroupChanStruct_v2 [URL="TDMS_dataToGroupChanStruct_v2.html"];
+  TDMS_dataToGroupChanStruct_v3 [URL="TDMS_dataToGroupChanStruct_v3.html"];
+  TDMS_dataToGroupChanStruct_v4 [URL="TDMS_dataToGroupChanStruct_v4.html"];
+  TDMS_getStruct [URL="TDMS_getStruct.html"];
+  TDMS_readChannelOrGroup [URL="TDMS_readChannelOrGroup.html"];
+  TDMS_readTDMSFile [URL="TDMS_readTDMSFile.html"];
+}

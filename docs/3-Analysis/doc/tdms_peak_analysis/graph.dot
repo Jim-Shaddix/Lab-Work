@@ -1,0 +1,10 @@
+/* Created by mdot for Matlab */
+digraph m2html {
+  main -> Get_Plot_Struct;
+  main -> Process_Data;
+
+  Andrew_main [URL="Andrew_main.html"];
+  Get_Plot_Struct [URL="Get_Plot_Struct.html"];
+  Process_Data [URL="Process_Data.html"];
+  main [URL="main.html"];
+}

@@ -1,0 +1,7 @@
+/* Created by mdot for Matlab */
+digraph m2html {
+  TDMS_Load -> Get_RUS_Data_Struct;
+
+  Get_RUS_Data_Struct [URL="Get_RUS_Data_Struct.html"];
+  TDMS_Load [URL="TDMS_Load.html"];
+}

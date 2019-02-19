@@ -1,0 +1,238 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of TDMS_dataToGroupChanStruct_v2</title>
+  <meta name="keywords" content="TDMS_dataToGroupChanStruct_v2">
+  <meta name="description" content="TDMS_dataToGroupChanStruct_v2  Converts output into tiered structure">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- ../../menu.html tdms_peak_analysis --><!-- ../menu.html Store_TDMS_Data --><!-- menu.html Matlab_readTDMS_package -->
+<h1>TDMS_dataToGroupChanStruct_v2
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>TDMS_dataToGroupChanStruct_v2  Converts output into tiered structure</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [outputStruct,navigator] = TDMS_dataToGroupChanStruct_v2(inputStruct,varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">TDMS_dataToGroupChanStruct_v2  Converts output into tiered structure
+
+   [outputStruct,navigator] = TDMS_dataToGroupChanStruct_v2(inputStruct)
+
+   This function tiers the data into groups &amp; channels but leaves the
+   channel &amp; group names as properties of the array, as opposed to making
+   each group and channel its own field name.
+
+   For example for groups =&gt; {'servers' 'computers'}
+   
+   Instead of indexing a.servers &amp; a.computers you have to do
+   s.group(1).id =&gt; 'servers'
+   s.group(2).id =&gt; 'computers'
+
+   This may be desirable for cases in which the names are not appropriate
+   variable names.  The navigator output is provided for going from a name
+   to an index into the structure.
+
+   INPUTS
+   ============================
+   inputStruct : see TDMS_readTDMSfile
+
+   OUTPUTS
+   ============================
+   outputStruct :
+       .propNames  - cell array of strings (for file)
+       .propValues - cell array, for each string, holds value
+       .groups (structure array)
+           .id         - channel name
+           .propNames  - &quot;&quot;
+           .propValues - &quot;&quot;
+           .chans      - structure array
+               .id           - channel name
+               .propNames    - &quot;&quot;
+               .propValues   - &quot;&quot;
+               .dataTypeName - class name
+               .dataType     - Labview enum to indicate type
+               .data         - data array
+
+   navigator :
+       .groups
+           .names - names of all the groups
+           .indices - indices in which they reside in outputStruct.groups
+       .chans
+           .chanNames     - cell array of strinsg, name of the channel
+           .groupNames    - cell array of strings, group name of the
+                            channel
+           .fullObjNames  - cell array of strings, the full name of the
+                            channel object (as tracked in Labview)
+           .groupIndices
+           .chanIndices   - together with groupIndices allows one to grab
+                            a particular channel object
+
+   See also: <a href="TDMS_readTDMSFile.html" class="code" title="function [finalOutput,metaStruct] = TDMS_readTDMSFile(tdmsFileName,varargin)">TDMS_readTDMSFile</a></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="TDMS_getStruct.html" class="code" title="function [output,metaStruct] = TDMS_getStruct(filePath,structVersion,readOptions,structConvOptions)">TDMS_getStruct</a>	TDMS_getStruct  A wrapper for simplifying data retrieval from TDMS_readTDMSFile</li><li><a href="../../../tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/private/TDMS_exampleFunctionCalls.html" class="code" title="">TDMS_exampleFunctionCalls</a>	The following is some example code of calls that can be made</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [outputStruct,navigator] = TDMS_dataToGroupChanStruct_v2(inputStruct,varargin)</a>
+0002 <span class="comment">%TDMS_dataToGroupChanStruct_v2  Converts output into tiered structure</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   [outputStruct,navigator] = TDMS_dataToGroupChanStruct_v2(inputStruct)</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">%   This function tiers the data into groups &amp; channels but leaves the</span>
+0007 <span class="comment">%   channel &amp; group names as properties of the array, as opposed to making</span>
+0008 <span class="comment">%   each group and channel its own field name.</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">%   For example for groups =&gt; {'servers' 'computers'}</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">%   Instead of indexing a.servers &amp; a.computers you have to do</span>
+0013 <span class="comment">%   s.group(1).id =&gt; 'servers'</span>
+0014 <span class="comment">%   s.group(2).id =&gt; 'computers'</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">%   This may be desirable for cases in which the names are not appropriate</span>
+0017 <span class="comment">%   variable names.  The navigator output is provided for going from a name</span>
+0018 <span class="comment">%   to an index into the structure.</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">%   INPUTS</span>
+0021 <span class="comment">%   ============================</span>
+0022 <span class="comment">%   inputStruct : see TDMS_readTDMSfile</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">%   OUTPUTS</span>
+0025 <span class="comment">%   ============================</span>
+0026 <span class="comment">%   outputStruct :</span>
+0027 <span class="comment">%       .propNames  - cell array of strings (for file)</span>
+0028 <span class="comment">%       .propValues - cell array, for each string, holds value</span>
+0029 <span class="comment">%       .groups (structure array)</span>
+0030 <span class="comment">%           .id         - channel name</span>
+0031 <span class="comment">%           .propNames  - &quot;&quot;</span>
+0032 <span class="comment">%           .propValues - &quot;&quot;</span>
+0033 <span class="comment">%           .chans      - structure array</span>
+0034 <span class="comment">%               .id           - channel name</span>
+0035 <span class="comment">%               .propNames    - &quot;&quot;</span>
+0036 <span class="comment">%               .propValues   - &quot;&quot;</span>
+0037 <span class="comment">%               .dataTypeName - class name</span>
+0038 <span class="comment">%               .dataType     - Labview enum to indicate type</span>
+0039 <span class="comment">%               .data         - data array</span>
+0040 <span class="comment">%</span>
+0041 <span class="comment">%   navigator :</span>
+0042 <span class="comment">%       .groups</span>
+0043 <span class="comment">%           .names - names of all the groups</span>
+0044 <span class="comment">%           .indices - indices in which they reside in outputStruct.groups</span>
+0045 <span class="comment">%       .chans</span>
+0046 <span class="comment">%           .chanNames     - cell array of strinsg, name of the channel</span>
+0047 <span class="comment">%           .groupNames    - cell array of strings, group name of the</span>
+0048 <span class="comment">%                            channel</span>
+0049 <span class="comment">%           .fullObjNames  - cell array of strings, the full name of the</span>
+0050 <span class="comment">%                            channel object (as tracked in Labview)</span>
+0051 <span class="comment">%           .groupIndices</span>
+0052 <span class="comment">%           .chanIndices   - together with groupIndices allows one to grab</span>
+0053 <span class="comment">%                            a particular channel object</span>
+0054 <span class="comment">%</span>
+0055 <span class="comment">%   See also: TDMS_readTDMSFile</span>
+0056 
+0057 <span class="comment">%EXAMPLE OF OUTPUT FORMAT</span>
+0058 <span class="comment">%==========================================================================</span>
+0059 <span class="comment">% inputStruct =</span>
+0060 <span class="comment">%           rootIndex: 1</span>
+0061 <span class="comment">%        groupIndices: 2</span>
+0062 <span class="comment">%          groupNames: {'Data'}</span>
+0063 <span class="comment">%         chanIndices: {[3 4 5]}</span>
+0064 <span class="comment">%           chanNames: {{1x3 cell}}</span>
+0065 <span class="comment">%                data: {[]  []  [1x9785383 single]  [1x9785383 single]  [1x9785383 single]}</span>
+0066 <span class="comment">%           propNames: {{1x0 cell}  {1x0 cell}  {1x1 cell}  {1x1 cell}  {1x1 cell}}</span>
+0067 <span class="comment">%          propValues: {{1x0 cell}  {1x0 cell}  {1x1 cell}  {1x1 cell}  {1x1 cell}}</span>
+0068 <span class="comment">%     objectPathsOrig: {'/'  '/'Data''  '/'Data'/'Trigger''  '/'Data'/'Chan1''  [1x15 char]}</span>
+0069 <span class="comment">%            dataType: [0 0 9 9 9]</span>
+0070 <span class="comment">%        dataTypeName: {'void'  'void'  'single'  'single'  'single'}</span>
+0071 
+0072 
+0073 <span class="comment">%Root index building</span>
+0074 <span class="comment">%=========================================</span>
+0075 rootIndex = inputStruct.rootIndex;
+0076 outputStruct = struct(<span class="string">'propNames'</span>,[],<span class="string">'propValues'</span>,[],<span class="string">'groups'</span>,[]);
+0077 outputStruct.propNames  = inputStruct.propNames{rootIndex};
+0078 outputStruct.propValues = inputStruct.propValues{rootIndex};
+0079 
+0080 <span class="comment">%Groups &amp; channels</span>
+0081 <span class="comment">%=========================================</span>
+0082 nChans = sum(cellfun(<span class="string">'length'</span>,inputStruct.chanIndices));
+0083 
+0084 <span class="comment">%These are for the navigator</span>
+0085 chanIndices = zeros(1,nChans);
+0086 groupIndices = zeros(1,nChans);
+0087 chanNames   = cell(1,nChans);
+0088 groupNames  = cell(1,nChans);
+0089 fullObjNames = cell(1,nChans);
+0090 chanCount   = 0;
+0091 
+0092 groups = struct(<span class="string">'id'</span>,inputStruct.groupNames,<span class="string">'chans'</span>,[],<span class="string">'propNames'</span>,[],<span class="string">'propValues'</span>,[]);
+0093 <span class="keyword">for</span> iGroup = 1:length(groups)
+0094     groupIndex = inputStruct.groupIndices(iGroup);
+0095     groups(iGroup).propNames  = inputStruct.propNames{groupIndex};
+0096     groups(iGroup).propValues = inputStruct.propValues{groupIndex};
+0097     
+0098     <span class="comment">%Channel entries</span>
+0099     <span class="comment">%-----------------------------------</span>
+0100     chans =  struct(<span class="string">'id'</span>,inputStruct.chanNames{iGroup},<span class="string">'dataTypeName'</span>,[],<span class="string">'dataType'</span>,[],<span class="string">'propNames'</span>,[],<span class="string">'propValues'</span>,[],<span class="string">'data'</span>,[]);
+0101     <span class="keyword">for</span> iChan = 1:length(chans)
+0102         chanIndex = inputStruct.chanIndices{iGroup}(iChan);
+0103         chanCount = chanCount + 1;
+0104         chanIndices(chanCount) = iChan;
+0105         groupIndices(chanCount) = iGroup;
+0106         
+0107         chanNames{chanCount}   = chans(iChan).id;
+0108         groupNames{chanCount}  = groups(iGroup).id;
+0109         fullObjNames{chanCount} = [<span class="string">'/'''</span> groupNames{chanCount} <span class="string">'''/'''</span> chanNames{chanCount} <span class="string">''''</span>];
+0110         
+0111         chans(iChan).propNames    = inputStruct.propNames{chanIndex};
+0112         chans(iChan).propValues   = inputStruct.propValues{chanIndex};
+0113         chans(iChan).data         = inputStruct.data{chanIndex};
+0114         chans(iChan).dataType     = inputStruct.dataType(chanIndex);
+0115         chans(iChan).dataTypeName = inputStruct.dataTypeName{chanIndex};
+0116     <span class="keyword">end</span>
+0117     groups(iGroup).chans = chans;
+0118 <span class="keyword">end</span>
+0119 outputStruct.groups = groups;
+0120 
+0121 <span class="comment">%Build the navigator structure</span>
+0122 <span class="comment">%====================================================================</span>
+0123 <span class="comment">%   navigator</span>
+0124 <span class="comment">%   ===========================</span>
+0125 <span class="comment">%   - groups</span>
+0126 <span class="comment">%       - name array</span>
+0127 <span class="comment">%       - group index</span>
+0128 <span class="comment">%   - chan name</span>
+0129 <span class="comment">%       - chan name</span>
+0130 <span class="comment">%       - group name</span>
+0131 <span class="comment">%       - group index</span>
+0132 <span class="comment">%       - chan index</span>
+0133 
+0134 
+0135 groupsNav = struct(<span class="string">'names'</span>,inputStruct.groupNames,<span class="string">'indices'</span>,num2cell(1:length(groups)));
+0136 chansNav  = struct(<span class="string">'chanNames'</span>,{chanNames},<span class="string">'groupNames'</span>,{groupNames},<span class="string">'fullObjNames'</span>,<span class="keyword">...</span>
+0137     {fullObjNames},<span class="string">'groupIndices'</span>,groupIndices,<span class="string">'chanIndices'</span>,chanIndices);
+0138 navigator = struct(<span class="string">'groups'</span>,groupsNav,<span class="string">'chans'</span>,chansNav);
+0139</pre></div>
+<hr><address>Generated on Sun 19-Aug-2018 19:01:02 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

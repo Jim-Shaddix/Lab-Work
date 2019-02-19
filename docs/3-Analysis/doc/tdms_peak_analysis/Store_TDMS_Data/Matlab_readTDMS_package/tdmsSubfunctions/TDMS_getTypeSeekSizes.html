@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of TDMS_getTypeSeekSizes</title>
+  <meta name="keywords" content="TDMS_getTypeSeekSizes">
+  <meta name="description" content="TDMS_getTypeSeekSizes  Returns information for fread and fseek">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- ../../../menu.html tdms_peak_analysis --><!-- ../../menu.html Store_TDMS_Data --><!-- ../menu.html Matlab_readTDMS_package --><!-- menu.html tdmsSubfunctions -->
+<h1>TDMS_getTypeSeekSizes
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>TDMS_getTypeSeekSizes  Returns information for fread and fseek</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="box"><strong>function [precisionType,nBytes] = TDMS_getTypeSeekSizes </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">TDMS_getTypeSeekSizes  Returns information for fread and fseek
+
+   [precisionType,nBytes] = TDMS_getTypeSeekSizes
+
+   For internal use
+
+   precisionType : the string that goes to fread
+   nBytes        : gets multiplied by # of values to know how many bytes
+                   to skip when seeking</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../../matlabicon.gif)">
+<li><a href="TDMS_readFileHelper_v1.html" class="code" title="function data = TDMS_readFileHelper_v1(fid,optionStruct,metaStruct,paramsStruct)">TDMS_readFileHelper_v1</a>	TDMS_readFileHelper_v1</li><li><a href="TDMS_readFileHelper_v2.html" class="code" title="function data = TDMS_readFileHelper_v2(fid,optionStruct,metaStruct,paramsStruct)">TDMS_readFileHelper_v2</a>	TDMS_readFileHelper_v2</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [precisionType,nBytes] = TDMS_getTypeSeekSizes</a>
+0002 <span class="comment">%TDMS_getTypeSeekSizes  Returns information for fread and fseek</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">%   [precisionType,nBytes] = TDMS_getTypeSeekSizes</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">%   For internal use</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">%   precisionType : the string that goes to fread</span>
+0009 <span class="comment">%   nBytes        : gets multiplied by # of values to know how many bytes</span>
+0010 <span class="comment">%                   to skip when seeking</span>
+0011 <span class="comment">%</span>
+0012 
+0013 precisionType  = cell(1,10);
+0014 nBytes = zeros(1,68);
+0015 
+0016 precisionType{1}  = <span class="string">'int8=&gt;int8'</span>;
+0017 nBytes(1) = 1;
+0018 precisionType{2}  = <span class="string">'int16=&gt;int16'</span>;
+0019 nBytes(2) = 2;
+0020 precisionType{3}  = <span class="string">'int32=&gt;int32'</span>;
+0021 nBytes(3) = 4;
+0022 precisionType{4}  = <span class="string">'int64=&gt;int64'</span>;
+0023 nBytes(4) = 8;
+0024 precisionType{5}  = <span class="string">'uint8=&gt;uint8'</span>;
+0025 nBytes(5) = 1;
+0026 precisionType{6}  = <span class="string">'uint16=&gt;uint16'</span>;
+0027 nBytes(6) = 2;
+0028 precisionType{7}  = <span class="string">'uint32=&gt;uint32'</span>;
+0029 nBytes(7) = 4;
+0030 precisionType{8}  = <span class="string">'uint64=&gt;uint64'</span>;
+0031 nBytes(8) = 8;
+0032 precisionType{9}  = <span class="string">'single=&gt;single'</span>;
+0033 nBytes(9) = 4;
+0034 precisionType{10} = <span class="string">'double=&gt;double'</span>;
+0035 nBytes(10) = 8;
+0036 nBytes(32) = 1; <span class="comment">%Size is specified in bytes, not characters</span>
+0037 nBytes(33) = 1;
+0038 nBytes(68) = 16;
+0039 
+0040 
+0041 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 19-Aug-2018 19:01:02 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

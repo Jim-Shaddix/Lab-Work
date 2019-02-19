@@ -1,0 +1,11 @@
+/* Created by mdot for Matlab */
+digraph m2html {
+  Process_Plot_Data -> Smooth;
+
+  Convolution [URL="Convolution.html"];
+  Denoise [URL="Denoise.html"];
+  Detrend [URL="Detrend.html"];
+  Magnitude [URL="Magnitude.html"];
+  Process_Plot_Data [URL="Process_Plot_Data.html"];
+  Smooth [URL="Smooth.html"];
+}

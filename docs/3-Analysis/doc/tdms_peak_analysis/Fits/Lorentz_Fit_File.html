@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of Lorentz_Fit_File</title>
+  <meta name="keywords" content="Lorentz_Fit_File">
+  <meta name="description" content="Lorentz_ Fit_File.m Fits a complex lorentzian function to all of the peaks">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- ../menu.html tdms_peak_analysis --><!-- menu.html Fits -->
+<h1>Lorentz_Fit_File
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>Lorentz_ Fit_File.m Fits a complex lorentzian function to all of the peaks</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function cell_peak_data = Lorentz_Fit_File(cell_x_cor_all, cell_real_cor_all, cell_imag_cor_all, cell_peak_data, cell_fit_options, given_bool) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"> Lorentz_ Fit_File.m Fits a complex lorentzian function to all of the peaks 
+ in a given dataset, returns the arrays of the fit parameters found, and
+ coordinates associated with the applied fit function.
+
+ PARAMETERS:
+   1. tdms_data:
+   2. peak_data:
+   3. peak_width:
+
+ RETURN:
+   1. Est: [Cell-Array] Each cell contains the 5 calculated fit parameters
+   2. fit_x: [Cell-Array] The x-values, associated with the fit that took
+                          place for each peak
+   3. fit_real: [Cell-Array] The real-values, associated with the fit that
+                took place for each peak
+   4. fit_imag: [Cell-Array] The x-values, associated with the fit that
+                took place for each peak</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="Lorentz_Fit.html" class="code" title="function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess, fit_options)">Lorentz_Fit</a>	This function fits a complex lorentzian function to all of the peaks</li><li><a href="Lorentz_Fit_Get_Guess.html" class="code" title="function guesses = Lorentz_Fit_Get_Guess(cell_x_peak,cell_y_peak_real,cell_y_peak_imag)">Lorentz_Fit_Get_Guess</a>	LORENTZ_FIT_GUESS: returns the fit parameter guesses for a Lorentzian</li><li><a href="Lorentz_Fit_Get_Window.html" class="code" title="function [fit_x_cor, fit_y_cor] = Lorentz_Fit_Get_Window(x_cor_all, y_cor_all, x_cor_peaks, peak_widths, given_bool)">Lorentz_Fit_Get_Window</a>	LORENTZ_FIT_REGION: Returns the x/y-coordinates, that will be</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="../../tdms_peak_analysis/Andrew_main.html" class="code" title="">Andrew_main</a>	% Load TMDS</li><li><a href="../../tdms_peak_analysis/Process_Data.html" class="code" title="function tdms_data = Process_Data(tdms_data, plot_info_struct)">Process_Data</a>	this function sets all of the fields specified by plot_info</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function cell_peak_data = Lorentz_Fit_File(cell_x_cor_all, cell_real_cor_all, cell_imag_cor_all, cell_peak_data, cell_fit_options, given_bool)</a>
+0002 <span class="comment">% Lorentz_ Fit_File.m Fits a complex lorentzian function to all of the peaks</span>
+0003 <span class="comment">% in a given dataset, returns the arrays of the fit parameters found, and</span>
+0004 <span class="comment">% coordinates associated with the applied fit function.</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% PARAMETERS:</span>
+0007 <span class="comment">%   1. tdms_data:</span>
+0008 <span class="comment">%   2. peak_data:</span>
+0009 <span class="comment">%   3. peak_width:</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% RETURN:</span>
+0012 <span class="comment">%   1. Est: [Cell-Array] Each cell contains the 5 calculated fit parameters</span>
+0013 <span class="comment">%   2. fit_x: [Cell-Array] The x-values, associated with the fit that took</span>
+0014 <span class="comment">%                          place for each peak</span>
+0015 <span class="comment">%   3. fit_real: [Cell-Array] The real-values, associated with the fit that</span>
+0016 <span class="comment">%                took place for each peak</span>
+0017 <span class="comment">%   4. fit_imag: [Cell-Array] The x-values, associated with the fit that</span>
+0018 <span class="comment">%                took place for each peak</span>
+0019 
+0020     <span class="comment">%fit(length(peak_data)) = struct();</span>
+0021     
+0022     <span class="comment">% perform fit on each peak in each file</span>
+0023     <span class="keyword">for</span> i = 1:length(cell_peak_data)
+0024 
+0025         x_cor_all  = cell_x_cor_all{i};
+0026         y_cor_all  = cell_real_cor_all{i} + cell_imag_cor_all{i}.*1i;
+0027         peak_data  = cell_peak_data{i};
+0028         fit_options = cell_fit_options{i};
+0029         
+0030         <span class="comment">% CHECK: if any peaks were found</span>
+0031         <span class="keyword">if</span> isempty(peak_data)
+0032             <span class="keyword">continue</span>
+0033         <span class="keyword">end</span>
+0034         
+0035         <span class="comment">% GET: coordinates to be fit</span>
+0036         [x_cor_fit, y_cor_fit] = <a href="Lorentz_Fit_Get_Window.html" class="code" title="function [fit_x_cor, fit_y_cor] = Lorentz_Fit_Get_Window(x_cor_all, y_cor_all, x_cor_peaks, peak_widths, given_bool)">Lorentz_Fit_Get_Window</a>( <span class="keyword">...</span>
+0037                                 x_cor_all, y_cor_all,    <span class="keyword">...</span>
+0038                                 [peak_data.Frequencies], <span class="keyword">...</span>
+0039                                 [peak_data.Width],       <span class="keyword">...</span>
+0040                                 given_bool);
+0041 
+0042         <span class="comment">% Fit Parameters Guess:</span>
+0043         <span class="comment">% [A, theta, gamma, f_0, offset]</span>
+0044         guesses = <a href="Lorentz_Fit_Get_Guess.html" class="code" title="function guesses = Lorentz_Fit_Get_Guess(cell_x_peak,cell_y_peak_real,cell_y_peak_imag)">Lorentz_Fit_Get_Guess</a>({peak_data.Frequencies}, <span class="keyword">...</span>
+0045                                         {peak_data.signal_x},    <span class="keyword">...</span>
+0046                                         {peak_data.signal_y});
+0047         
+0048         <span class="comment">% Perform Fit &amp; assighn variables to be returned</span>
+0049         a = <a href="Lorentz_Fit.html" class="code" title="function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess, fit_options)">Lorentz_Fit</a>(x_cor_fit, y_cor_fit, guesses, fit_options);
+0050         b = num2cell(a);
+0051         [cell_peak_data{i}.fit] = b{:};
+0052         
+0053     <span class="keyword">end</span>
+0054 
+0055 <span class="keyword">end</span></pre></div>
+<hr><address>Generated on Sun 19-Aug-2018 19:01:02 by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>
