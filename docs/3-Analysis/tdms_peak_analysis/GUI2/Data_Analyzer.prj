@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="3517360951" file="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/GUI/Data_Analyzer.prj" location="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/GUI" name="Data_Analyzer" target="target.mlapps" target-name="Package App">
+  <configuration build-checksum="1228294290" file="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/GUI2/Data_Analyzer.prj" location="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/GUI2" name="Data_Analyzer" target="target.mlapps" target-name="Package App">
     <param.appname>Data_Analyzer</param.appname>
     <param.authnamewatermark>James Shaddix</param.authnamewatermark>
     <param.email>jimmy.shaddix2.0@gmail.com</param.email>
@@ -13,7 +13,7 @@
     <param.summary>This is a program that was built for Dr. Kate Ross's Lab</param.summary>
     <param.description>This program finds peaks from tdms files, and fits lorentzian peaks to the peaks that were found.</param.description>
     <param.screenshot />
-    <param.version>1.0</param.version>
+    <param.version>2.0</param.version>
     <param.products.name>
       <item>Curve Fitting Toolbox</item>
     </param.products.name>
@@ -31,7 +31,6 @@
       <param.email />
       <param.company />
       <param.screenshot />
-      <param.version />
       <param.platforms />
     </unset>
     <fileset.main>
@@ -45,19 +44,22 @@
       <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Fits/Lorentz_Fit_File.m</file>
       <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Fits/Lorentz_Fit_Get_Guess.m</file>
       <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Fits/Lorentz_Fit_Get_Window.m</file>
+      <file>${PROJECT_ROOT}/Export_Data.mlapp</file>
       <file>${PROJECT_ROOT}/Peak_Analyzer.mlapp</file>
       <file>${PROJECT_ROOT}/Peak_Tracker.mlapp</file>
+      <file>${PROJECT_ROOT}/findpeaks_param.mlapp</file>
       <file>${PROJECT_ROOT}/icons/green_circle.jpeg</file>
       <file>${PROJECT_ROOT}/icons/grid.png</file>
       <file>${PROJECT_ROOT}/icons/left_arrow.png</file>
-      <file>${PROJECT_ROOT}/icons/reload.png</file>
+      <file>${PROJECT_ROOT}/icons/repeat.png</file>
       <file>${PROJECT_ROOT}/icons/right_arrow.png</file>
       <file>${PROJECT_ROOT}/icons/sepperate.png</file>
       <file>${PROJECT_ROOT}/icons/track.png</file>
       <file>${PROJECT_ROOT}/icons/yellow-folder.png</file>
+      <file>${PROJECT_ROOT}/peakfit_param.mlapp</file>
       <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Get_Plot_Struct.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Peaks/Get_Given_Peaks.m</file>
       <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Peaks/Peak_Tracking/Track_Peaks_Interval.m</file>
-      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Peaks/Set_Peaks/Get_Given_Peaks.m</file>
       <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Peaks/Set_Peaks/Get_Set_Peaks.m</file>
       <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Peaks/Tracked_Peak_Analysis/Analyze_Tracked_Peaks.m</file>
       <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Peaks/Tracked_Peak_Analysis/Plot_Tracked_Peaks.m</file>
@@ -105,7 +107,7 @@
       <vista>false</vista>
       <linux>false</linux>
       <solaris>false</solaris>
-      <osver>10.13.6</osver>
+      <osver>10.14.3</osver>
       <os32>false</os32>
       <os64>true</os64>
       <arch>maci64</arch>
