@@ -14,7 +14,7 @@ addpath(genpath('Plots'));           % for plotting data
 addpath(genpath('Peaks'));           % for setting peak values
 addpath(genpath('Data_Manipulation')); % for reading tdms files
 %addpath(genpath('GUI'));
-addpath(genpath('GUI2'));
+addpath(genpath('GUI'));
 
 % SET: file paths
 direc = '../../2-Files_To_Analyze/';

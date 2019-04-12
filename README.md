@@ -3,7 +3,10 @@
   1. James Shaddix
   2. Andrew Sexton
 
+![alt text](Application.png "Image of the Application")
+
 # Book #
+* This book is a good refference for our experiment.
 [Robert G Leisure. Ultrasonic Spectroscopy](https://www.cambridge.org/core/books/ultrasonic-spectroscopy/D4A1831DE2E596E6EC393A5B85B69E63)
 
 # Directories #

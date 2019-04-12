@@ -1,7 +1,7 @@
 function freq_plot(tdms_data)
 % plots all of the peak frequencies vs temperature.
 
-    cell_peaks = {tdms_data.peaks_mag_given};
+    cell_peaks = {tdms_data.peaks_mag_set};
     all_temps      = [tdms_data.temperature];
 
     %freqs_to_plot = zeros(length(cell_peaks));
@@ -13,6 +13,9 @@ function freq_plot(tdms_data)
     
     for i = 1:length(cell_peaks)
         peaks = cell_peaks{i};
+        if isempty(peaks)
+            continue
+        end
         temps_to_plot = [temps_to_plot,repmat(all_temps(i),1,length(peaks))];
         freqs_to_plot = [freqs_to_plot,peaks.Frequencies];
         fits = [peaks.fit];
