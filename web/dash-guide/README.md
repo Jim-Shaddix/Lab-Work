@@ -1,6 +1,6 @@
 
 
-# Dash #
+# Dash 
 - dash is declaritive (as opposed to imperative): we use a bunch of high 
     level expressions, rather than writing out each logical step.
 1. composed of 3 different libraries
@@ -21,5 +21,16 @@
     1. layout
     2. interactivity
 
+# Plotly Styling
+https://plot.ly/javascript/reference/#layout-xaxis-title
+
+# Wrong
+* sometimes there is an error because a socket
+  is already in use.
+  
+ ps -fA | grep python
+ 
+ will find the processes you can than kill.
+  
 
 

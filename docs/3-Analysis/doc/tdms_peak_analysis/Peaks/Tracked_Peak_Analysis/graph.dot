@@ -1,7 +1,0 @@
-/* Created by mdot for Matlab */
-digraph m2html {
-  Analyze_Tracked_Peaks -> Plot_Tracked_Peaks;
-
-  Analyze_Tracked_Peaks [URL="Analyze_Tracked_Peaks.html"];
-  Plot_Tracked_Peaks [URL="Plot_Tracked_Peaks.html"];
-}

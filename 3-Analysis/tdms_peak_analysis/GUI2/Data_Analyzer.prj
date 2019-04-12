@@ -1,0 +1,117 @@
+<deployment-project plugin="plugin.apptool" plugin-version="1.0">
+  <configuration build-checksum="1228294290" file="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/GUI2/Data_Analyzer.prj" location="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/GUI2" name="Data_Analyzer" target="target.mlapps" target-name="Package App">
+    <param.appname>Data_Analyzer</param.appname>
+    <param.authnamewatermark>James Shaddix</param.authnamewatermark>
+    <param.email>jimmy.shaddix2.0@gmail.com</param.email>
+    <param.company />
+    <param.icon>${PROJECT_ROOT}/Data_Analyzer_resources/icon_24.png</param.icon>
+    <param.icons>
+      <file>${PROJECT_ROOT}/Data_Analyzer_resources/icon_48.png</file>
+      <file>${PROJECT_ROOT}/Data_Analyzer_resources/icon_24.png</file>
+      <file>${PROJECT_ROOT}/Data_Analyzer_resources/icon_16.png</file>
+    </param.icons>
+    <param.summary>This is a program that was built for Dr. Kate Ross's Lab</param.summary>
+    <param.description>This program finds peaks from tdms files, and fits lorentzian peaks to the peaks that were found.</param.description>
+    <param.screenshot />
+    <param.version>2.0</param.version>
+    <param.products.name>
+      <item>Curve Fitting Toolbox</item>
+    </param.products.name>
+    <param.products.id>
+      <item>60</item>
+    </param.products.id>
+    <param.products.version>
+      <item>3.5.7</item>
+    </param.products.version>
+    <param.platforms />
+    <param.output>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis</param.output>
+    <param.guid>87c2e030-6260-4e57-bf21-7747a20e6516</param.guid>
+    <unset>
+      <param.authnamewatermark />
+      <param.email />
+      <param.company />
+      <param.screenshot />
+      <param.platforms />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}/Data_Analyzer.mlapp</file>
+    </fileset.main>
+    <fileset.depfun>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Data_Manipulation/Plot_Data_Manipulation/Detrend.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Data_Manipulation/Plot_Data_Manipulation/Magnitude.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Data_Manipulation/Plot_Data_Manipulation/Smooth.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Fits/Lorentz_Fit.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Fits/Lorentz_Fit_File.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Fits/Lorentz_Fit_Get_Guess.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Fits/Lorentz_Fit_Get_Window.m</file>
+      <file>${PROJECT_ROOT}/Export_Data.mlapp</file>
+      <file>${PROJECT_ROOT}/Peak_Analyzer.mlapp</file>
+      <file>${PROJECT_ROOT}/Peak_Tracker.mlapp</file>
+      <file>${PROJECT_ROOT}/findpeaks_param.mlapp</file>
+      <file>${PROJECT_ROOT}/icons/green_circle.jpeg</file>
+      <file>${PROJECT_ROOT}/icons/grid.png</file>
+      <file>${PROJECT_ROOT}/icons/left_arrow.png</file>
+      <file>${PROJECT_ROOT}/icons/repeat.png</file>
+      <file>${PROJECT_ROOT}/icons/right_arrow.png</file>
+      <file>${PROJECT_ROOT}/icons/sepperate.png</file>
+      <file>${PROJECT_ROOT}/icons/track.png</file>
+      <file>${PROJECT_ROOT}/icons/yellow-folder.png</file>
+      <file>${PROJECT_ROOT}/peakfit_param.mlapp</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Get_Plot_Struct.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Peaks/Get_Given_Peaks.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Peaks/Peak_Tracking/Track_Peaks_Interval.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Peaks/Set_Peaks/Get_Set_Peaks.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Peaks/Tracked_Peak_Analysis/Analyze_Tracked_Peaks.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Peaks/Tracked_Peak_Analysis/Plot_Tracked_Peaks.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Plots/Multiple/Sub_Plots.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Plots/Multiple/scrollsubplot/scrollsubplot.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Plots/Plot_File.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Process_Data.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/Get_RUS_Data_Struct.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/TDMS_dataToGroupChanStruct_v1.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/TDMS_dataToGroupChanStruct_v2.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/TDMS_dataToGroupChanStruct_v3.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/TDMS_dataToGroupChanStruct_v4.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/TDMS_getStruct.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/TDMS_readTDMSFile.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_genvarname2.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_getDataSize.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_getDataTypeName.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_getGroupChanNames.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_getPropValue.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_getTypeSeekSizes.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_handleGetDataOption.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_initData.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_preprocessFile.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_processLeadIn.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_readFileHelper_v1.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_readFileHelper_v2.m</file>
+      <file>/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis/Store_TDMS_Data/TDMS_Load.m</file>
+    </fileset.depfun>
+    <fileset.resources />
+    <fileset.package />
+    <build-deliverables>
+      <file location="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis" name="tdms_peak_analysis" optional="false">/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/docs/3-Analysis/tdms_peak_analysis</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>/Applications/MATLAB_R2018a.app</root>
+      <toolboxes />
+    </matlab>
+    <platform>
+      <unix>true</unix>
+      <mac>true</mac>
+      <windows>false</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>10.14.3</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>maci64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>

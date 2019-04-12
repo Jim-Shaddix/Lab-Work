@@ -1,0 +1,31 @@
+ LANL RPRcode Ver. 6.0
+ test                                    
+free moduli are  c11, c44
+using 12 order polynomials    mass=  0.0060 gm  rho= 5.174 gm/cc
+ 
+ n     fex      fr      %err  wt   k   i    df/d(moduli)
+  1 2.565313 1.795730 -30.00 1.00  4   1  0.00  1.00
+  2 2.585797 1.949359 -24.61 1.00  6   2  0.00  1.00
+  3 2.746903 2.175095 -20.82 1.00  7   2  0.00  1.00
+  4 2.799215 3.338982  19.28 1.00  5   1  0.00  1.00
+  5 2.821766 3.560246  26.17 1.00  8   2  0.00  1.00
+ 
+Bulk Modulus=  677.8499
+ 
+   c11     c22     c33     c23     c13     c12     c44     c55     c66
+************************************************ 2.85107 2.85107 2.85107
+ 
+   d1       d2       d3
+  0.18500  0.08800  0.07100
+ 
+ loop# 7  rms error= 24.4779 %, changed by 0.0013083 %
+ 
+ length of gradient vector=  0.000000  blamb=  0.000141
+ 
+ eigenvalues          eigenvectors
+      0.00000   1.00 0.00
+      0.28883   0.00 1.00
+ 
+chisquare increased 2% by the following % changes in independent parameters
+350.79 -0.19
+  0.00  7.14
