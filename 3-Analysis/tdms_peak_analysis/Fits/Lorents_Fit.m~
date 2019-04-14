@@ -96,8 +96,8 @@ function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess, fit_optio
         
         % Cacluating / Storing Minimum and Maximum Fit Parameter
         % Deviations:
-        fit(i).A_err_min = fit(i).A - ci(1,1);
-        fit(i).A_err_max = ci(1,2)  - fit(i).A;
+        fit(i).A_min_err = fit(i).A - ci(1,1);
+        fit(i).A_max_err = ci(1,2)  - fit(i).A;
         
         fit(i).theta_err_min    = fit(i).theta - ci(2,1);
         fit(i).theta_err_max    = ci(2,2)  - fit(i).theta;
@@ -108,11 +108,11 @@ function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess, fit_optio
         fit(i).f_0_err_min      = fit(i).f_0 - ci(4,1);
         fit(i).f_0_err_max      = ci(4,2)    - fit(i).f_0;
         
-        fit(i).x_offset_err_min = fit(i).x_offset - ci(5,1);
-        fit(i).x_offset_err_max = ci(5,2)    - fit(i).x_offset;
+        fit(i).x_offset_err_min = fit(i).f_0 - ci(5,1);
+        fit(i).x_offset_err_max = ci(5,2)    - fit(i).f_0;
         
-        fit(i).y_offset_err_min = fit(i).y_offset - ci(6,1);
-        fit(i).y_offset_err_max = ci(6,2)         - fit(i).y_offset; 
+        fit(i).y_offset_err_min = fit(i).x_offset - ci(6,1);
+        fit(i).y_offset_err_max = ci(6,2)         - fit(i).x_offset; 
         
         % NOT USING:
 %         fit(i).A_err        = (ci(1,2) - ci(1,1))/2;

@@ -41,13 +41,13 @@ function plot_struct = Get_Plot_Struct()
     plot_struct.track_interval = 15000;
     plot_struct.track_freq = 881200;
     
-    % Default Parameters: for findpeaks
-    find_peak_opts.MinPeakHeight     = -Inf;
-    find_peak_opts.MinPeakProminence = 0.0001;
-    find_peak_opts.Threshold         = 0;
-    find_peak_opts.MinPeakDistance   = 20000;
-    find_peak_opts.MinPeakWidth      = 0;
-    find_peak_opts.MaxPeakWidth      = Inf;
+    % Default Parameters: for findpeaks        [RANGE]
+    find_peak_opts.MinPeakHeight     = 0;      % > 0
+    find_peak_opts.MinPeakProminence = 0.0001; % > 0
+    find_peak_opts.Threshold         = 0;      % > 0
+    find_peak_opts.MinPeakDistance   = 20000;  % > 0
+    find_peak_opts.MinPeakWidth      = 0;      % > 0
+    find_peak_opts.MaxPeakWidth      = Inf;    % > 0
     find_peak_opts.WidthReference    = 'halfprom';
     
     plot_struct.peak_options        = find_peak_opts;

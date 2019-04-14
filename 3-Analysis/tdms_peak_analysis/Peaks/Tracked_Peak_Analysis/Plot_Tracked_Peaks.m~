@@ -10,15 +10,14 @@ function Plot_Single_Freq(ax,peaks_of_interest,peak_temps,str_to_plot,linespec)
         plot(ax,peak_temps,freq,marker_appearance{:}, ...
             'DisplayName', [str_to_plot,' # of points: ',num2str(length(peak_temps))]);
         ylabel(ax,"Frequency (khz)",'FontSize', 15)
-        return
+        return 
     end
 
-    if strcmp(str_to_plot,'V') == 1
-        V = [peaks_of_interest.mag];
+    if strcmp(str_to_plot,'frequency') == 1
+        V = Magnitude(signal_x, signal_y);
         plot(ax,peak_temps,V,marker_appearance{:}, ...
             'DisplayName', [str_to_plot,' # of points: ',num2str(length(peak_temps))]);
-        ylabel(ax,"Potential Magnitude (V)",'FontSize', 15)
-        return
+        ylabel(ax,"Frequency (khz)",'FontSize', 15)
     end
 
     %% GET: Plot Data    

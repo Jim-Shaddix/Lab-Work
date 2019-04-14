@@ -11,8 +11,15 @@ function Analyze_Tracked_Peaks(ax, cell_peaks_tracked, peak_temps, str_plot_left
 % 5. str_plot_right: [Array Characters] the field in the fit struct that will be used for the
 %                    right axis. This field may also be none, if you do not
 %                    want to make a plot for the y-axis.
-
-    %% Filter Tracked Peaks
+    %% Axis Settings 
+    reset(ax)
+    grid(ax,'on')
+    title(ax,'TAV2 Peaks Near 8.8*10^{5} (khz)');
+    title(ax,num2str([max([peaks_tracked.Frequencies])), num2str(max([peaks_tracked.Frequencies])))
+    xlabel(ax,'Temperature (K)','FontSize', 15);
+    %set(ax,'NextPlot','replacechildren') ;
+    %ClearLinesFromAxes(ax) % remove current lines
+    %% Plots
 
     % filter cell_peaks_tracked and peak_temps
     % - I am filtering, because some of peaks_tracked are empty
@@ -26,20 +33,6 @@ function Analyze_Tracked_Peaks(ax, cell_peaks_tracked, peak_temps, str_plot_left
     end
     peaks_tracked = [peaks_tracked{:}];
     
-    %% Axis Settings 
-    reset(ax)
-    grid(ax,'on')
-    title(ax,'TAV2 Peaks Near 8.8*10^{5} (khz)');
-    title(ax,['Peak Lives in Frequency Range', newline '[',        ...
-             sprintf('%0.3e', min([peaks_tracked.Frequencies])), ...
-             ' - ', ...
-             sprintf('%0.3e', max([peaks_tracked.Frequencies]))  ...
-             ']'])
-    xlabel(ax,'Temperature (K)','FontSize', 15);
-    %set(ax,'NextPlot','replacechildren') ;
-    %ClearLinesFromAxes(ax) % remove current lines
-    
-    %% Plots
     if strcmp(str_plot_right,"None") == 1 
         Plot_Tracked_Peaks(ax,peaks_tracked,valid_temps,str_plot_left,'ro');
     else

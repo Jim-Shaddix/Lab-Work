@@ -101,5 +101,8 @@ function tdms_data=TDMS_Load(path_to_files)
         end
 
     end
+    
+    % Sort struct
+    tdms_data = sortStruct(tdms_data,'temperature',-1);
 end
 
