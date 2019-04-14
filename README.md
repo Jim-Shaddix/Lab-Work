@@ -3,7 +3,7 @@
   1. James Shaddix
   2. Andrew Sexton
 
-![alt text](Application.png "Image of the Application")
+![alt text](images/Application.png "Image of the Application")
 
 # Book #
 * This book is a good refference for our experiment.
@@ -16,4 +16,13 @@
 * 4-renaming: some python scripts for performing batch renaming of tdms files we are
   analyzing
 * web: A directory with scripts I am working on for generating plots with plotly
+
+# Data Collection Setup #
+
+## Probe Setup ##
+![alt text](images/probe.jpg.png "probe")
+
+## Transducer Images ##
+![alt text](images/transducer-rig1.png "transducer1")
+![alt text](images/transducer-rig2.png "tranducer2")
 

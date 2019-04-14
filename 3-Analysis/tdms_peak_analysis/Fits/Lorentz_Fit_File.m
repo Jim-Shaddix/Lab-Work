@@ -1,4 +1,4 @@
-function cell_peak_data = Lorentz_Fit_File(cell_x_cor_all, cell_real_cor_all, cell_imag_cor_all, cell_peak_data, cell_fit_options, fit_width_multiplier, hard_coded_width, fit_width, given_bool)
+function cell_peak_data = Lorentz_Fit_File(cell_x_cor_all, cell_real_cor_all, cell_imag_cor_all, cell_peak_data, cell_fit_options, fit_width_multiplier, hard_coded_width, fit_width)
 % Lorentz_ Fit_File.m Fits a complex lorentzian function to all of the peaks 
 % in a given dataset, returns the arrays of the fit parameters found, and
 % coordinates associated with the applied fit function.
@@ -39,8 +39,7 @@ function cell_peak_data = Lorentz_Fit_File(cell_x_cor_all, cell_real_cor_all, ce
                                 [peak_data.Width],       ...
                                 fit_width_multiplier,    ...
                                 hard_coded_width,        ...
-                                fit_width,               ...
-                                given_bool);
+                                fit_width);
 
         % Fit Parameters Guess:
         % [A, theta, gamma, f_0, offset]

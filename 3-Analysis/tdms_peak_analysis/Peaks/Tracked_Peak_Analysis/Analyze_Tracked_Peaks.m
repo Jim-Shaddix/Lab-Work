@@ -29,12 +29,11 @@ function Analyze_Tracked_Peaks(ax, cell_peaks_tracked, peak_temps, str_plot_left
     %% Axis Settings 
     reset(ax)
     grid(ax,'on')
-    title(ax,'TAV2 Peaks Near 8.8*10^{5} (khz)');
     title(ax,['Peak Lives in Frequency Range', newline '[',        ...
              sprintf('%0.3e', min([peaks_tracked.Frequencies])), ...
              ' - ', ...
              sprintf('%0.3e', max([peaks_tracked.Frequencies]))  ...
-             ']'])
+             '] (khz)'])
     xlabel(ax,'Temperature (K)','FontSize', 15);
     %set(ax,'NextPlot','replacechildren') ;
     %ClearLinesFromAxes(ax) % remove current lines
