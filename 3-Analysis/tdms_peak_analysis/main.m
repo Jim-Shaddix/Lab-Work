@@ -3,7 +3,6 @@
 
 clear
 clc
-
 %% Initialization
 % These settings initialize the program, and our subject to change.
 

@@ -138,5 +138,15 @@ function plot_struct = Get_Plot_Struct()
     
     plot_struct.peak_tracked_param = {'m*','HandleVisibility','off'};
 
+    %% GUI Parameters
+    
+    % significant coordinates along the x-axis.
+    % you may want to store x-coordinates associated
+    % with phase transistions in this variable.
+    % this variable is refferenced in peak_analyzer
+    % for plotting vertical lines that correspond
+    % to x-coordinates that are stored in this
+    % variable.
+    plot_struct.sig_x_coordinates = []; 
 end
 

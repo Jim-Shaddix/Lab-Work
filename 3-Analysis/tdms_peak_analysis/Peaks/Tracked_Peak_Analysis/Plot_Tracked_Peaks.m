@@ -4,7 +4,7 @@ function Plot_Single_Freq(ax,peaks_of_interest,peak_temps,str_to_plot,linespec)
     %% Plot Settings
     marker_appearance = {linespec, 'MarkerSize', 3};
 
-    %% Plot frequency: if was passed in
+    %% Plot frequency: if it was passed in
     if strcmp(str_to_plot,'frequency') == 1
         freq = [peaks_of_interest.Frequencies];
         plot(ax,peak_temps,freq,marker_appearance{:}, ...
@@ -13,6 +13,7 @@ function Plot_Single_Freq(ax,peaks_of_interest,peak_temps,str_to_plot,linespec)
         return
     end
 
+    % Plot Potential: if it was passed in
     if strcmp(str_to_plot,'V') == 1
         V = [peaks_of_interest.mag];
         plot(ax,peak_temps,V,marker_appearance{:}, ...
@@ -30,7 +31,6 @@ function Plot_Single_Freq(ax,peaks_of_interest,peak_temps,str_to_plot,linespec)
     fit_param_err_max = [fits.([str_to_plot,'_err_min'])];
 
     %% Plot   
-    
     errorbar(ax, ...
          peak_temps,...
          fit_param, ...

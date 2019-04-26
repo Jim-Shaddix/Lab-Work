@@ -26,3 +26,11 @@
 ![alt text](images/transducer-rig1.png "transducer1")
 ![alt text](images/transducer-rig2.png "tranducer2")
 
+
+## Things to Work On ##
+1. give more options for the 3D plotter
+2. allow the 3d plotter to plot the tracked peak.
+3. update the peak tracker so that the gui auto detects the first peak,
+   and saves the updated settings.
+4. allow the peak analyzer to take input so that it can plot vertical lines.
+
