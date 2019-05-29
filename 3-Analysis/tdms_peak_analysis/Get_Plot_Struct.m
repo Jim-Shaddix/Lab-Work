@@ -16,25 +16,23 @@ function plot_struct = Get_Plot_Struct()
     %   plots
     plot_struct.preprocess = {};
 
-    %% Main Data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %% PLOTTING RAW / PEAK / FIT Data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
     % determines whether or not to plot the raw data, magnitude data,
     % or you can set both.
     plot_struct.raw = 0;
     plot_struct.mag = 0;
-
-    %% PLOTTING & CALCULATING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+    
+    % Peaks / Fits
     % Three word parameters (that describe the field):
     % 1. peaks
     % 2. raw/mag:       (What type of data to plot the peak/fit)
     % 3. set/given: (Where the peak/fit comes.)
-    % First  number denotes whether or not the peaks should be plotted
-    % Second number denotes whether or not the fit   should be plotted
-    plot_struct.peaks_raw_given = [0,0];
-    plot_struct.peaks_raw_set   = [0,0];
-    plot_struct.peaks_mag_given = [0,0];
-    plot_struct.peaks_mag_set   = [0,0];
-    plot_struct.peaks_tracked   = 0;
+    % First  number (0,1) denotes whether or not the peaks should be plotted
+    % Second number (0,1) denotes whether or not the fit   should be plotted
+    plot_struct.peaks_raw  = [0,0];
+    plot_struct.peaks_mag  = [0,0];
+    plot_struct.peaks_tracked = 0;
     
     %% PEAKS
     % Parameters: for Track_Peaks_Interval
@@ -88,25 +86,21 @@ function plot_struct = Get_Plot_Struct()
     % Displays: Plot Peak Widths
     plot_struct.plot_width = 0;
     
-    % axis limits (generally each of these fields will hold two values,
+    % axis limits (generally each of these fields will hold two values, a
+    % minimum and maximum value associated with the axis to plot.
     % but I will let them hold a zero when I am not concerned with saving
     % this information) (see Plot_File.m for how they get used)
+    % In short: if a zero is stored, than when plot_file is called, 
+    % matlab will use pick its own axis limits. If there is an array of
+    % two values stored, than plot_file will use those values as the axis
+    % limits when using plot_file. 
+    % This is used in the GUI, for the hold axis button.
     plot_struct.XLim = 0;
     plot_struct.YLim = 0;
     
     % determines wether or not to set the ticks on the plot for
     % both the x and the y axis
     plot_struct.remove_ticks = 0;
-    
-    % keyword arguements used for plotting the raw and magnitude data
-    %plot_struct.x_param   = {'r-','DisplayName','signal-x'};
-    %plot_struct.y_param   = {'b-','DisplayName','signal-y'};
-    %plot_struct.mag_param = {'g-','DisplayName','signal-magnitude'};
-    
-    % trying new legend ...
-    plot_struct.x_param   = {'r-'};
-    plot_struct.y_param   = {'b-'};
-    plot_struct.mag_param = {'g-'};
     
     % Determines whether or not to plot numbers next to the 
     % magnitude peaks
@@ -115,29 +109,49 @@ function plot_struct = Get_Plot_Struct()
     % ----- Legend Labels -----
     plot_struct.legend = 0;
     
-    plot_struct.x_label   = {"signal-x"};           % data
+    % data
+    plot_struct.x_label   = {"signal-x"};           
     plot_struct.y_label   = {"signal-y"};
     plot_struct.mag_label = {"magnitude"};
     
-    plot_struct.x_peak_label   = {"signal-x peak"}; % peaks
+    % peaks
+    plot_struct.x_peak_label   = {"signal-x peak"}; 
     plot_struct.y_peak_label   = {"signal-y peak"};
     plot_struct.mag_peak_label = {"magnitude peak"};
     
-    plot_struct.x_fit_label   = {"signal-x fit"};   % fits
+    % fits
+    plot_struct.x_fit_label   = {"signal-x fit"};   
     plot_struct.y_fit_label   = {"signal-y fit"};
     plot_struct.mag_fit_label = {"magnitude fit"};
     % -------------------------
     
+    % ----- Configure Line Colors -----
+       
+    % data
+    plot_struct.x_param   = {'r-'};
+    plot_struct.y_param   = {'b-'};
+    plot_struct.mag_param = {'g-'};
+    
+    % fits
     plot_struct.fit_x_param    = {'y', 'LineWidth',4,'HandleVisibility','on'};
     plot_struct.fit_y_param    = {'c', 'LineWidth',4,'HandleVisibility','on'};
     plot_struct.fit_mag_param  = {'m', 'LineWidth',4,'HandleVisibility','on'};
     
+    % peaks
     plot_struct.peak_x_param   = {'r*','HandleVisibility','on'};
     plot_struct.peak_y_param   = {'b*','HandleVisibility','on'};
     plot_struct.peak_mag_param = {'m*','HandleVisibility','on'};
     
     plot_struct.peak_tracked_param = {'m*','HandleVisibility','off'};
 
+    % ----- Axis Labels -----
+    % - axis labels can be determined statically.
+    % - titles have to be determined dynamically though.
+    project_config = Get_Project_Struct();
+    plot_struct.xlabel = project_config.file_x_axis_measurment;
+    plot_struct.ylabel = project_config.file_y_axis_measurment;
+    plot_struct.get_title  = @(tdms_data) tdms_data.id;
+    
     %% GUI Parameters
     
     % significant coordinates along the x-axis.

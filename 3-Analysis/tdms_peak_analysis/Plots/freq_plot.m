@@ -1,8 +1,8 @@
 function freq_plot(tdms_data)
 % plots all of the peak frequencies vs temperature.
 
-    cell_peaks = {tdms_data.peaks_mag_set};
-    all_temps      = [tdms_data.temperature];
+    cell_peaks = {tdms_data.peaks};
+    all_temps  = [tdms_data.temperature];
 
     %freqs_to_plot = zeros(length(cell_peaks));
     %temps_to_plot = zeros(length(cell_peaks));

@@ -44,10 +44,8 @@ plot_info.preprocess = {@Process_Plot_Data};
 plot_info.raw  = 1;
 plot_info.mag  = 1;
 %plot_info.plot_width = 1;
-%plot_info.peaks_raw_given = [1,1];
-plot_info.peaks_mag_given = [1,1];
-plot_info.peaks_raw_set   = [1,1];
-%plot_info.peaks_mag_set   = [1,1];
+plot_info.peaks_raw   = [1,1];
+%plot_info.peaks   = [1,1];
 %plot_info.peaks_tracked = 1;
 
 % SET: plot info
@@ -64,8 +62,8 @@ fprintf(" --- Finished processing data --- \n\n")
 
 % Get: tracked peaks, and the intervals used to find them.
 %freq_ref = 8.812 *10^5;
-peak_str = 'peaks_mag_given';
-interval_size   = 1.5*10^4;
+peak_str = 'peaks';
+interval_size  = 1.5*10^4;
 
 [peaks_tracked,cell_intervals] = Track_Peaks_Interval( ...
                                     {tdms_data.(peak_str)}, ...

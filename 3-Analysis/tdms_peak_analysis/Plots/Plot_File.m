@@ -81,15 +81,10 @@ function Plot_File(ax, tdms_data, plot_info)
         end
     end 
 
-    % (FITS) Peaks_Mag_Given 
-    peak_struct = "peaks_mag_given";
-    Plot_Fit_Raw(info.peaks_raw_given(2),peak_struct)
-    Plot_Fit_Mag(info.peaks_mag_given(2),peak_struct)
-
-    % (FITS) Peaks_Mag_Set
-    peak_struct = "peaks_mag_set";
-    Plot_Fit_Raw(info.peaks_raw_set(2),peak_struct)
-    Plot_Fit_Mag(info.peaks_mag_set(2),peak_struct)
+    % (FITS) SET
+    peak_struct = "peaks";
+    Plot_Fit_Raw(info.peaks_raw(2), peak_struct)
+    Plot_Fit_Mag(info.peaks_mag(2), peak_struct)
 
     %% SIGNAL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
@@ -116,27 +111,15 @@ function Plot_File(ax, tdms_data, plot_info)
 
     %% PEAKS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    % (PEAKS) GIVEN 
-    peak_struct = "peaks_mag_given";
-    if info.peaks_raw_given(1) == 1 && ~isempty(tdms_data.(peak_struct))
-        all_peaks = [tdms_data.(peak_struct)];
-        plot(ax, [all_peaks.Frequencies],[all_peaks.signal_x], info.peak_x_param{:})
-        plot(ax, [all_peaks.Frequencies],[all_peaks.signal_y], info.peak_y_param{:})
-    end
-    if info.peaks_mag_given(1) == 1 && ~isempty(tdms_data.(peak_struct))
-        all_peaks = [tdms_data.(peak_struct)];
-        plot(ax, [all_peaks.Frequencies], [all_peaks.mag], info.peak_mag_param{:})
-    end
-    
     % (PEAKS) SET
-    peak_struct = "peaks_mag_set";
-    if info.peaks_raw_set(1) == 1 && ~isempty(tdms_data.(peak_struct))
+    peak_struct = "peaks";
+    if info.peaks_raw(1) == 1 && ~isempty(tdms_data.(peak_struct))
         all_peaks = [tdms_data.(peak_struct)];
         plot(ax, [all_peaks.Frequencies],[all_peaks.signal_x],info.peak_x_param{:})
         plot(ax, [all_peaks.Frequencies],[all_peaks.signal_y],info.peak_y_param{:})
         legend_entries = [legend_entries,info.x_peak_label,info.y_peak_label];
     end
-    if info.peaks_mag_set(1) == 1 && ~isempty(tdms_data.(peak_struct))
+    if info.peaks_mag(1) == 1 && ~isempty(tdms_data.(peak_struct))
         all_peaks = [tdms_data.(peak_struct)];
         plot(ax, [all_peaks.Frequencies],[all_peaks.mag],info.peak_mag_param{:})
         legend_entries = [legend_entries,info.mag_peak_label];
@@ -162,7 +145,6 @@ function Plot_File(ax, tdms_data, plot_info)
         %mmax = peak_tracked.interval(2); 
         
         % Plot: peak found in current file
-        %plot(ax,[peak_freq, peak_freq],y_lim,'b--','DisplayName','found frequency');
         plot(ax,peak_freq ,peak_mag,'bx','DisplayName','peak tracked',...
                                          'MarkerSize',15,'LineWidth',3);
     end
@@ -192,6 +174,10 @@ function Plot_File(ax, tdms_data, plot_info)
         ax.YLim = info.YLim;
     end
     
+    % Set Labels
+    xlabel(ax, info.xlabel)
+    ylabel(ax, info.ylabel)
+    title(ax, info.get_title(tdms_data))
 end
 
 

@@ -12,8 +12,8 @@ function tdms_data = Process_Data(tdms_data, plot_info_struct)
     end
 
     % SET: fit_data in peaks & return peaks
-    function peaks = Set_Fits(peaks, fit_options, fit_width_multiplier, hard_coded_width, fit_width)
-        peaks = Lorentz_Fit_File(       ...
+    function peaks_fit = Set_Fits(peaks, fit_options, fit_width_multiplier, hard_coded_width, fit_width)
+        peaks_fit = Lorentz_Fit_File(       ...
                         {frequency},    ...
                         {signal_x},     ...
                         {signal_y},     ...
@@ -46,39 +46,24 @@ function tdms_data = Process_Data(tdms_data, plot_info_struct)
                  {signal_x},  ...
                  {signal_y}};
 
-        % mag_given_peaks
-        if sum(info.peaks_raw_given) >= 1 || sum(info.peaks_mag_given) >= 1
-            given_peaks = Get_Given_Peaks(param{:}, {td.peaks_mag_given});
-        end
-
         % mag_set_peaks
-        if sum(info.peaks_raw_set) >= 1 || sum(info.peaks_mag_set) >= 1
+        if sum(info.peaks_raw) >= 1 || sum(info.peaks_mag) >= 1
             set_peaks = Get_Set_Peaks(param{:}, {info.peak_options});
         end
 
         %% Get FIT DATA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
-        % mag_given_peaks
-        if info.peaks_raw_given(2) || info.peaks_mag_given(2)
-            given_peaks = Set_Fits(given_peaks, {info.fit_options}, ...
-                info.fit_width_multiplier, info.hard_coded_width, ...
-                info.fit_width); 
-        end
-        
+
         % mag_set_peaks
-        if info.peaks_raw_set(2) || info.peaks_mag_set(2)
+        if info.peaks_raw(2) || info.peaks_mag(2)
             set_peaks = Set_Fits(set_peaks, {info.fit_options}, ...
                 info.fit_width_multiplier, info.hard_coded_width, ...
                 info.fit_width);
         end
         
         %% SET DATA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        if sum(info.peaks_raw_given) >= 1 || sum(info.peaks_mag_given) >= 1
-            [tdms_data(i).peaks_mag_given] = given_peaks{:};
-        end
         
-        if sum(info.peaks_raw_set) >= 1 || sum(info.peaks_mag_set) >= 1
-            [tdms_data(i).peaks_mag_set]   = set_peaks{:};
+        if sum(info.peaks_raw) >= 1 || sum(info.peaks_mag) >= 1
+            [tdms_data(i).peaks]   = set_peaks{:};
         end
 
         disp(['Finished Processing File ',num2str(i),' of ',num2str(length(tdms_data))])

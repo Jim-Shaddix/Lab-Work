@@ -6,13 +6,13 @@ function [cell_peaks_of_interest, cell_interval] = Track_Peaks_Interval(cell_pea
 % found.
 %
 % RETURNS: a cell array of all of the peaks of interest.
-% PARAMETERS: * cell_peaks: [cell array] each element contains all of the 
+% PARAMETERS: * cell_peaks [cell array]: each element contains all of the 
 %                           peak structs associated with a file.
-%             * freq_track: The frequency to begin tracking.
-%             * interval_size: the size of the interval that is used for 
+%             * freq_track [float]: The frequency to begin tracking.
+%             * interval_size [float]: the size of the interval that is used for 
 %                              tracking peaks. 
 
-    % ALLOCATE: indices in the peaks, that 
+    % ALLOCATE: default values in the peaks and intervals to return
     cell_peaks_of_interest = cell(1,length(cell_peaks));
     cell_interval          = cell(1,length(cell_peaks));
     
@@ -23,12 +23,22 @@ function [cell_peaks_of_interest, cell_interval] = Track_Peaks_Interval(cell_pea
         
         % GET: Peaks
         peaks = cell_peaks{i};
-                
+        
         % SET: interval
-        mmin = freq_ref-interval_size/2;
-        mmax = freq_ref+interval_size/2;
+        mmin = freq_ref - interval_size / 2;
+        mmax = freq_ref + interval_size / 2;
         cell_interval{i} = [mmin,mmax];
         
+        % CASE: when peaks were not found
+        if isempty(peaks)
+            if (i == 1)
+                cell_interval{i} = [NaN,NaN];
+                continue
+            else
+                continue
+            end
+        end
+                
         % GET: peaks in interval
         peaks_in_interval = peaks( mmin < [peaks.Frequencies] & ...
                                    mmax > [peaks.Frequencies] );
