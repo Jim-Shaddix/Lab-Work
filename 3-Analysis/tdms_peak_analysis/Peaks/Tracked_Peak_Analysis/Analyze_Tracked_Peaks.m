@@ -1,11 +1,11 @@
-function Analyze_Tracked_Peaks(ax, cell_peaks_tracked, peak_temps, str_plot_left, str_plot_right, sig_x_coord)
+function Analyze_Tracked_Peaks(ax, cell_peaks_tracked, x_coor, x_axis_lbl, str_plot_left, str_plot_right, sig_x_coord)
 % Determines how to plot the data on two axis
 % Parameters:
 % 1. ax: axes to plot on
 % 2. cell_peaks_tracked: [Cell Array of Peak Structs] of the tracked peaks
 %                        (including empty peak structs)
 %
-% 3. peak_temps:[Array Numbers] all of the temperatures associated with tracked
+% 3. x_coor:[Array Numbers] all of the temperatures associated with tracked
 %               peaks
 %
 % 4. str_plot_left: [Array Characters] the field in the fit struct that 
@@ -21,14 +21,14 @@ function Analyze_Tracked_Peaks(ax, cell_peaks_tracked, peak_temps, str_plot_left
 
     %% Filter Tracked Peaks
 
-    % filter cell_peaks_tracked and peak_temps
+    % filter cell_peaks_tracked and x_coor
     % - I am filtering, because some of peaks_tracked are empty
     peaks_tracked = {};
     valid_temps = [];
     for i = 1:length(cell_peaks_tracked)
         if ~isempty(cell_peaks_tracked{i})
             peaks_tracked{end+1} = cell_peaks_tracked{i};
-            valid_temps(end+1) = peak_temps(i);
+            valid_temps(end+1) = x_coor(i);
         end
     end
     peaks_tracked = [peaks_tracked{:}];
@@ -41,7 +41,7 @@ function Analyze_Tracked_Peaks(ax, cell_peaks_tracked, peak_temps, str_plot_left
              ' - ', ...
              sprintf('%0.3e', max([peaks_tracked.Frequencies]))  ...
              '] (khz)'])
-    xlabel(ax,'Temperature (K)','FontSize', 15);
+    xlabel(ax, x_axis_lbl,'FontSize', 15);
     %set(ax,'NextPlot','replacechildren') ;
     %ClearLinesFromAxes(ax) % remove current lines
     
