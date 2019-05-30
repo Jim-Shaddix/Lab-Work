@@ -4,7 +4,7 @@
 ![alt text](images/Application.png "Image of the Application")
 
 # Installation #
-Link to [install file](/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/3-Analysis/tdms_peak_analysis/Data_Analyzer_App.mlappinstall)
+Link to [install file](3-Analysis/tdms_peak_analysis/Data_Analyzer_App.mlappinstall)
 
 
 # Book #
