@@ -1,9 +1,11 @@
 # rus-probe
-* Authors:
-  1. James Shaddix
-  2. Andrew Sexton
+* Author: James Shaddix
 
 ![alt text](images/Application.png "Image of the Application")
+
+# Installation #
+Link to [install file](/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/3-Analysis/tdms_peak_analysis/Data_Analyzer_App.mlappinstall)
+
 
 # Book #
 * This book is a good refference for our experiment.
