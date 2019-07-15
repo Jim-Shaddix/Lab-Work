@@ -1,7 +1,0 @@
-import plotly
-
-print("finsihed")
-
-
-
-

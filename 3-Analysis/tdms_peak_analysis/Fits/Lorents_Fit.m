@@ -1,7 +1,10 @@
-function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess, fit_options)
+function fit = Lorents_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess, fit_options, fit_lbls, model)
 % This function fits a complex lorentzian function to all of the peaks 
 % in a given dataset, returns the arrays of the fit parameters found, and
 % coordinates associated with the applied fit function.
+%
+% In order to understand how this fit works:
+% read from here: https://www.mathworks.com/help/optim/ug/fit-model-to-complex-data.html
 %
 % PARAMETERS:
 % cell_x_cor_fit: [Cell Array] each cell contains:
@@ -16,26 +19,9 @@ function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess, fit_optio
 % 1. [cell]: each cell contains:
 %            a struct describing the fit performed 
 
-    % function handle for: [complex lorentzian]
-    % x = [A, theta, gamma, f_0, offset_real, offset_imag]
-    %lorentz_fnc = @(x, x_cor_fit) x(1) .* exp(1i .* x(2)) ./ ...
-    %                           (x_cor_fit(1,:) - x(4) + 1i .* x(3)) + x(5);
-    
-    model = @(x, x_cor_fit) ... 
-      x(1) ./ ((x_cor_fit(1,:) - x(4)).^2+x(3).^2) .* ...
-        ((x_cor_fit(1,:) - x(4)).*cos(x(2)) + x(3).*sin(x(2))) + x(5) + ...
-        ...
-1i * (x(1) ./ ((x_cor_fit(1,:) - x(4)).^2+x(3).^2) .* ...
-        ((x_cor_fit(1,:) - x(4)).*sin(x(2)) - x(3).*cos(x(2))) + x(6));
-    
-    %model = @(x, x_cor_fit) ...
-        
-    
+    % Function to fit
     lorentz_fnc=@(x, x_cor_fit) [real(model(x, x_cor_fit)); imag(model(x, x_cor_fit))]; 
-        
-    % instantiate struct to return                    
-    %fit = cell(1,length(cell_x_cor_fit));
-                        
+                         
     for i = 1:length(cell_x_cor_fit)
         
         % easier access to data
@@ -50,77 +36,41 @@ function fit = Lorentz_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess, fit_optio
         %   exitFlag: [1] -> function converged 
         %             [2] -> change x < tolerance 
         %             [3] -> change residual < tolerance
-        
-        % x = [A, theta, gamma, f_0, offset]
         [Est, resnorm, residual, exitFlag, ouput, lambda, jacobian] = ...
                         lsqcurvefit( ... 
-                                     lorentz_fnc, guess,   ...
-                                     x_cor_fit,            ...
-                                     [real(y_cor_fit);imag(y_cor_fit)], ... 
-                                     [-inf,-inf,0,-inf,-inf,-inf], ...
-                                     [],fit_options);  
-        % Error Values                         
-        ci = nlparci(Est,residual,'jacobian',jacobian);
+                                     lorentz_fnc,... % function to fit 
+                                     guess,      ... % intial parameters
+                                     x_cor_fit,  ... % x-coordinates
+                                     [real(y_cor_fit);imag(y_cor_fit)], ... % y-coordinates
+                                     [], ... % lower bounds
+                                     [], ... % upper bounds
+                                     fit_options); % parameters specify, how to perform fit
+                                     %[-inf,-inf,0,-inf,-inf,-inf], %... % lower bounds
+                                     %[],                                ... % upper bounds
+                                    
+                                 
+        % Error Values             
+        ci = nlparci(Est,residual, 'jacobian', jacobian);
         
         % GET: Y-coordinates from fit
-        fit_curve = lorentz_fnc(Est,x_cor_fit);
+        fit_curve = lorentz_fnc(Est, x_cor_fit);
 
-        % SET: fit signal
+        % SET: fit signal values
         fit(i).frequencies = x_cor_fit;
         fit(i).signal_x    = fit_curve(1,:);
         fit(i).signal_y    = fit_curve(2,:);
 
-        % SET: fit parameters
-        fit(i).A        = Est(1);
-        fit(i).theta    = Est(2);
-        fit(i).gamma    = Est(3);
-        fit(i).f_0      = Est(4);
-        fit(i).x_offset = Est(5);
-        fit(i).y_offset = Est(6);
-        
-        % SET: fit parameter errors (95% confidence)
-        %matrix_errors = [ci{:}];
-        %matrix_errors = matrix_errors
-        %params = {'A','theta','gamma','f_0','x_offset','y_offset'};
-        %for j = 1:length(params)
-        %   fit(i).([params{j},'_err']) = abs(ci(j,:)-Est(j)); 
-        %end
-        
-        fit(i).A_err        = (ci(1,2) - ci(1,1))/2;
-        fit(i).theta_err    = (ci(2,2) - ci(2,1))/2;
-        fit(i).gamma_err    = (ci(3,2) - ci(3,1))/2;
-        fit(i).f_0_err      = (ci(4,2) - ci(4,1))/2;
-        fit(i).x_offset_err = (ci(5,2) - ci(5,1))/2;
-        fit(i).y_offset_err = (ci(6,2) - ci(6,1))/2;
-        fit(i).ci = ci;
-        
-        % Cacluating / Storing Minimum and Maximum Fit Parameter
-        % Deviations:
-        fit(i).A_err_min = fit(i).A - ci(1,1);
-        fit(i).A_err_max = ci(1,2)  - fit(i).A;
-        
-        fit(i).theta_err_min    = fit(i).theta - ci(2,1);
-        fit(i).theta_err_max    = ci(2,2)  - fit(i).theta;
-        
-        fit(i).gamma_err_min    = fit(i).gamma - ci(3,1);
-        fit(i).gamma_err_max    = ci(3,2)      - fit(i).gamma;
-        
-        fit(i).f_0_err_min      = fit(i).f_0 - ci(4,1);
-        fit(i).f_0_err_max      = ci(4,2)    - fit(i).f_0;
-        
-        fit(i).x_offset_err_min = fit(i).x_offset - ci(5,1);
-        fit(i).x_offset_err_max = ci(5,2)    - fit(i).x_offset;
-        
-        fit(i).y_offset_err_min = fit(i).y_offset - ci(6,1);
-        fit(i).y_offset_err_max = ci(6,2)         - fit(i).y_offset; 
-        
-        % NOT USING:
-%         fit(i).A_err        = (ci(1,2) - ci(1,1))/2;
-%         fit(i).theta_err    = (ci(2,2) - ci(2,1))/2;
-%         fit(i).gamma_err    = (ci(3,2) - ci(3,1))/2;
-%         fit(i).f_0_err      = (ci(4,2) - ci(4,1))/2;
-%         fit(i).x_offset_err = (ci(5,2) - ci(5,1))/2;
-%         fit(i).y_offset_err = (ci(6,2) - ci(6,1))/2;
+        % SETTING: fit info
+        for j=1:length(fit_lbls)
+            
+            % SET: fit parameters 
+            fit(i).(fit_lbls{j}) = Est(j);
+            
+            % SET: fit parameter errors 
+            % - associated with 95% confidence intervals
+            fit(i).([fit_lbls{j},'_err_min']) = Est(j)  - ci(j,1);
+            fit(i).([fit_lbls{j},'_err_max']) = ci(j,2) - Est(j);
+        end
 
     end
 

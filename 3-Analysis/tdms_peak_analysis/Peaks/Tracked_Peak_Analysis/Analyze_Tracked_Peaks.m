@@ -1,4 +1,4 @@
-function Analyze_Tracked_Peaks(ax, cell_peaks_tracked, x_coor, x_axis_lbl, str_plot_left, str_plot_right, sig_x_coord)
+function Analyze_Tracked_Peaks(ax, cell_peaks_tracked, x_cor, x_axis_lbl, str_plot_left, str_plot_right)
 % Determines how to plot the data on two axis
 % Parameters:
 % 1. ax: axes to plot on
@@ -24,11 +24,11 @@ function Analyze_Tracked_Peaks(ax, cell_peaks_tracked, x_coor, x_axis_lbl, str_p
     % filter cell_peaks_tracked and x_coor
     % - I am filtering, because some of peaks_tracked are empty
     peaks_tracked = {};
-    valid_temps = [];
+    valid_x_cor = [];
     for i = 1:length(cell_peaks_tracked)
         if ~isempty(cell_peaks_tracked{i})
             peaks_tracked{end+1} = cell_peaks_tracked{i};
-            valid_temps(end+1) = x_coor(i);
+            valid_x_cor(end+1) = x_cor(i);
         end
     end
     peaks_tracked = [peaks_tracked{:}];
@@ -47,26 +47,19 @@ function Analyze_Tracked_Peaks(ax, cell_peaks_tracked, x_coor, x_axis_lbl, str_p
     
     %% Plots
     if strcmp(str_plot_right,"None") == 1 
-        Plot_Tracked_Peaks(ax,peaks_tracked,valid_temps,str_plot_left,'ro');
+        Plot_Tracked_Peaks(ax,peaks_tracked,valid_x_cor,str_plot_left,'ro');
     else
         % plot left
         yyaxis(ax,'left')
-        Plot_Tracked_Peaks(ax,peaks_tracked,valid_temps,str_plot_left,'ro');
+        Plot_Tracked_Peaks(ax,peaks_tracked,valid_x_cor,str_plot_left,'ro');
         ax.YColor = [1 0 0];
         % plot right
         yyaxis(ax,'right')
-        Plot_Tracked_Peaks(ax,peaks_tracked,valid_temps,str_plot_right,'bo');
+        Plot_Tracked_Peaks(ax,peaks_tracked,valid_x_cor,str_plot_right,'bo');
         ax.YColor = [0 0 1];
     end
     
-    %% Plotting Vertical Lines of Significant X-coordinates
-    hold(ax, 'on');
-    lim = ax.YLim;
-    for i=1:length(sig_x_coord)
-        x = [sig_x_coord(i), sig_x_coord(i)];
-        plot(ax, x, lim, 'k-');
-    end
-    
+
 end
 
 
