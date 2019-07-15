@@ -1,7 +1,0 @@
-/* Created by mdot for Matlab */
-digraph m2html {
-
-  Ex_Legend [URL="Ex_Legend.html"];
-  Plot_File [URL="Plot_File.html"];
-  freq_plot [URL="freq_plot.html"];
-}

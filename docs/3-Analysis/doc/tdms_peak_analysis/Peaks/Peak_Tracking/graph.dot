@@ -1,7 +1,0 @@
-/* Created by mdot for Matlab */
-digraph m2html {
-  Track_Peaks -> Track_Peaks_Interval;
-
-  Track_Peaks [URL="Track_Peaks.html"];
-  Track_Peaks_Interval [URL="Track_Peaks_Interval.html"];
-}

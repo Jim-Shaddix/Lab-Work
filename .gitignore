@@ -102,6 +102,7 @@ ENV/
 
 # Additions I Added ############################################################  
 
+color
 tags
 passwords
 .DS_Store

@@ -1,55 +1,38 @@
 # rus-probe
-* Authors:
-  1. James Shaddix
-  2. Andrew Sexton
+* Author: James Shaddix
 
-# NOTE #
-* for tracking peaks I should look into:
-    - unsupervised learning with suport vector machines (support-vector clustering)
+![alt text](images/Application.png "Image of the Application")
 
-# Dash #
-0. explanation:
-https://stackoverflow.com/questions/44967759/what-are-the-pros-and-cons-of-dash-by-plotly-vs-jupyter-dashboards
+# Installation #
+Link to [install file](3-Analysis/tdms_peak_analysis/Data_Analyzer_App.mlappinstall)
 
-1. user guide:
-ohttps://dash.plot.ly/getting-started
-
-- longer guide:
-2. https://medium.com/@plotlygraphs/introducing-dash-5ecf7191b503
-
- - examples:
-3. https://dash.plot.ly/gallery
-
-# Fixes To Make: #
-1. I need to work with the data collection computer, I need to see if I can 
-   defragment files.
-2. I can also try fix-up the matlab program:
-    1. write it more modular:
-        - (1) first window: 
-            - allows you to use find peaks, and fit them.
-        - (2) second window:
-            - allows you to pick a method for tracking peaks.
-3. practice basic matlab data structures.
-
-
-# Future #
-**regression clustering**
-https://ncss-wpengine.netdna-ssl.com/wp-content/themes/ncss/pdf/Procedures/NCSS/Regression_Clustering.pdf
-
-**k-lines**
-https://www.hindawi.com/journals/mpe/2017/3096917/
 
 # Book #
-Robert G Leisure. Ultrasonic Spectroscopy.
-https://www.cambridge.org/core/books/ultrasonic-spectroscopy/D4A1831DE2E596E6EC393A5B85B69E63
+* This book is a good refference for our experiment.
+[Robert G Leisure. Ultrasonic Spectroscopy](https://www.cambridge.org/core/books/ultrasonic-spectroscopy/D4A1831DE2E596E6EC393A5B85B69E63)
 
-# Web App With Matlab#
-https://www.mathworks.com/help/compiler/web-apps.html
-- note: matlab also has an API for plotly.
+# Directories #
+* 1-GettingData: Describes how data was acquired.
+* 2-FilesToAnalyze: Contains the files that will be analyzed.
+* 3-Analysis: Contains the code that is used to perform analysis
+* 4-renaming: some python scripts for performing batch renaming of tdms files we are
+  analyzing
+* web: A directory with scripts I am working on for generating plots with plotly
 
-# Plotly for Word Press #
-https://wordpress.org/plugins/wp-plotly/
+# Data Collection Setup #
 
-# Storing data locally with Dash #
-https://community.plot.ly/t/announcing-the-storage-component/13758
+## Probe Setup ##
+![alt text](images/probe.jpg.png "probe")
+
+## Transducer Images ##
+![alt text](images/transducer-rig1.png "transducer1")
+![alt text](images/transducer-rig2.png "tranducer2")
+
+
+## Things to Work On ##
+1. give more options for the 3D plotter
+2. allow the 3d plotter to plot the tracked peak.
+3. update the peak tracker so that the gui auto detects the first peak,
+   and saves the updated settings.
+4. allow the peak analyzer to take input so that it can plot vertical lines.
 
