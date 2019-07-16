@@ -2,8 +2,14 @@
 (resonant ultrasonic spectroscopy)
 * Author: James Shaddix
 
+I developed this application for the research group
+I am apart of Colorado State University. I work 
+as a member of one of Dr. Kate Ross's Condensed Matter 
+research teams. You can view her website [here](http://www.rosslabcsu.com/people/)
+
 ## Note
-The current version of this application is stable, but I am still working 
+The current version of this application is 
+stable, but I am still working 
 on its development. 
 
 ## Installation
@@ -37,17 +43,27 @@ involving Resonant Ultransonic Spectroscopy.
    into input files for the rpr.exe program.
 7. The program also comes with a dashboard interface for tracking a particular 
 peak as a function of temperature or magnetic field.
+
 ![alt text](images/peak_tracker.png "Image of the Application")
+
 8. This program also provides a bunch of different methods for visualizing the data.
 
 #### Data Visualization
 1. On bottom right hand of the program, there is a menu for configuring the plot 
    that is displayed in the main menu. 
 2. The 3D plotter tab (bottom left), allows the user to specify parameters to use
-   for creating 3-dimensional plots of the data. The user can choose the axis for the plot to represent the temperature / magnetic field / frequency / or any of the fit parameters in the lorentzian model. 
+for creating 3-dimensional plots of the data. The user
+can choose the axis for the plot to represent the 
+temperature / magnetic field / frequency / or any 
+of the fit parameters in the lorentzian model. 
+
 ![alt text](images/3d_model.png "Image of the Application")
-3. The Analyzed Tracked button provides another dashboard interface for making 2D
-   plots of the same data mentioned in the previous bullet.
+
+3. The Analyzed Tracked button provides 
+another dashboard interface for 
+making 2D plots of the same data mentioned 
+in the previous bullet.
+
 ![alt text](images/peak_analyzer.png "Image of the Application")
 
 
