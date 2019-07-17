@@ -68,11 +68,11 @@ in the previous bullet.
 
 
 
-# Book
+## Book
 * This book is a good refference for resonant ultrasonic spectroscopy.
 [Robert G Leisure. Ultrasonic Spectroscopy](https://www.cambridge.org/core/books/ultrasonic-spectroscopy/D4A1831DE2E596E6EC393A5B85B69E63)
 
-# Directories
+## Directories
 * 1-GettingData: Describes how data was acquired.
 * 2-FilesToAnalyze: Contains the files that will be analyzed.
 * 3-Analysis: Contains the code that is used to perform analysis
@@ -80,15 +80,21 @@ in the previous bullet.
   analyzing
 * web: A directory with scripts I am working on for generating plots with plotly
 
-# Data Collection Setup
+# Data Collection / Setup
 
 ## Probe Setup
-1.) A [Red Pitaya](https://www.redpitaya.com/index2) (seen to the bottom right)is connected to an **amplifier board**,
-that is connected to driving **transducer**. Another **transducer**
-picks up the signal which goes through another **amplifier board** and
-back to the Red Pitaya. The Red Pitaya interprets the electrical
-signal from transducer.
-use to make plots, and sends this info to another computer to be processed.
+A [Red Pitaya](https://www.redpitaya.com/index2) 
+(seen to the bottom right) is connected to two **amplifier boards**.
+Each of the amplifier boards is connected to a transducer. 
+
+## Experiment
+The crystal samples whose properties we would like to measure is placed inbetween
+the two transducers. The red pitaya than sends a driving signal to one of the 
+transducers, causing it oscillate. The sounds waves from the 
+oscillation than travel through the crystal sample, and 
+are picked up by the other transducer. We than extract the data
+associated with electric signal and this dashboard application can 
+analyze it.
 
 ![alt text](images/probe.jpg "probe")
 
@@ -96,14 +102,15 @@ use to make plots, and sends this info to another computer to be processed.
 ![alt text](images/transducer-rig1.png "transducer1")
 ![alt text](images/transducer-rig2.png "tranducer2")
 
-
-2.) The transducers in this system contain crystals, that make use of the 
+The transducers in this system are [piezoelectric crystals](https://en.wikipedia.org/wiki/Piezoelectricity). Piezoelevtric crystals exhibit the 
 [piezoelectric-effect](http://www.nanomotion.com/piezo-ceramic-motor-technology/piezoelectric-effect/).
 The **piezo-effect** is a reversible process in which certain materials generate
-an electric charge, in response to some mechanical stress. The transducers in this
-experiment were designed and built at Los Alamos National Laboratory.
+an electric charge, in response to some mechanical stress. In this
+case, are transducers expand and contract when they 
+recieve an electric signal. The transducers in this
+experiment were designed and built at [Los Alamos National Laboratory] (https://www.lanl.gov/).
 
-3.) Measurements of the system are taken inside of a [ppms (physical property
+Measurements of the system are taken inside of a [ppms (physical property
 measurement system)](https://www.qdusa.com/products/ppms.html). Which is capable
 of temperatures as low as 1.8K and magnetic fields as high as 9 Tesla (90,000 gauss)
 
