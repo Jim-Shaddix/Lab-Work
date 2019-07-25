@@ -74,8 +74,10 @@ interval_size  = 1.5*10^4;
 
 clear peaks_tracked
 disp(" --- Finished Tracking Peaks ---")
+
 %%
 freq_plot(tdms_data)
+
 %% Plot
 Sub_Plots(tdms_data);
 

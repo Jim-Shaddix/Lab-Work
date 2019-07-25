@@ -1,39 +1,33 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="972414830" file="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/3-Analysis/tdms_peak_analysis/Data_Analyzer_App.prj" location="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/3-Analysis/tdms_peak_analysis" name="Data_Analyzer_App" target="target.mlapps" target-name="Package App">
-    <param.appname>Data_Analyzer_App</param.appname>
+  <configuration build-checksum="1470093567" file="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/Analysis/tdms_peak_analysis/Data_Analyzer.prj" location="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/Analysis/tdms_peak_analysis" name="Data_Analyzer" target="target.mlapps" target-name="Package App">
+    <param.appname>Data_Analyzer</param.appname>
     <param.authnamewatermark>James Shaddix</param.authnamewatermark>
     <param.email>jimmy.shaddix2.0@gmail.com</param.email>
-    <param.company />
-    <param.icon>${PROJECT_ROOT}/Data_Analyzer_App_resources/icon_24.png</param.icon>
+    <param.company>Ross Labs</param.company>
+    <param.icon>${PROJECT_ROOT}/Data_Analyzer_resources/icon_24.png</param.icon>
     <param.icons>
-      <file>${PROJECT_ROOT}/Data_Analyzer_App_resources/icon_48.png</file>
-      <file>${PROJECT_ROOT}/Data_Analyzer_App_resources/icon_24.png</file>
-      <file>${PROJECT_ROOT}/Data_Analyzer_App_resources/icon_16.png</file>
+      <file>${PROJECT_ROOT}/Data_Analyzer_resources/icon_48.png</file>
+      <file>${PROJECT_ROOT}/Data_Analyzer_resources/icon_24.png</file>
+      <file>${PROJECT_ROOT}/Data_Analyzer_resources/icon_16.png</file>
     </param.icons>
-    <param.summary>Analyzes data for the RUS probe.</param.summary>
-    <param.description>This program reads data from tdms files and fits the data to lorentzian peaks, and analyzes the fit parameters.</param.description>
+    <param.summary>This application was built for doing analysis on data obtained using resonant ultrasonic spectroscopy.</param.summary>
+    <param.description>This application consists of a dashboard that allows the user to interactively
+preprocess the data, find the peaks in the data, and fit the peaks.</param.description>
     <param.screenshot />
-    <param.version>1.3</param.version>
-    <param.products.name>
-      <item>Curve Fitting Toolbox</item>
-      <item>Signal Processing Toolbox</item>
-    </param.products.name>
-    <param.products.id>
-      <item>60</item>
-      <item>8</item>
-    </param.products.id>
-    <param.products.version>
-      <item>3.5.9</item>
-      <item>8.2</item>
-    </param.products.version>
+    <param.version>0.3</param.version>
+    <param.products.name />
+    <param.products.id />
+    <param.products.version />
     <param.platforms />
     <param.output>${PROJECT_ROOT}</param.output>
-    <param.guid>12db656f-8252-4428-89de-1752e005c6f0</param.guid>
+    <param.guid>af366d7a-977e-4bb3-a13c-08405f53a792</param.guid>
     <unset>
       <param.authnamewatermark />
       <param.email />
-      <param.company />
       <param.screenshot />
+      <param.products.name />
+      <param.products.id />
+      <param.products.version />
       <param.platforms />
       <param.output />
     </unset>
@@ -44,12 +38,12 @@
       <file>${PROJECT_ROOT}/Data_Manipulation/Plot_Data_Manipulation/Detrend.m</file>
       <file>${PROJECT_ROOT}/Data_Manipulation/Plot_Data_Manipulation/Magnitude.m</file>
       <file>${PROJECT_ROOT}/Data_Manipulation/Plot_Data_Manipulation/Smooth.m</file>
+      <file>${PROJECT_ROOT}/Data_Manipulation/Process_Data.m</file>
       <file>${PROJECT_ROOT}/Fits/Lorents_Fit.m</file>
       <file>${PROJECT_ROOT}/Fits/Lorentz_Fit_File.m</file>
       <file>${PROJECT_ROOT}/Fits/Lorentz_Fit_Get_Guess.m</file>
       <file>${PROJECT_ROOT}/Fits/Lorentz_Fit_Get_Window.m</file>
       <file>${PROJECT_ROOT}/GUI/Export_Data.mlapp</file>
-      <file>${PROJECT_ROOT}/GUI/General_Settings.mlapp</file>
       <file>${PROJECT_ROOT}/GUI/Peak_Analyzer.mlapp</file>
       <file>${PROJECT_ROOT}/GUI/Peak_Tracker.mlapp</file>
       <file>${PROJECT_ROOT}/GUI/findpeaks_param.mlapp</file>
@@ -62,6 +56,9 @@
       <file>${PROJECT_ROOT}/GUI/icons/track.png</file>
       <file>${PROJECT_ROOT}/GUI/icons/yellow-folder.png</file>
       <file>${PROJECT_ROOT}/GUI/peakfit_param.mlapp</file>
+      <file>${PROJECT_ROOT}/GUI/rpr.mlapp</file>
+      <file>${PROJECT_ROOT}/GUI/sort_struct/nestedSortStruct.m</file>
+      <file>${PROJECT_ROOT}/GUI/sort_struct/sortStruct.m</file>
       <file>${PROJECT_ROOT}/Get_Plot_Struct.m</file>
       <file>${PROJECT_ROOT}/Get_Project_Struct.m</file>
       <file>${PROJECT_ROOT}/Peaks/Peak_Tracking/Track_Peaks_Interval.m</file>
@@ -72,8 +69,9 @@
       <file>${PROJECT_ROOT}/Plots/Multiple/scrollsubplot/scrollsubplot.m</file>
       <file>${PROJECT_ROOT}/Plots/Plot_File.m</file>
       <file>${PROJECT_ROOT}/Plots/freq_plot.m</file>
-      <file>${PROJECT_ROOT}/Process_Data.m</file>
       <file>${PROJECT_ROOT}/Store_TDMS_Data/Get_RUS_Data_Struct.m</file>
+      <file>${PROJECT_ROOT}/Store_TDMS_Data/Getting_Independent_Variables/Get_Independent_Variables.m</file>
+      <file>${PROJECT_ROOT}/Store_TDMS_Data/Getting_Independent_Variables/Parse_File_Names.m</file>
       <file>${PROJECT_ROOT}/Store_TDMS_Data/Matlab_readTDMS_package/TDMS_dataToGroupChanStruct_v1.m</file>
       <file>${PROJECT_ROOT}/Store_TDMS_Data/Matlab_readTDMS_package/TDMS_dataToGroupChanStruct_v2.m</file>
       <file>${PROJECT_ROOT}/Store_TDMS_Data/Matlab_readTDMS_package/TDMS_dataToGroupChanStruct_v3.m</file>
@@ -93,13 +91,11 @@
       <file>${PROJECT_ROOT}/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_readFileHelper_v1.m</file>
       <file>${PROJECT_ROOT}/Store_TDMS_Data/Matlab_readTDMS_package/tdmsSubfunctions/TDMS_readFileHelper_v2.m</file>
       <file>${PROJECT_ROOT}/Store_TDMS_Data/TDMS_Load.m</file>
-      <file>${PROJECT_ROOT}/Store_TDMS_Data/sort_struct/nestedSortStruct.m</file>
-      <file>${PROJECT_ROOT}/Store_TDMS_Data/sort_struct/sortStruct.m</file>
     </fileset.depfun>
     <fileset.resources />
     <fileset.package />
     <build-deliverables>
-      <file location="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/3-Analysis" name="tdms_peak_analysis" optional="false">/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/3-Analysis/tdms_peak_analysis</file>
+      <file location="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/Analysis" name="tdms_peak_analysis" optional="false">/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/Analysis/tdms_peak_analysis</file>
     </build-deliverables>
     <workflow />
     <matlab>
