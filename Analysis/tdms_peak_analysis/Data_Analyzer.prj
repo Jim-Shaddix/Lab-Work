@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="1470093567" file="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/Analysis/tdms_peak_analysis/Data_Analyzer.prj" location="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/Analysis/tdms_peak_analysis" name="Data_Analyzer" target="target.mlapps" target-name="Package App">
+  <configuration build-checksum="3578885090" file="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/Analysis/tdms_peak_analysis/Data_Analyzer.prj" location="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/Analysis/tdms_peak_analysis" name="Data_Analyzer" target="target.mlapps" target-name="Package App">
     <param.appname>Data_Analyzer</param.appname>
     <param.authnamewatermark>James Shaddix</param.authnamewatermark>
     <param.email>jimmy.shaddix2.0@gmail.com</param.email>
@@ -14,7 +14,7 @@
     <param.description>This application consists of a dashboard that allows the user to interactively
 preprocess the data, find the peaks in the data, and fit the peaks.</param.description>
     <param.screenshot />
-    <param.version>0.3</param.version>
+    <param.version>1.4</param.version>
     <param.products.name />
     <param.products.id />
     <param.products.version />
