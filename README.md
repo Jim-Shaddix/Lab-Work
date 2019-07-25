@@ -13,7 +13,7 @@ stable, but I am still working
 on its development. 
 
 ## Installation
-* [mlapp installation file](3-Analysis/tdms_peak_analysis/Data_Analyzer_App.mlappinstall)
+* [mlapp installation file](Analysis/tdms_peak_analysis/Data_Analyzer_App.mlappinstall)
 
 
 ## Description:
