@@ -10,7 +10,7 @@ project_config.map_measurement_unit = ...
     containers.Map({'temperature','magnetic_field'}, ...
                    {'K','oe'});
                
-project_config.file_x_axis_measurment = 'Frequency (khz)';
+project_config.file_x_axis_measurment = 'Frequency (hz)';
 project_config.file_y_axis_measurment = 'Voltage (V)';
  
 %% Fit Info
