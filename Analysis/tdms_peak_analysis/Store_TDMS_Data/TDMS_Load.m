@@ -7,7 +7,7 @@ function tdms_data=TDMS_Load(path_to_files)
 % 3. extracts signal_x, and signal_y data from the tdms files.
 %
 % PARAMETERS:
-% 1. path_to_files (char array): describes the directory path to search for 
+% 1. path_to_files (char array): the directory path to search for 
 %                                tdms files.
 
     %% Store File Information ----------------------------------------------
@@ -63,10 +63,10 @@ function tdms_data=TDMS_Load(path_to_files)
     cell_tdms_file_names =  num2cell(tdms_file_names);
     [tdms_data.file_name] = cell_tdms_file_names{:};
     
-    %% PARSE: Independent Variable Values From File Names
+    %% PARSE: Independent Variable Values From Files
 
     % store measurments
-    map_meas_values = Get_Independent_Variables(tdms_data);
+    map_meas_values = Get_Independent_Variables(tdms_data, path_to_files, tdms_file_names);
     for i=1:length(measurements)
         m = measurements{i};
         cell_values = map_meas_values(m);
@@ -74,7 +74,7 @@ function tdms_data=TDMS_Load(path_to_files)
     end
         
     % Creating ID's
-    % would have been smarter to use strjoin.
+    % would have been smarter to use strjoin ...
     for i=1:length(tdms_data)
         for j=1:length(units)
             tdms_data(i).id = [tdms_data(i).id, ...
@@ -89,14 +89,13 @@ function tdms_data=TDMS_Load(path_to_files)
     
     %% read in data
     for i=1:length(tdms_file_names)
-        % Store Signal Information ----------------------------------------
         
         % Prints Information as it is being read in
         fprintf('Reading In: File-Number = %i \t file_name = %s\n',i,tdms_file_names{i})
         
         % STORE: uses a package found online for reading tdms files, to
         % store all of the data from the tdms file into a struct
-        RUSdata = TDMS_getStruct([path_to_files,tdms_file_names{i}]);
+        RUSdata = TDMS_getStruct([path_to_files, tdms_file_names{i}]);
 
         tdms_data(i).signal_x        = RUSdata.p.Signal_X.data;
         tdms_data(i).signal_y        = RUSdata.p.Signal_Y.data;
@@ -106,7 +105,7 @@ function tdms_data=TDMS_Load(path_to_files)
     
     [tdms_data.plot_info] = deal(Get_Plot_Struct());
 
-    % * Assign titles to plots
+    %% * Assign titles to plots
     %   - because plot titles need to be dynamically determined, I have
     %     waited until I have read in all of the data to store this value
     for i=1:length(tdms_data)

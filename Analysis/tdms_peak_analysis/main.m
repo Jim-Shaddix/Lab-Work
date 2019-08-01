@@ -16,12 +16,9 @@ addpath(genpath('Data_Manipulation')); % for reading tdms files
 addpath(genpath('GUI'));
 
 % SET: file paths
-direc = '../../2-Files_To_Analyze/';
+direc = '../../Files_To_Analyze/';
 f1 = '31 May 18 TaV2/';
 f2 = '15 May 18 BalrO3/';
-f3 = 'CoNb2O6 061218/';
-f4 = 'More CoNb206/';
-f5 = 'TaV2 October 27 2018/';
 
 path_to_tdms_files = [direc, f1];
 
