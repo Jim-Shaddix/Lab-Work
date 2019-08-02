@@ -49,7 +49,7 @@ function cell_peak_data = Lorentz_Fit_File(cell_x_cor_all, cell_real_cor_all, ce
                                         peak_data);
         
         % Perform Fit & assighn variables to be returned
-        a = Lorents_Fit(x_cor_fit, y_cor_fit, guesses, fit_options, fit_lbls, model);
+        a = Lorents_Fit(x_cor_fit, y_cor_fit, guesses, fit_options, fit_lbls, [peak_data.Width], model);
         b = num2cell(a);
         [cell_peak_data{i}.fit] = b{:};
         

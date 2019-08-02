@@ -1,4 +1,4 @@
-function fit = Lorents_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess, fit_options, fit_lbls, model)
+function fit = Lorents_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess, fit_options, fit_lbls, full_width_half_height, model)
 % This function fits a complex lorentzian function to all of the peaks 
 % in a given dataset, returns the arrays of the fit parameters found, and
 % coordinates associated with the applied fit function.
@@ -19,10 +19,25 @@ function fit = Lorents_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess, fit_optio
 % 1. [cell]: each cell contains:
 %            a struct describing the fit performed 
 
-    % Function to fit
-    lorentz_fnc=@(x, x_cor_fit) [real(model(x, x_cor_fit)); imag(model(x, x_cor_fit))]; 
                          
     for i = 1:length(cell_x_cor_fit)
+        
+        % full width
+        full_width = full_width_half_height(i);
+        
+        % update the model with new width
+        model = @(x, x_cor_fit) ...
+            x(1) * exp(-1j * x(2)) ./           ... % numerator
+            ( ...
+            x(3)^2 - x_cor_fit(1,:).^2 -        ... % denomonater-term-1
+            1j * x_cor_fit(1,:) * full_width    ... % denomonater-term-2
+            ) + ... 
+            x(4) + 1j * x(5);                       % offset
+
+        % Function to fit
+        lorentz_fnc=@(x, x_cor_fit) ... 
+        [real(model(x, x_cor_fit)); ...
+        imag(model(x, x_cor_fit))]; 
         
         % easier access to data
         x_cor_fit = cell_x_cor_fit{i};
@@ -47,8 +62,7 @@ function fit = Lorents_Fit(cell_x_cor_fit, cell_y_cor_fit, cell_guess, fit_optio
                                      fit_options); % parameters specify, how to perform fit
                                      %[-inf,-inf,0,-inf,-inf,-inf], %... % lower bounds
                                      %[],                                ... % upper bounds
-                                    
-                                 
+                                                 
         % Error Values             
         ci = nlparci(Est,residual, 'jacobian', jacobian);
         

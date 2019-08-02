@@ -39,4 +39,17 @@ project_config.model = @(x, x_cor_fit) ...
 %         ) + ... 
 %         x(5) + 1j * x(6);                        % offset
 
+%%
+project_config.fit_lbls = {'A', 'theta', 'fn', 'x_offset', 'y_offset'};
+
+%NEW FIT
+%x = ['A', 'theta', 'fn', 'Q', 'x_offset', 'y_offset']
+project_config.model = @(x, x_cor_fit, full_width) ...
+        x(1) * exp(-1j * x(2)) ./           ... % numerator
+        ( ...
+        x(3)^2 - x_cor_fit(1,:).^2 -        ... % denomonater-term-1
+        1j * x_cor_fit(1,:) * full_width    ... % denomonater-term-2
+        ) + ... 
+        x(4) + 1j * x(5);                        % offset
+
 end
