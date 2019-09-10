@@ -29,14 +29,10 @@ function [temperature, magnetic_field] = Get_Independent_Variables(file_name, RU
 
     end
     
-    % SET: magnetic field to zero, if the value
-    %      nan was found.
     if isnan(magnetic_field)
         magnetic_field = 0;
     end
     
-    % SET: temperature to zero, if the value
-    %      nan was found.
     if isnan(temperature)
         temperature = 0;
     end

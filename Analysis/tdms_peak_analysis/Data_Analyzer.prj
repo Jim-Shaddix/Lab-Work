@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="2792062830" file="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/Analysis/tdms_peak_analysis/Data_Analyzer.prj" location="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/Analysis/tdms_peak_analysis" name="Data_Analyzer" target="target.mlapps" target-name="Package App">
+  <configuration build-checksum="3220015712" file="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/Analysis/tdms_peak_analysis/Data_Analyzer.prj" location="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/Analysis/tdms_peak_analysis" name="Data_Analyzer" target="target.mlapps" target-name="Package App">
     <param.appname>Data_Analyzer</param.appname>
     <param.authnamewatermark>James Shaddix</param.authnamewatermark>
     <param.email>jimmy.shaddix2.0@gmail.com</param.email>
