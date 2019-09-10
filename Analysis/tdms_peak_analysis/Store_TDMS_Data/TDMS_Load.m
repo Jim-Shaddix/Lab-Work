@@ -1,16 +1,15 @@
 function tdms_data=TDMS_Load(path_to_files)
+% Function Description:
 % 1. Reads directory (path_to_files) for filenames and 
 %    loads all TDMS files into Cell Array. 
 % 2. Extracts Temperature and Magnetic fields from filenames.
-%    See the next section for a more thourogh description of how this is
-%    done.
-% 3. extracts signal_x, and signal_y data from the tdms files.
+% 3. extracts signal_x, signal_y, and frequency data from the tdms files.
 %
 % PARAMETERS:
 % 1. path_to_files (char array): the directory path to search for 
 %                                tdms files.
 
-    %% Store File Information ----------------------------------------------
+    %% Store File Information
     
     % UPDATE path_to_files
     % - this is done to accomodate the TDMS_getStruct function, that
@@ -62,57 +61,57 @@ function tdms_data=TDMS_Load(path_to_files)
     % store all of the tdms file names into tdms_data struct
     cell_tdms_file_names =  num2cell(tdms_file_names);
     [tdms_data.file_name] = cell_tdms_file_names{:};
-    
-    %% PARSE: Independent Variable Values From Files
-
-    % store measurments
-    map_meas_values = Get_Independent_Variables(tdms_data, path_to_files, tdms_file_names);
-    for i=1:length(measurements)
-        m = measurements{i};
-        cell_values = map_meas_values(m);
-        [tdms_data.(m)] = cell_values{:};
-    end
         
-    % Creating ID's
-    % would have been smarter to use strjoin ...
-    for i=1:length(tdms_data)
-        for j=1:length(units)
-            tdms_data(i).id = [tdms_data(i).id, ...
-                               num2str(tdms_data(i).(measurements{j})), ...
-                               units{j}];
-            if j ~= length(units)
-                tdms_data(i).id = [tdms_data(i).id,' - '];
-            end
-        end
-        tdms_data(i).id = [tdms_data(i).id, ' - ', num2str(i)];
-    end
-    
     %% read in data
+    
+    %RUSdata = struct
+    
     for i=1:length(tdms_file_names)
         
-        % Prints Information as it is being read in
-        fprintf('Reading In: File-Number = %i \t file_name = %s\n',i,tdms_file_names{i})
+        file_name = tdms_file_names{i};
         
-        % STORE: uses a package found online for reading tdms files, to
+        % Prints Information as it is being read in
+        fprintf('Reading In: File-Number = %i \t file_name = %s\n',i, file_name)
+        
+        % READ FILE: uses a package found online for reading tdms files, to
         % store all of the data from the tdms file into a struct
-        RUSdata = TDMS_getStruct([path_to_files, tdms_file_names{i}]);
+        RUSdata = TDMS_getStruct([path_to_files, file_name]);
 
-        tdms_data(i).signal_x        = RUSdata.p.Signal_X.data;
-        tdms_data(i).signal_y        = RUSdata.p.Signal_Y.data;
-        tdms_data(i).frequency       = RUSdata.p.Frequency.data;
+        % STORE DATA: from the struct that was generated from the tdms
+        % files.
+        tdms_data(i).signal_x  = RUSdata.p.Signal_X.data;
+        tdms_data(i).signal_y  = RUSdata.p.Signal_Y.data;
+        tdms_data(i).frequency = RUSdata.p.Frequency.data;
+        
+        % STORE: the independent variable values Temperature
+        %        and Magnetic Field.
+        [temperature, magnetic_field] = Get_Independent_Variables(file_name, RUSdata);
 
+        
+        % Creating ID's and assighning temperatures and magnetic fields
+        tdms_data(i).temperature = temperature;
+        tdms_data(i).magnetic_field = magnetic_field;
+
+        % Creating ID's and assighning temperatures and magnetic fields
+        tdms_data(i).id = [[num2str(temperature),'K'], '-' ...
+                           [num2str(magnetic_field), 'oe'], '-' ...
+                           num2str(i)];
     end
     
+    % I store a struct that is returned from Get_Plot_Struct
+    % in each of the tdms_data structs. The plot struct contains
+    % the default information associated with how the data gets 
+    % pre-processed, fit, and plotted.
     [tdms_data.plot_info] = deal(Get_Plot_Struct());
+
 
     %% * Assign titles to plots
     %   - because plot titles need to be dynamically determined, I have
     %     waited until I have read in all of the data to store this value
     for i=1:length(tdms_data)
-       tdms_data(i).plot_info.title = tdms_data(i).plot_info.get_title(tdms_data(i)); 
+        tdms_data(i).plot_info.title = tdms_data(i).plot_info.get_title(tdms_data(i)); 
     end
 
-    
 end
 
 

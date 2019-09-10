@@ -14,15 +14,12 @@ on its development.
 
 ## Installation
 * [mlapp installation file](/Analysis/tdms_peak_analysis/Data_Analyzer.mlappinstall)
-
-
 ## Description:
 This repository contains a Matlab Dashboard application that was developed 
 for doing data analysis for a Condensed Matter Physics experiment 
 involving Resonant Ultransonic Spectroscopy. 
 
 ### What is this Dashboard for?
-
 ![alt text](images/interface.png "Image of the Application")
 
 #### Functionality 
