@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="2396927567" file="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/Analysis/tdms_peak_analysis/Data_Analyzer.prj" location="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/Analysis/tdms_peak_analysis" name="Data_Analyzer" target="target.mlapps" target-name="Package App">
+  <configuration build-checksum="2792062830" file="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/Analysis/tdms_peak_analysis/Data_Analyzer.prj" location="/Users/jamesshaddix/Documents/Pro/Git/Repos/Lab-Work/Analysis/tdms_peak_analysis" name="Data_Analyzer" target="target.mlapps" target-name="Package App">
     <param.appname>Data_Analyzer</param.appname>
     <param.authnamewatermark>James Shaddix</param.authnamewatermark>
     <param.email>jimmy.shaddix2.0@gmail.com</param.email>
@@ -111,7 +111,7 @@ preprocess the data, find the peaks in the data, and fit the peaks.</param.descr
       <vista>false</vista>
       <linux>false</linux>
       <solaris>false</solaris>
-      <osver>10.14.5</osver>
+      <osver>10.14.6</osver>
       <os32>false</os32>
       <os64>true</os64>
       <arch>maci64</arch>
