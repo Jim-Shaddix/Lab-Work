@@ -1,5 +1,5 @@
 function project_config = Get_Project_Struct()
-% Returns a sruct that that contains fields that govern the behavior of
+% Returns a struct that that contains fields that govern the behavior of
 % a single run of this application. 
 %
 % * These fields are global to every file that is read in, meaning, these

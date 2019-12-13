@@ -1,6 +1,5 @@
 function  RUS_data = Get_RUS_Data_Struct(measurements)
-% RETURNS: a structure that is used to store all of the data associated
-%          with each file.
+% RETURNS: a structure that is initializes all of the fields that are
 % PARAMETER: 
 %   1. measurments [cell array] of the measurments that are used
 %      typically {magnetuc_field, temperature}

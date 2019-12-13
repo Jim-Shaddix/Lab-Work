@@ -89,4 +89,3 @@ disp("Finished Analyzing Peaks")
 
 %% FINISHED
 disp("[Finished Script]")
-app1(1,4)

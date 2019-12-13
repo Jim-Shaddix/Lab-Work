@@ -1,11 +1,11 @@
 # RUS-Probe
-(resonant ultrasonic spectroscopy)
+RUS (Resonant Ultrasonic Spectroscopy):
 * Author: James Shaddix
 
 I developed this application for the research group
-I am apart of Colorado State University. I work 
+I am apart of at Colorado State University. I work 
 as a member of one of Dr. Kate Ross's Condensed Matter 
-research teams. You can view her website [here](http://www.rosslabcsu.com/people/)
+research teams. You can view her website [here](http://www.rosslabcsu.com/people/).
 
 ## Note
 The current version of this application is 
@@ -15,7 +15,7 @@ on its development.
 ## Installation
 * [mlapp installation file](/Analysis/tdms_peak_analysis/Data_Analyzer.mlappinstall)
 ## Description:
-This repository contains a Matlab Dashboard application that was developed 
+This repository contains a Matlab dashboard application that was developed 
 for doing data analysis for a Condensed Matter Physics experiment 
 involving Resonant Ultransonic Spectroscopy. 
 
@@ -31,7 +31,7 @@ involving Resonant Ultransonic Spectroscopy.
    to a lorentzian model. How the program finds and fits the peaks 
    can be configured from menus in the program that accept user inputs.
 4. The tab menu in the bottom left provides a section for sorting the files 
-   that will be analyzed. The files can sorted based on their temperature or magnetic field. The user is also presented with option of performing two factor 
+   that will be analyzed. The files can sorted based on their temperature or magnetic field. The user is also presented with the option of performing two factor 
    sorting of the files.
 5. If you would like to analyze the data in program, the export data button 
    provides the user with a menu that can be used to export all of the data 
@@ -39,7 +39,7 @@ involving Resonant Ultransonic Spectroscopy.
 6. The rpr button provides an interface for exporting all of the data 
    into input files for the rpr.exe program.
 7. The program also comes with a dashboard interface for tracking a particular 
-peak as a function of temperature or magnetic field.
+peak across each of your datasets.
 
 ![alt text](images/peak_tracker.png "Image of the Application")
 
